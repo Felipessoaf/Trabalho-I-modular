@@ -168,8 +168,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $EP Parâmetros
 *     pLista - ponteiro para a lista onde deve ser inserido o elemento
-*     pValor - ponteiro para o valor do novo elemento
-*              Pode ser NULL
+*     iniciais - string com as iniciais do nome
+*	  nome - string com o nome
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK
@@ -337,6 +337,47 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     void * pValor        ) ;
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Inserir elemento ordenado
+*
+*  $ED Descrição da função
+*     Insere novo elemento ordenado.
+*     Caso a lista esteja vazia, insere o primeiro elemento da lista.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista onde deve ser inserido o elemento
+*     iniciais - string com as iniciais do nome
+*	  nome - string com o nome
+*
+*  $FV Valor retornado
+*     LIS_CondRetOK
+*     LIS_CondRetFaltouMemoria
+*
+***********************************************************************/
+
+   LIS_tpCondRet LIS_InserirElementoOrdenado(LIS_tppLista pLista,
+	   char * iniciais, char * nome);
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Exibir conteudo lista
+*
+*  $ED Descrição da função
+*     Exibe o conteudo da lista ordenada
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a ser exibida
+*
+*  $FV Valor retornado
+*     LIS_CondRetOK
+*
+***********************************************************************/
+
+   LIS_tpCondRet LIS_ExibirConteudoLista(LIS_tppLista pLista);
 
 #undef LISTA_EXT
 

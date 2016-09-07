@@ -53,7 +53,7 @@
 
 	typedef struct tagElemLista {
 
-		void * pValor;
+		tpConteudo * pValor;
 		/* Ponteiro para o valor contido no elemento */
 
 		struct tagElemLista * pAnt;
@@ -190,7 +190,7 @@
 		assert(pLista != NULL);
 	#endif
 
-		preencheEstrutura(conteudo, iniciais, nome);
+		preencheEstrutura(&conteudo, iniciais, nome);
 		if (conteudo == NULL)
 		{
 			return LIS_CondRetFaltouMemoria;
@@ -238,7 +238,8 @@
 *  Função: LIS  &Inserir elemento após
 *  ****/
 
-	LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista, char * iniciais, char * nome)
+	LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista, 
+		char * iniciais, char * nome)
 
 	{
 
@@ -249,7 +250,7 @@
 		assert(pLista != NULL);
 	#endif
 
-		preencheEstrutura(conteudo, iniciais, nome);
+		preencheEstrutura(&conteudo, iniciais, nome);
 		if (conteudo == NULL)
 		{
 			return LIS_CondRetFaltouMemoria;
@@ -514,6 +515,105 @@
 		return LIS_CondRetNaoAchou;
 
 	} /* Fim função: LIS  &Procurar elemento contendo valor */
+
+/***************************************************************************
+*
+*  Função: LIS  &Inserir elemento ordenado
+*  ****/
+
+	LIS_tpCondRet LIS_InserirElementoOrdenado(LIS_tppLista pLista,
+		char * iniciais, char * nome)
+
+	{
+		int cmp;
+		 
+		tpElemLista * pElem;
+		tpElemLista * aux;
+		tpConteudo * conteudo;
+
+	#ifdef _DEBUG
+			assert(pLista != NULL);
+	#endif
+
+		preencheEstrutura(&conteudo, iniciais, nome);
+		if (conteudo == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+
+		/* Criar elemento a inserir */
+
+		pElem = CriarElemento(pLista, conteudo);
+		if (pElem == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+
+		/* Encadear o elemento ordenado */
+		
+		if (pLista->pElemCorr == NULL)
+		{
+			pLista->pOrigemLista = pElem;
+			pLista->pFimLista = pElem;
+		}
+		else
+		{
+			for (aux = pLista->pOrigemLista; aux != NULL; aux = aux->pProx)
+			{
+				cmp = strcmp(iniciais, aux->pValor->iniciais);
+				if (cmp < 0)
+				{
+					break;
+				}
+			}
+
+			if (aux == NULL)
+			{
+				pLista->pFimLista->pProx = pElem;
+				pElem->pAnt = pLista->pFimLista;
+				pLista->pFimLista = pElem;
+			}
+			else 
+			{
+				pElem->pProx = aux;
+				pElem->pAnt = aux->pAnt;
+				aux->pAnt = pElem;
+				pElem->pAnt->pProx = pElem;
+			} /* if */
+
+
+		} /* if */
+
+		pLista->pElemCorr = pElem;
+
+		return LIS_CondRetOK;
+
+	} /* Fim função: LIS  &Inserir elemento ordenado */
+
+/***************************************************************************
+*
+*  Função: LIS  &Exibir conteudo lista
+*  ****/
+
+	LIS_tpCondRet LIS_ExibirConteudoLista(LIS_tppLista pLista)
+	{
+
+		tpElemLista * aux;
+
+	#ifdef _DEBUG
+			assert(pLista != NULL);
+	#endif
+		
+		printf("INICIAIS\t\tNOME\n\n");
+		
+		for (aux = pLista->pOrigemLista; aux != NULL; aux = aux->pProx)
+		{
+			printf("%s\t\t%s\n",aux->pValor->iniciais,aux->pValor->nome);
+		}
+
+		return LIS_CondRetOK;
+
+	} /* Fim função: LIS  &Exibir conteudo lista */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
