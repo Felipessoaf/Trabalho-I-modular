@@ -178,7 +178,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-                                           void * pValor        ) ;
+	   char * iniciais, char * nome);
 
 
 /***********************************************************************
@@ -192,8 +192,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $EP Parâmetros
 *     Parâmetros
 *        pLista - ponteiro para a lista onde deve ser inserido o elemento
-*        pValor - ponteiro para o valor do novo elemento
-*                 Pode ser NULL
+*        iniciais - string com as iniciais do nome
+*		 nome - string com o nome
 *           
 *
 *  $FV Valor retornado
@@ -204,7 +204,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-                                          void * pValor        )
+	   char * iniciais, char * nome)
        ;
 
 

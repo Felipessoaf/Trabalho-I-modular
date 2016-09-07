@@ -53,7 +53,7 @@
 
 	typedef struct tagElemLista {
 
-		tpConteudo * pValor;
+		void * pValor;
 		/* Ponteiro para o valor contido no elemento */
 
 		struct tagElemLista * pAnt;
@@ -180,18 +180,25 @@
 *  ****/
 
 	LIS_tpCondRet LIS_InserirElementoAntes(LIS_tppLista pLista,
-		void * pValor)
+		char * iniciais, char * nome)
 	{
 
 		tpElemLista * pElem;
+		tpConteudo * conteudo;
 
 	#ifdef _DEBUG
 		assert(pLista != NULL);
 	#endif
 
+		preencheEstrutura(conteudo, iniciais, nome);
+		if (conteudo == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */		
+
 		/* Criar elemento a inserir antes */
 
-		pElem = CriarElemento(pLista, pValor);
+		pElem = CriarElemento(pLista, conteudo);
 		if (pElem == NULL)
 		{
 			return LIS_CondRetFaltouMemoria;
@@ -231,25 +238,31 @@
 *  Função: LIS  &Inserir elemento após
 *  ****/
 
-	LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista,
-		void * pValor)
+	LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista, char * iniciais, char * nome)
 
 	{
 
 		tpElemLista * pElem;
+		tpConteudo * conteudo;
 
 	#ifdef _DEBUG
 		assert(pLista != NULL);
 	#endif
 
-		/* Criar elemento a inerir após */
-
-		pElem = CriarElemento(pLista, pValor);
-		if (pElem == NULL)
+		preencheEstrutura(conteudo, iniciais, nome);
+		if (conteudo == NULL)
 		{
 			return LIS_CondRetFaltouMemoria;
 		} /* if */
 
+		/* Criar elemento a inerir após */
+
+		pElem = CriarElemento(pLista, conteudo);
+		if (pElem == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+		
 		/* Encadear o elemento após o elemento */
 
 		if (pLista->pElemCorr == NULL)
@@ -584,11 +597,13 @@
 *
 ***********************************************************************/
 
-	void preencheEstrutura(tpConteudo * estrutura, char * iniciais, char * nome)
+	void preencheEstrutura(tpConteudo ** estrutura, char * iniciais, char * nome)
 	{
-		estrutura->iniciais = (char*)malloc(strlen(iniciais) + 1);
-		strcpy(estrutura->iniciais, iniciais);
-		strcpy(estrutura->nome, nome);
+		(*estrutura) = (tpConteudo*)malloc(sizeof(tpConteudo));
+		(*estrutura)->iniciais = (char*)malloc(strlen(iniciais) + 1);
+		(*estrutura)->nome = (char*)malloc(strlen(nome) + 1);
+		strcpy((*estrutura)->iniciais, iniciais);
+		strcpy((*estrutura)->nome, nome);
 	} /* Fim função: LIS  -Preencher estrutura */
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
