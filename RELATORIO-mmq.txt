@@ -1,0 +1,6 @@
+Data    Horas Trabalhadas   Tipo Tarefa                Descrição da Tarefa Realizada
+01/07   2                   estudar                    Estudo da documentação do Arcabouço de Testes
+04/07   2                   estudar                    Estudo dos exemplos de uso do Arcabouço de Testes
+05/07   1                   revisar código do módulo   Codificação de melhorias na legibilidade
+05/07   2                   revisar código do módulo   Inclusão da função LIS_ProcurarValor nos testes
+06/07   3                   redigir script de teste    Aprimoramento dos scripts do módulo Lista
