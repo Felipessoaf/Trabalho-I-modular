@@ -6,33 +6,45 @@
 !!!    0  Linha:     1  // Script:    TesteLista.script 
 !!!    0  Linha:     2  // Autor:     Arndt von Staa 
 !!!    0  Linha:     3  // Data:      02/abr/2008 
-!!!    0  Linha:     4  // Propósito: Testar superficialmente o módulo lista genérica duplamente encadeada 
+!!!    0  Linha:     4  // Propósito: Testar o módulo lista genérica duplamente encadeada 
 !!!    0  Linha:     5  // 
     7  == Inicializar valores
-   26  == Criar a lista 0
-   29  == Verificar ObterValor relativo a lista vazia
-   32  == Inserir elemento em lista vazia
-   36  == Inserir elemento após primeiro
-   40  == Inserir elemento antes do último
-   44  == Excluir elemento do meio
-   48  == Excluir elemento do início
-   52  == Excluir elemento final, único
-   56  == Ver se a lista ficou vazia
-   59  == Destruir a lista
-   62  == Criar uma lista com dois elementos
-   67  == Esvaziar a lista e ver se ficou vazia
-   71  == Destruir a lista
-   74  == Criar uma lista com quatro elementos
-   81  == Verificar a lista de trás para diante
-   91  == Verificar a lista de frente para trás
-  101  == Verificar a lista andando demais de trás para diante
-  105  == Verificar a lista andando demais de frente para trás
-  109  == Destruir a lista
-!!!    0  Linha:   112  // fim 
+   29  == Criar a lista 0
+   32  == Verificar ExcluirElemento relativo a lista vazia
+   35  == Verificar ObterValor relativo a lista vazia
+   38  == Inserir elemento em lista vazia
+   42  == Inserir elemento após primeiro
+   46  == Inserir elemento antes do último
+   50  == Excluir elemento do meio
+   54  == Excluir elemento do início
+   58  == Excluir elemento final, único
+   62  == Ver se a lista ficou vazia
+   65  == Destruir a lista
+   68  == Criar uma lista com dois elementos
+   73  == Esvaziar a lista e ver se ficou vazia
+   77  == Destruir a lista
+   80  == Criar uma lista com quatro elementos
+   87  == Verificar a lista de trás para diante
+   97  == Verificar a lista de frente para trás
+  107  == Verificar a lista andando demais de trás para diante
+  111  == Verificar a lista andando demais de frente para trás
+  115  == Destruir a lista
+  118  == Criar uma lista com cinco elementos
+  126  == Ir para o final da lista e tentar avançar
+  130  == Ir para o inicio da lista e tentar retroceder
+  134  == Destruir a Lista
+  137  == Criar uma lista
+  140  == Ir ao inicio de lista vazia
+  144  == Ir ao fim de lista vazia
+  148  == Avançar em uma lista vazia
+  151  == Retroceder em uma lista vazia
+  154  == Procurar valor em uma lista vazia
+  157  == Destruir uma lista vazia
+!!!    0  Linha:   161  // fim 
 
-!!! Número de linhas lidas:         112
-!!! Número de casos de teste:        20
-!!! Número comandos corretos:        62
+!!! Número de linhas lidas:         161
+!!! Número de casos de teste:        32
+!!! Número comandos corretos:        87
 !!! Número de falhas encontradas:     0
 
 !!! Não foram encontrados problemas

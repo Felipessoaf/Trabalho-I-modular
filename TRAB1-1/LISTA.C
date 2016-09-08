@@ -9,10 +9,12 @@
 *
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: avs - Arndt Von Staa
+*           mmq - Matheus de Mello Queiroz
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     5       mmq   07/set/2016 correção na função LIS_ProcurarValor 
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -465,7 +467,7 @@
          return LIS_CondRetListaVazia ;
       } /* if */
 
-      for ( pElem  = pLista->pElemCorr ;
+      for ( pElem  = pLista->pOrigemLista ;
             pElem != NULL ;
             pElem  = pElem->pProx )
       {

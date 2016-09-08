@@ -1,18 +1,21 @@
 // Script:    TesteLista.script
 // Autor:     Arndt von Staa
 // Data:      02/abr/2008
-// Propósito: Testar superficialmente o módulo lista genérica duplamente encadeada
+// Propósito: Testar o módulo lista genérica duplamente encadeada
 //
 
 == Inicializar valores
 =declararparm   lista0  int 0
 =declararparm   lista1  int 1
 =declararparm   lista2  int 2
+=declararparm   lista3  int 3
+=declararparm   lista4  int 4
 
 =declararparm   str0    string  "abcdefg"
 =declararparm   str1    string  "qwerty"
 =declararparm   str2    string  "xxx"
 =declararparm   str3    string  "xpto"
+=declararparm   str4    string  "wxyz"
 
 =declararparm   OK             int  0
 =declararparm   ListaVazia     int  1
@@ -26,8 +29,11 @@
 == Criar a lista 0
 =criarlista      lista0 
 
+== Verificar ExcluirElemento relativo a lista vazia
+=excluirelem     lista0          ListaVazia
+
 == Verificar ObterValor relativo a lista vazia
-=obtervalorelem  lista0   "???"     pNULL
+=obtervalorelem  lista0   "???"  pNULL
 
 == Inserir elemento em lista vazia
 =inselemantes    lista0   str0   OK
@@ -72,7 +78,7 @@
 =destruirlista   lista1
 
 == Criar uma lista com quatro elementos
-=criarlista      lista2 
+=criarlista      lista2
 =inselemapos     lista2   str0   OK
 =inselemapos     lista2   str1   OK
 =inselemapos     lista2   str2   OK
@@ -99,7 +105,7 @@
 =avancarelem     lista2   1      FimLista
 
 == Verificar a lista andando demais de trás para diante
-=avancarelem     lista2   -10     FimLista
+=avancarelem     lista2   -10    FimLista
 =obtervalorelem  lista2   str0   pNaoNULL
 
 == Verificar a lista andando demais de frente para trás
@@ -108,5 +114,48 @@
 
 == Destruir a lista
 =destruirlista   lista2
+
+== Criar uma lista com cinco elementos
+=criarlista      lista3
+=inselemapos     lista3   str0   OK
+=inselemapos     lista3   str1   OK
+=inselemapos     lista3   str2   OK
+=inselemapos     lista3   str3   OK
+=inselemapos     lista3   str4   OK
+
+== Ir para o final da lista e tentar avançar
+=irfinal         lista3
+=avancarelem     lista3   1      FimLista
+
+== Ir para o inicio da lista e tentar retroceder
+=irinicio        lista3
+=avancarelem     lista3   -1     FimLista
+
+== Destruir a Lista
+=destruirlista   lista3
+
+== Criar uma lista
+=criarlista      lista4
+
+== Ir ao inicio de lista vazia
+=irinicio        lista4
+=obtervalorelem  lista4   "???"  pNULL
+
+== Ir ao fim de lista vazia
+=irfinal         lista4
+=obtervalorelem  lista4   "???"  pNULL
+
+== Avançar em uma lista vazia
+=avancarelem     lista4   1      ListaVazia
+
+== Retroceder em uma lista vazia
+=avancarelem     lista4   -1     ListaVazia
+
+== Procurar valor em uma lista vazia
+=procurarvalorelem lista4   str0 ListaVazia
+
+== Destruir uma lista vazia
+=esvaziarlista   lista4
+=destruirlista   lista4
 
 // fim
