@@ -169,9 +169,9 @@ typedef struct tagConteudo tpConteudo;
 *     Caso a lista esteja vazia, insere o primeiro elemento da lista.
 *
 *  $EP Parâmetros
-*     pLista - ponteiro para a lista onde deve ser inserido o elemento
+*     pLista   - ponteiro para a lista onde deve ser inserido o elemento
 *     iniciais - string com as iniciais do nome
-*	  nome - string com o nome
+*	  nome     - string com o nome
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK
@@ -193,9 +193,9 @@ typedef struct tagConteudo tpConteudo;
 *
 *  $EP Parâmetros
 *     Parâmetros
-*        pLista - ponteiro para a lista onde deve ser inserido o elemento
+*        pLista   - ponteiro para a lista onde deve ser inserido o elemento
 *        iniciais - string com as iniciais do nome
-*		 nome - string com o nome
+*		 nome     - string com o nome
 *           
 *
 *  $FV Valor retornado
@@ -206,8 +206,7 @@ typedef struct tagConteudo tpConteudo;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-	   char * iniciais, char * nome)
-       ;
+	   char * iniciais, char * nome) ;
 
 
 /***********************************************************************
@@ -317,21 +316,19 @@ typedef struct tagConteudo tpConteudo;
 *  $FC Função: LIS  &Procurar elemento contendo valor
 *
 *  $ED Descrição da função
-*     Procura o elemento que referencia o valor dado.
-*     A função compara ponteiro e não conteúdo apontado.
+*     Procura o elemento cujo conteudo referencia o valor dado.
 *
 *  $EP Parâmetros
-*     pLista  - ponteiro para a lista onde procura
+*     pLista   - ponteiro para a lista onde procura
 *     iniciais - string com as iniciais do nome
-*	  nome - string com o nome
+*	  nome     - string com o nome
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK  - se encontrou.
-*                      O elemento corrente é o primeiro elemento do
-*                      elemento corrente inclusive para o fim da lista
-*                      e que contém o ponteiro procurado
+*     LIS_CondRetOK  - se o elemento foi encontrado
+*                      O elemento corrente a ser o elemento cujo
+*                      conteudo referencia o valor dado
 *
-*     LIS_CondRetNaoEncontrou - se o ponteiro não foi encontrado
+*     LIS_CondRetNaoEncontrou - se o elemento não foi encontrado
 *                      O elemento corrente continua o mesmo
 *     LIS_CondRetListaVazia   - se a lista estiver vazia
 *
@@ -350,9 +347,9 @@ typedef struct tagConteudo tpConteudo;
 *     Caso a lista esteja vazia, insere o primeiro elemento da lista.
 *
 *  $EP Parâmetros
-*     pLista - ponteiro para a lista onde deve ser inserido o elemento
+*     pLista   - ponteiro para a lista onde deve ser inserido o elemento
 *     iniciais - string com as iniciais do nome
-*	  nome - string com o nome
+*	  nome     - string com o nome
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK

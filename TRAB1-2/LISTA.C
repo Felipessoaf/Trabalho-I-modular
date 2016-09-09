@@ -100,7 +100,7 @@
 
 	static void LimparCabeca(LIS_tppLista pLista);
 
-	static void preencheEstrutura(tpConteudo * estrutura,
+	static void preencheEstrutura(tpConteudo ** estrutura,
 		char * iniciais, char * nome);
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -502,11 +502,12 @@
 			return LIS_CondRetListaVazia;
 		} /* if */
 
-		for (pElem = pLista->pOrigemLista;
-			pElem != NULL;
-			pElem = pElem->pProx)
+		for ( pElem  = pLista->pOrigemLista;
+			  pElem != NULL;
+			  pElem  = pElem->pProx)
 		{
-			if (strcmp(pElem->pValor->iniciais, iniciais) == 0 && strcmp(pElem->pValor->nome, nome))
+			if ( strcmp(pElem->pValor->iniciais, iniciais) == 0 && 
+				strcmp(pElem->pValor->nome, nome) == 0 )
 			{
 				pLista->pElemCorr = pElem;
 				return LIS_CondRetOK;
@@ -575,7 +576,7 @@
 				pLista->pFimLista = pElem;
 			}
 			else 
-			{
+			{                               
 				pElem->pProx = aux;
 				pElem->pAnt = aux->pAnt;
 				aux->pAnt = pElem;
@@ -698,13 +699,13 @@
 *
 ***********************************************************************/
 
-	void preencheEstrutura(tpConteudo ** estrutura, char * iniciais, char * nome)
+	void preencheEstrutura( tpConteudo ** estrutura, char * iniciais, char * nome )
 	{
-		(*estrutura) = (tpConteudo*)malloc(sizeof(tpConteudo));
-		(*estrutura)->iniciais = (char*)malloc(strlen(iniciais) + 1);
-		(*estrutura)->nome = (char*)malloc(strlen(nome) + 1);
-		strcpy((*estrutura)->iniciais, iniciais);
-		strcpy((*estrutura)->nome, nome);
+		( *estrutura ) = ( tpConteudo * ) malloc( sizeof ( tpConteudo ) );
+		( *estrutura )->iniciais = ( char * ) malloc( strlen ( iniciais ) + 1 );
+		( *estrutura )->nome = ( char * )malloc( strlen( nome ) + 1 );
+		strcpy( ( * estrutura )->iniciais, iniciais );
+		strcpy( ( * estrutura )->nome, nome );
 	} /* Fim função: LIS  -Preencher estrutura */
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
