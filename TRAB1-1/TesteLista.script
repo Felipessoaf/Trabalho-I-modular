@@ -1,7 +1,7 @@
-// Script:    TesteLista.script
-// Autor:     Arndt von Staa | Matheus de Mello Queiroz
-// Data:        02/abr/2008  |        08/set/2016
-// Propósito: Testar o módulo lista genérica duplamente encadeada
+// Script:    TesteLista2.script
+// Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello
+// Data:      08/set/2016
+// Propósito: Testar o módulo lista apontando pra struct conteudo duplamente encadeada
 //
 
 == Inicializar valores
