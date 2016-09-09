@@ -425,6 +425,39 @@ typedef struct tagConteudo {
 
          } /* fim ativa: LIS  &Avançar elemento */
 
+		 else if (strcmp(ComandoTeste, PROCURAR_VALOR_CMD) == 0)
+		 {
+			 numLidos = LER_LerParametros("issi",
+				 &inxLista, StringDado1, StringDado2, &CondRetEsp);
+
+			 if ((numLidos != 4)
+				 || (!ValidarInxLista(inxLista, NAO_VAZIO)))
+			 {
+				 return TST_CondRetParm;
+			 } /* if */
+
+			 pDado1 = (char *)malloc(strlen(StringDado1) + 1);
+			 if (pDado1 == NULL)
+			 {
+				 return TST_CondRetMemoria;
+			 } /* if */
+
+			 strcpy(pDado1, StringDado1);
+
+			 pDado2 = (char *)malloc(strlen(StringDado2) + 1);
+			 if (pDado2 == NULL)
+			 {
+				 return TST_CondRetMemoria;
+			 } /* if */
+
+			 strcpy(pDado2, StringDado2);
+
+			 return TST_CompararInt(CondRetEsp,
+				 LIS_ProcurarValor(vtListas[inxLista], pDado1,pDado2),
+				 "Condicao de retorno errada ao procurar elemento");
+
+		 } /* fim ativa: LIS &Testar procurar elemento contendo valor */
+
       return TST_CondRetNaoConhec ;
 
    } /* Fim função: TLIS &Testar lista */
