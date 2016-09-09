@@ -576,11 +576,21 @@
 				pLista->pFimLista = pElem;
 			}
 			else 
-			{                               
-				pElem->pProx = aux;
-				pElem->pAnt = aux->pAnt;
-				aux->pAnt = pElem;
-				pElem->pAnt->pProx = pElem;
+			{                               // null <-  novo  -> null | ant <-> aux    
+				pElem->pProx = aux;         // null <-  novo  -> aux  | ant <-> aux
+				aux->pAnt    = pElem;       // null <-  novo <-> aux  | ant  -> aux
+		    //  pElem->pAnt = aux->pAnt;    // ant  <-  novo  -> aux  | ant <-> aux
+		    //  pElem->pAnt->pProx = pElem; // ant  <-> novo <-> aux
+
+				if( aux == pLista->pOrigemLista )
+				{
+					pLista->pOrigemLista = pElem;
+				}
+				else
+				{
+					pElem->pAnt        = aux->pAnt;  // ant  <-  novo  -> aux  | ant <-> aux
+					pElem->pAnt->pProx = pElem;      // ant  <-> novo <-> aux
+				}
 			} /* if */
 
 
