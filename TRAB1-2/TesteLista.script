@@ -45,17 +45,33 @@
 == Verificar ObterValor relativo a lista vazia
 =obtervalorelem  lista0   "???"   "???"     pNULL
 
-== Inserir elemento em lista vazia
-=inselemantes    lista0   str01   str02   OK
+//== Inserir elemento em lista vazia
+//=inselemantes    lista0   str01   str02   OK
+//=obtervalorelem  lista0   str01   str02   pNaoNULL
+
+//== Inserir elemento após primeiro
+//=inselemapos     lista0   str11   str12   OK
+//=obtervalorelem  lista0   str11   str12   pNaoNULL
+
+//== Inserir elemento antes do último
+//=inselemantes    lista0   str21   str22   OK
+//=obtervalorelem  lista0   str21   str22   pNaoNULL
+
+== Inserir elemento ordenado
+=inselemord      lista0   str01   str02   OK
 =obtervalorelem  lista0   str01   str02   pNaoNULL
 
-== Inserir elemento após primeiro
-=inselemapos     lista0   str11   str12   OK
+== Inserir elemento ordenado
+=inselemord      lista0   str11   str12   OK
 =obtervalorelem  lista0   str11   str12   pNaoNULL
-
-== Inserir elemento antes do último
-=inselemantes    lista0   str21   str22   OK
+                             
+== Inserir elemento ordenado
+=inselemord      lista0   str21   str22   OK
 =obtervalorelem  lista0   str21   str22   pNaoNULL
+
+== Inserir elemento ordenado
+=inselemord      lista0   str31   str32   OK
+=obtervalorelem  lista0   str31   str32   pNaoNULL
 
 == Excluir elemento do meio
 =obtervalorelem  lista0   str21   str22   pNaoNULL
@@ -181,16 +197,16 @@
 =criarlista      lista9
 
 == Inserir elementos em diversas listas simultâneamente
-=inselemapos     lista0   str01   str02   OK
-=inselemapos     lista1   str11   str12   OK
-=inselemapos     lista2   str21   str22   OK
-=inselemapos     lista3   str31   str32   OK
-=inselemapos     lista4   str41   str42   OK
-=inselemapos     lista5   str01   str02   OK
-=inselemapos     lista6   str11   str12   OK
-=inselemapos     lista7   str21   str22   OK
-=inselemapos     lista8   str31   str32   OK
-=inselemapos     lista9   str41   str42   OK
+=inselemord     lista0   str01   str02   OK
+=inselemord     lista1   str11   str12   OK
+=inselemord     lista2   str21   str22   OK
+=inselemord     lista3   str31   str32   OK
+=inselemord     lista4   str41   str42   OK
+=inselemord     lista5   str01   str02   OK
+=inselemord     lista6   str11   str12   OK
+=inselemord     lista7   str21   str22   OK
+=inselemord     lista8   str31   str32   OK
+=inselemord     lista9   str41   str42   OK
 =obtervalorelem  lista0   str01   str02   pNaoNULL
 =obtervalorelem  lista1   str11   str12   pNaoNULL
 =obtervalorelem  lista2   str21   str22   pNaoNULL
@@ -224,22 +240,22 @@
 =avancarelem     lista3   -1     FimLista
 
 == Inserir elemento antes
-=inselemantes    lista4   str01   str02   OK
+=inselemord    lista4   str01   str02   OK
 =obtervalorelem  lista4   str01   str02   pNaoNULL
 
 == Inserir elemento apos
-=inselemapos    lista5   str11   str12   OK
+=inselemord    lista5   str11   str12   OK
 =obtervalorelem lista5   str11   str12   pNaoNULL
 
 == Inserir diversos elementos
-=inselemantes    lista6   str01   str02   OK
+=inselemord    lista6   str01   str02   OK
 =obtervalorelem  lista6   str01   str02   pNaoNULL
 =avancarelem     lista6   1      OK
-=inselemapos     lista6   str21   str22   OK
+=inselemord     lista6   str21   str22   OK
 =obtervalorelem  lista6   str21   str22   pNaoNULL
-=inselemapos     lista6   str31   str32   OK
+=inselemord     lista6   str31   str32   OK
 =obtervalorelem  lista6   str31   str32   pNaoNULL
-=inselemapos     lista6   str41   str42   OK
+=inselemord     lista6   str41   str42   OK
 =obtervalorelem  lista6   str41   str42   pNaoNULL
 
 == Verificar a lista de trás para diante
