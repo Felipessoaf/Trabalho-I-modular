@@ -124,7 +124,7 @@
 
 == Destruir a lista
 =destruirlista   lista2
------------------------------------------------------------------------------
+
 == Criar uma lista com cinco elementos
 =criarlista      lista3
 =inselemapos     lista3   str01   str02   OK
@@ -162,7 +162,7 @@
 =avancarelem     lista4   -1     ListaVazia
 
 == Procurar valor em uma lista vazia
-=procurarvalorelem lista4   str01   str02     ListaVazia
+=procurarvalor lista4   str01   str02     ListaVazia
 
 == Destruir uma lista vazia
 =esvaziarlista   lista4
@@ -207,7 +207,7 @@
 =excluirelem     lista8          ListaVazia
 
 == Obter valor de lista vazia
-=obtervalorelem  lista8   "???"  pNULL
+=obtervalorelem  lista8   "???"   "???"  pNULL
 
 == Destruir lista vazia
 =destruirlista   lista8
