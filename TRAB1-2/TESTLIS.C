@@ -308,6 +308,54 @@ typedef struct tagConteudo {
 
          } /* fim ativa: Testar inserir elemento apos */
 
+	  /* Testar inserir elemento ordenado */
+
+		 else if (strcmp(ComandoTeste, INS_ELEM_ORD_CMD) == 0)
+		 {
+
+			 numLidos = LER_LerParametros("issi",
+				 &inxLista, StringDado1, StringDado2, &CondRetEsp);
+
+			 if ((numLidos != 4)
+				 || (!ValidarInxLista(inxLista, NAO_VAZIO)))
+			 {
+				 return TST_CondRetParm;
+			 } /* if */
+
+			 pDado1 = (char *)malloc(strlen(StringDado1) + 1);
+			 if (pDado1 == NULL)
+			 {
+				 return TST_CondRetMemoria;
+			 } /* if */
+
+			 strcpy(pDado1, StringDado1);
+
+			 pDado2 = (char *)malloc(strlen(StringDado2) + 1);
+			 if (pDado2 == NULL)
+			 {
+				 return TST_CondRetMemoria;
+			 } /* if */
+
+			 strcpy(pDado2, StringDado2);
+
+
+			 CondRet = LIS_InserirElementoOrdenado(vtListas[inxLista], pDado1, pDado2);
+
+			 if (CondRet != LIS_CondRetOK)
+			 {
+				 free(pDado1);
+			 } /* if */
+
+			 if (CondRet != LIS_CondRetOK)
+			 {
+				 free(pDado2);
+			 } /* if */
+
+			 return TST_CompararInt(CondRetEsp, CondRet,
+				 "Condicao de retorno errada ao inserir apos.");
+
+		 } /* fim ativa: Testar inserir elemento ordenado */
+
       /* Testar excluir simbolo */
 
          else if ( strcmp( ComandoTeste , EXC_ELEM_CMD ) == 0 )
@@ -406,24 +454,26 @@ typedef struct tagConteudo {
          } /* fim ativa: LIS  &Ir para o elemento final */
 
       /* LIS  &Avançar elemento */
-
+	  
          else if ( strcmp( ComandoTeste , AVANCAR_ELEM_CMD ) == 0 )
          {
-
+	  
             numLidos = LER_LerParametros( "iii" , &inxLista , &numElem ,
                                 &CondRetEsp ) ;
-
+	  
             if ( ( numLidos != 3 )
               || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
-
+	  
             return TST_CompararInt( CondRetEsp ,
                       LIS_AvancarElementoCorrente( vtListas[ inxLista ] , numElem ) ,
                       "Condicao de retorno errada ao avancar" ) ;
-
+	  
          } /* fim ativa: LIS  &Avançar elemento */
+	  
+	  /* Testar procurar elemento contendo valor */
 
 		 else if (strcmp(ComandoTeste, PROCURAR_VALOR_CMD) == 0)
 		 {
@@ -456,7 +506,30 @@ typedef struct tagConteudo {
 				 LIS_ProcurarValor(vtListas[inxLista], pDado1,pDado2),
 				 "Condicao de retorno errada ao procurar elemento");
 
-		 } /* fim ativa: LIS &Testar procurar elemento contendo valor */
+		 } /* fim ativa: Testar procurar elemento contendo valor */
+
+	  /* Testar exibir conteudo */
+
+		 else if (strcmp(ComandoTeste, EXIBIR_CONTEUDO_CMD) == 0)
+		 {
+			 numLidos = LER_LerParametros("i", &inxLista);
+
+			 if ((numLidos != 1)
+				 || (!ValidarInxLista(inxLista, NAO_VAZIO)))
+			 {
+				 return TST_CondRetParm;
+			 } /* if */
+
+			 CondRet = LIS_ExibirConteudoLista(vtListas[inxLista]);
+
+			 if (CondRet != LIS_CondRetOK)
+			 {
+				 return TST_CondRetErro;
+			 } /* if */
+
+			 return TST_CondRetOK;
+
+		 } /* fim ativa: Testar exibir conteudo */
 
       return TST_CondRetNaoConhec ;
 
