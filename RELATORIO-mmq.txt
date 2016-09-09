@@ -5,3 +5,4 @@ Data    Horas Trabalhadas   Tipo Tarefa                Descrição da Tarefa Reali
 05/07   2                   revisar código do módulo   Inclusão da função LIS_ProcurarValor nos testes
 06/07   4                   projetar                   Elaboração de batchs para automatizar a geração da pasta a ser enviada
 07/07   2                   redigir script de teste    Aprimoramento dos scripts do módulo Lista
+08/07   1                   redigir script de teste    Aprimoramento dos scripts do módulo Lista
