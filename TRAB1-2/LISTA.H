@@ -63,6 +63,8 @@
 
 typedef struct LIS_tagLista * LIS_tppLista ;
 
+typedef struct tagConteudo tpConteudo;
+
 
 /***********************************************************************
 *
@@ -121,7 +123,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    LIS_tppLista LIS_CriarLista(
-             void   ( * ExcluirValor ) ( void * pDado ) ) ;
+             void   ( * ExcluirValor ) ( tpConteudo * pDado ) ) ;
 
 
 /***********************************************************************
@@ -247,7 +249,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void * LIS_ObterValor( LIS_tppLista pLista ) ;
+   tpConteudo * LIS_ObterValor( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -320,8 +322,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $EP Parâmetros
 *     pLista  - ponteiro para a lista onde procura
-*     pValor  - ponteiro para o valor procurado
-*               Pode ser NULL
+*     iniciais - string com as iniciais do nome
+*	  nome - string com o nome
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK  - se encontrou.
@@ -336,7 +338,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
-                                    void * pValor        ) ;
+                                    char * iniciais, char * nome ) ;
 
 
 /***********************************************************************

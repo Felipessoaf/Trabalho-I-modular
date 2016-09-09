@@ -38,11 +38,14 @@ static const char DESTRUIR_LISTA_CMD      [ ] = "=destruirlista"  ;
 static const char ESVAZIAR_LISTA_CMD      [ ] = "=esvaziarlista"  ;
 static const char INS_ELEM_ANTES_CMD      [ ] = "=inselemantes"   ;
 static const char INS_ELEM_APOS_CMD       [ ] = "=inselemapos"    ;
+static const char INS_ELEM_ORD_CMD		  [ ] = "=inselemord"	  ;
 static const char OBTER_VALOR_CMD         [ ] = "=obtervalorelem" ;
 static const char EXC_ELEM_CMD            [ ] = "=excluirelem"    ;
 static const char IR_INICIO_CMD           [ ] = "=irinicio"       ;
 static const char IR_FIM_CMD              [ ] = "=irfinal"        ;
 static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
+static const char PROCURAR_VALOR_CMD      [ ] = "=procurarvalor"  ;
+static const char EXIBIR_CONTEUDO_CMD     [ ] = "=exibirconteudo" ;
 
 
 #define TRUE  1
@@ -56,9 +59,24 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 
 LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: LIS Estrutura iniciais-nomes
+*
+*
+***********************************************************************/
+
+typedef struct tagConteudo {
+
+	char * iniciais;
+	char * nome;
+
+} tpConteudo;
+
 /***** Protótipos das funções encapuladas no módulo *****/
 
-   static void DestruirValor( void * pValor ) ;
+   static void DestruirValor( tpConteudo * pValor ) ;
 
    static int ValidarInxLista( int inxLista , int Modo ) ;
 
@@ -81,11 +99,14 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 *     =esvaziarlista                inxLista
 *     =inselemantes                 inxLista  string  string  CondRetEsp
 *     =inselemapos                  inxLista  string  string  CondRetEsp
-*     =obtervalorelem               inxLista  string  CondretPonteiro
+*     =inselemord                   inxLista  string  string  CondRetEsp
+*     =obtervalorelem               inxLista  string  string  CondretPonteiro
 *     =excluirelem                  inxLista  CondRetEsp
 *     =irinicio                     inxLista
 *     =irfinal                      inxLista
 *     =avancarelem                  inxLista  numElem CondRetEsp
+*     =procurarvalor                inxLista  string  string  CondRetEsp
+*     =exibirconteudo               inxLista
 *
 ***********************************************************************/
 
@@ -97,6 +118,8 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
           CondRetEsp = -1  ;
 
       TST_tpCondRet CondRet ;
+
+	  tpConteudo * pdado;
 
       char   StringDado1[  DIM_VALOR ] ;
 	  char   StringDado2[  DIM_VALOR ] ;
@@ -310,31 +333,37 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          else if ( strcmp( ComandoTeste , OBTER_VALOR_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &ValEsp ) ;
+            numLidos = LER_LerParametros( "issi" ,
+                       &inxLista , StringDado1, StringDado2 , &ValEsp ) ;
 
-            if ( ( numLidos != 3 )
+            if ( ( numLidos != 4 )
               || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = ( char * ) LIS_ObterValor( vtListas[ inxLista ] ) ;
+            pdado = LIS_ObterValor( vtListas[ inxLista ] ) ;
 
             if ( ValEsp == 0 )
             {
-               return TST_CompararPonteiroNulo( 0 , pDado ,
+               return TST_CompararPonteiroNulo( 0 , pdado ,
                          "Valor não deveria existir." ) ;
             } /* if */
 
-            if ( pDado == NULL )
+            if ( pdado == NULL )
             {
-               return TST_CompararPonteiroNulo( 1 , pDado ,
+               return TST_CompararPonteiroNulo( 1 , pdado ,
                          "Dado tipo um deveria existir." ) ;
             } /* if */
 
-            return TST_CompararString( StringDado , pDado ,
-                         "Valor do elemento errado." ) ;
+			if (!TST_CompararString(StringDado1, pdado->iniciais,
+				"Valor do elemento errado."))
+			{
+				return TST_CompararString(StringDado2, pdado->nome,
+					"Valor do elemento errado.");
+			}
+
+			return TST_CondRetErro;
 
          } /* fim ativa: Testar obter valor do elemento corrente */
 
@@ -410,10 +439,12 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 *
 ***********************************************************************/
 
-   void DestruirValor( void * pValor )
+   void DestruirValor( tpConteudo * pValor )
    {
 
-      free( pValor ) ;
+		free(pValor->iniciais);
+		free(pValor->nome);
+		free( pValor ) ;
 
    } /* Fim função: TLIS -Destruir valor */
 

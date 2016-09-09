@@ -85,7 +85,7 @@
 		int numElem;
 		/* Número de elementos da lista */
 
-		void(*ExcluirValor) (void * pValor);
+		void(*ExcluirValor) (tpConteudo * pValor);
 		/* Ponteiro para a função de destruição do valor contido em um elemento */
 
 	} LIS_tpLista;
@@ -96,11 +96,12 @@
 		tpElemLista  * pElem);
 
 	static tpElemLista * CriarElemento(LIS_tppLista pLista,
-		void *       pValor);
+		tpConteudo * pValor);
 
 	static void LimparCabeca(LIS_tppLista pLista);
 
-	static void preencheEstrutura(tpConteudo * estrutura, char * iniciais, char * nome);
+	static void preencheEstrutura(tpConteudo * estrutura,
+		char * iniciais, char * nome);
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -110,7 +111,7 @@
 *  ****/
 
 	LIS_tppLista LIS_CriarLista(
-		void(*ExcluirValor) (void * pDado))
+		void(*ExcluirValor) (tpConteudo * pDado))
 	{
 
 		LIS_tpLista * pLista = NULL;
@@ -349,7 +350,7 @@
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-	void * LIS_ObterValor(LIS_tppLista pLista)
+	tpConteudo * LIS_ObterValor(LIS_tppLista pLista)
 	{
 
 	#ifdef _DEBUG
@@ -487,7 +488,7 @@
 *  ****/
 
 	LIS_tpCondRet LIS_ProcurarValor(LIS_tppLista pLista,
-		void * pValor)
+		char * iniciais, char * nome)
 	{
 
 		tpElemLista * pElem;
@@ -501,11 +502,11 @@
 			return LIS_CondRetListaVazia;
 		} /* if */
 
-		for (pElem = pLista->pElemCorr;
+		for (pElem = pLista->pOrigemLista;
 			pElem != NULL;
 			pElem = pElem->pProx)
 		{
-			if (pElem->pValor == pValor)
+			if (strcmp(pElem->pValor->iniciais, iniciais) == 0 && strcmp(pElem->pValor->nome, nome))
 			{
 				pLista->pElemCorr = pElem;
 				return LIS_CondRetOK;
@@ -653,7 +654,7 @@
 ***********************************************************************/
 
 	tpElemLista * CriarElemento(LIS_tppLista pLista,
-		void *       pValor)
+		tpConteudo * pValor)
 	{
 
 		tpElemLista * pElem;
