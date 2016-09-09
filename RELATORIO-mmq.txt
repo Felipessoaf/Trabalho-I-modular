@@ -6,3 +6,5 @@ Data    Horas Trabalhadas   Tipo Tarefa                Descrição da Tarefa Reali
 06/07   4                   projetar                   Elaboração de batchs para automatizar a geração da pasta a ser enviada
 07/07   2                   redigir script de teste    Aprimoramento dos scripts do módulo Lista
 08/07   1                   redigir script de teste    Aprimoramento dos scripts do módulo Lista
+09/09   1                   revisar código do módulo   Correco de bugs que faziam o programa voar
+09/09   1                   redigir script de teste    Correcao de erros nos testes
