@@ -1,7 +1,7 @@
-// Script:    TesteLista.script
-// Autor:     Arndt von Staa
-// Data:      02/abr/2008
-// Propósito: Testar superficialmente o módulo lista genérica duplamente encadeada
+// Script:    TesteLista2.script
+// Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello
+// Data:      08/set/2016
+// PropÃ³sito: Testar o mÃ³dulo lista apontando pra struct conteudo duplamente encadeada
 //
 
 == Inicializar valores
@@ -9,10 +9,14 @@
 =declararparm   lista1  int 1
 =declararparm   lista2  int 2
 
-=declararparm   str0    string  "abcdefg"
-=declararparm   str1    string  "qwerty"
-=declararparm   str2    string  "xxx"
-=declararparm   str3    string  "xpto"
+=declararparm   str01    string  "pa"
+=declararparm   str02    string  "pedro alves"
+=declararparm   str11    string  "fm"
+=declararparm   str12    string  "fabio melo"
+=declararparm   str21    string  "fp"
+=declararparm   str22    string  "felipe pessoa"
+=declararparm   str31    string  "cs"
+=declararparm   str32    string  "carol souza"
 
 =declararparm   OK             int  0
 =declararparm   ListaVazia     int  1
@@ -27,84 +31,84 @@
 =criarlista      lista0 
 
 == Verificar ObterValor relativo a lista vazia
-=obtervalorelem  lista0   "???"     pNULL
+=obtervalorelem  lista0   "???"   "???"     pNULL
 
 == Inserir elemento em lista vazia
-=inselemantes    lista0   str0   OK
-=obtervalorelem  lista0   str0   pNaoNULL
+=inselemantes    lista0   str01   str02   OK
+=obtervalorelem  lista0   str01   str02   pNaoNULL
 
-== Inserir elemento após primeiro
-=inselemapos     lista0   str1   OK
-=obtervalorelem  lista0   str1   pNaoNULL
+== Inserir elemento apÃ³s primeiro
+=inselemapos     lista0   str11   str12   OK
+=obtervalorelem  lista0   str11   str12   pNaoNULL
 
-== Inserir elemento antes do último
-=inselemantes    lista0   str2   OK
-=obtervalorelem  lista0   str2   pNaoNULL
+== Inserir elemento antes do Ãºltimo
+=inselemantes    lista0   str21   str22   OK
+=obtervalorelem  lista0   str21   str22   pNaoNULL
 
 == Excluir elemento do meio
-=obtervalorelem  lista0   str2   pNaoNULL
+=obtervalorelem  lista0   str21   str22   pNaoNULL
 =excluirelem     lista0             OK
 
-== Excluir elemento do início
-=obtervalorelem  lista0   str0   pNaoNULL
+== Excluir elemento do inÃ­cio
+=obtervalorelem  lista0   str01   str02   pNaoNULL
 =excluirelem     lista0             OK
 
-== Excluir elemento final, único 
-=obtervalorelem  lista0   str1   pNaoNULL
+== Excluir elemento final, Ãºnico 
+=obtervalorelem  lista0   str11   str12   pNaoNULL
 =excluirelem     lista0             OK
 
 == Ver se a lista ficou vazia
-=obtervalorelem  lista0   "???"     pNULL
+=obtervalorelem  lista0   "???"   "???"     pNULL
 
 == Destruir a lista
 =destruirlista   lista0
 
 == Criar uma lista com dois elementos
 =criarlista      lista1 
-=inselemapos     lista1   str0   OK
-=inselemapos     lista1   str1   OK
+=inselemapos     lista1   str01   str02   OK
+=inselemapos     lista1   str11   str12   OK
 
 == Esvaziar a lista e ver se ficou vazia
 =esvaziarlista   lista1
-=obtervalorelem  lista1   "???"     pNULL
+=obtervalorelem  lista1   "???"   "???"     pNULL
 
 == Destruir a lista
 =destruirlista   lista1
 
 == Criar uma lista com quatro elementos
 =criarlista      lista2 
-=inselemapos     lista2   str0   OK
-=inselemapos     lista2   str1   OK
-=inselemapos     lista2   str2   OK
-=inselemapos     lista2   str3   OK
+=inselemapos     lista2   str01   str02   OK
+=inselemapos     lista2   str11   str12   OK
+=inselemapos     lista2   str21   str22   OK
+=inselemapos     lista2   str31   str32   OK
 
-== Verificar a lista de trás para diante
-=obtervalorelem  lista2   str3   pNaoNULL
+== Verificar a lista de trÃ¡s para diante
+=obtervalorelem  lista2   str31   str32   pNaoNULL
 =avancarelem     lista2   -1     OK
-=obtervalorelem  lista2   str2   pNaoNULL
+=obtervalorelem  lista2   str21   str22   pNaoNULL
 =avancarelem     lista2   -1     OK
-=obtervalorelem  lista2   str1   pNaoNULL
+=obtervalorelem  lista2   str11   str12   pNaoNULL
 =avancarelem     lista2   -1     OK
-=obtervalorelem  lista2   str0   pNaoNULL
+=obtervalorelem  lista2   str01   str02   pNaoNULL
 =avancarelem     lista2   -1     FimLista
 
-== Verificar a lista de frente para trás
-=obtervalorelem  lista2   str0   pNaoNULL
+== Verificar a lista de frente para trÃ¡s
+=obtervalorelem  lista2   str01   str02   pNaoNULL
 =avancarelem     lista2   1      OK
-=obtervalorelem  lista2   str1   pNaoNULL
+=obtervalorelem  lista2   str11   str12   pNaoNULL
 =avancarelem     lista2   1      OK
-=obtervalorelem  lista2   str2   pNaoNULL
+=obtervalorelem  lista2   str21   str22   pNaoNULL
 =avancarelem     lista2   1      OK
-=obtervalorelem  lista2   str3   pNaoNULL
+=obtervalorelem  lista2   str31   str32   pNaoNULL
 =avancarelem     lista2   1      FimLista
 
-== Verificar a lista andando demais de trás para diante
+== Verificar a lista andando demais de trÃ¡s para diante
 =avancarelem     lista2   -10     FimLista
-=obtervalorelem  lista2   str0   pNaoNULL
+=obtervalorelem  lista2   str01   str02   pNaoNULL
 
-== Verificar a lista andando demais de frente para trás
+== Verificar a lista andando demais de frente para trÃ¡s
 =avancarelem     lista2   10     FimLista
-=obtervalorelem  lista2   str3   pNaoNULL
+=obtervalorelem  lista2   str31   str32   pNaoNULL
 
 == Destruir a lista
 =destruirlista   lista2
