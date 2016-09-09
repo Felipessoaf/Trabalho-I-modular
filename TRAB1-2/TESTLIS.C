@@ -54,6 +54,9 @@ static const char EXIBIR_CONTEUDO_CMD     [ ] = "=exibirconteudo" ;
 #define VAZIO     0
 #define NAO_VAZIO 1
 
+#define NULO     0
+#define NAO_NULO 1
+
 #define DIM_VT_LISTA   10
 #define DIM_VALOR     100
 
@@ -166,7 +169,7 @@ typedef struct tagConteudo {
             vtListas[ inxLista ] =
                  LIS_CriarLista( DestruirValor ) ;
 
-            return TST_CompararPonteiroNulo( 1 , vtListas[ inxLista ] ,
+			return TST_CompararPonteiroNulo( NAO_NULO , vtListas[ inxLista ] ,
                "Erro em ponteiro de nova lista."  ) ;
 
          } /* fim ativa: Testar CriarLista */
@@ -394,13 +397,13 @@ typedef struct tagConteudo {
 
             if ( ValEsp == 0 )
             {
-               return TST_CompararPonteiroNulo( 0 , pdado ,
+               return TST_CompararPonteiroNulo( NULO , pdado ,
                          "Valor não deveria existir." ) ;
             } /* if */
 
             if ( pdado == NULL )
             {
-               return TST_CompararPonteiroNulo( 1 , pdado ,
+				return TST_CompararPonteiroNulo( NAO_NULO , pdado ,
                          "Dado tipo um deveria existir." ) ;
             } /* if */
 

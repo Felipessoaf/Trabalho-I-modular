@@ -3,10 +3,10 @@
 !!!      Construto sob teste: TRAB1-1.exe
 !!!      Script de teste:     TesteLista.script
 
-!!!    0  Linha:     1  // Script:    TesteLista.script 
-!!!    0  Linha:     2  // Autor:     Arndt von Staa | Matheus de Mello Queiroz 
-!!!    0  Linha:     3  // Data:        02/abr/2008  |        08/set/2016 
-!!!    0  Linha:     4  // Propósito: Testar o módulo lista genérica duplamente encadeada 
+!!!    0  Linha:     1  // Script:    TesteLista2.script 
+!!!    0  Linha:     2  // Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello 
+!!!    0  Linha:     3  // Data:      08/set/2016 
+!!!    0  Linha:     4  // Propósito: Testar o módulo lista apontando pra struct conteudo duplamente encadeada 
 !!!    0  Linha:     5  // 
     7  == Inicializar valores
    34  == Criar a lista 0

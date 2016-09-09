@@ -16,16 +16,16 @@
 =declararparm   lista8  int 8
 =declararparm   lista9  int 9
 
-=declararparm   str01    string  "pa"
-=declararparm   str02    string  "pedro alves"
-=declararparm   str11    string  "fm"
-=declararparm   str12    string  "fabio melo"
-=declararparm   str21    string  "fp"
-=declararparm   str22    string  "felipe pessoa"
-=declararparm   str31    string  "cs"
-=declararparm   str32    string  "carol souza"
-=declararparm   str41    string  "avs"
-=declararparm   str42    string  "arndt von staa"
+=declararparm   str01    string  "a"
+=declararparm   str02    string  "ab"
+=declararparm   str11    string  "c"
+=declararparm   str12    string  "cd"
+=declararparm   str21    string  "e"
+=declararparm   str22    string  "ef"
+=declararparm   str31    string  "g"
+=declararparm   str32    string  "gh"
+=declararparm   str41    string  "i"
+=declararparm   str42    string  "ij"
 
 =declararparm   OK             int  0
 =declararparm   ListaVazia     int  1
@@ -45,18 +45,6 @@
 == Verificar ObterValor relativo a lista vazia
 =obtervalorelem  lista0   "???"   "???"     pNULL
 
-//== Inserir elemento em lista vazia
-//=inselemantes    lista0   str01   str02   OK
-//=obtervalorelem  lista0   str01   str02   pNaoNULL
-
-//== Inserir elemento após primeiro
-//=inselemapos     lista0   str11   str12   OK
-//=obtervalorelem  lista0   str11   str12   pNaoNULL
-
-//== Inserir elemento antes do último
-//=inselemantes    lista0   str21   str22   OK
-//=obtervalorelem  lista0   str21   str22   pNaoNULL
-
 == Inserir elemento ordenado
 =inselemord      lista0   str01   str02   OK
 =obtervalorelem  lista0   str01   str02   pNaoNULL
@@ -74,15 +62,20 @@
 =obtervalorelem  lista0   str31   str32   pNaoNULL
 
 == Excluir elemento do meio
+=procurarvalor   lista0   str21   str22   OK
 =obtervalorelem  lista0   str21   str22   pNaoNULL
+=excluirelem     lista0             OK
+
+== Excluir elemento do meio
+=obtervalorelem  lista0   str11   str12   pNaoNULL
 =excluirelem     lista0             OK
 
 == Excluir elemento do início
 =obtervalorelem  lista0   str01   str02   pNaoNULL
 =excluirelem     lista0             OK
 
-== Excluir elemento final, único 
-=obtervalorelem  lista0   str11   str12   pNaoNULL
+== Excluir elemento final 
+=obtervalorelem  lista0   str31   str32   pNaoNULL
 =excluirelem     lista0             OK
 
 == Ver se a lista ficou vazia
@@ -248,14 +241,14 @@
 =obtervalorelem lista5   str11   str12   pNaoNULL
 
 == Inserir diversos elementos
-=inselemord    lista6   str01   str02   OK
+=inselemord      lista6   str01   str02   OK
 =obtervalorelem  lista6   str01   str02   pNaoNULL
-=avancarelem     lista6   1      OK
-=inselemord     lista6   str21   str22   OK
+=avancarelem     lista6   1               OK
+=inselemord      lista6   str21   str22   OK
 =obtervalorelem  lista6   str21   str22   pNaoNULL
-=inselemord     lista6   str31   str32   OK
+=inselemord      lista6   str31   str32   OK
 =obtervalorelem  lista6   str31   str32   pNaoNULL
-=inselemord     lista6   str41   str42   OK
+=inselemord      lista6   str41   str42   OK
 =obtervalorelem  lista6   str41   str42   pNaoNULL
 
 == Verificar a lista de trás para diante

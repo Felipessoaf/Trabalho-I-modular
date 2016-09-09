@@ -1,0 +1,74 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: TRAB1-2.exe
+!!!      Script de teste:     TesteLista.script
+
+!!!    0  Linha:     1  // Script:    TesteLista2.script 
+!!!    0  Linha:     2  // Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello 
+!!!    0  Linha:     3  // Data:      08/set/2016 
+!!!    0  Linha:     4  // Propósito: Testar o módulo lista apontando pra struct conteudo duplamente encadeada 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores
+   39  == Criar a lista 0
+   42  == Verificar ExcluirElemento relativo a lista vazia
+   45  == Verificar ObterValor relativo a lista vazia
+   48  == Inserir elemento ordenado
+   52  == Inserir elemento ordenado
+   56  == Inserir elemento ordenado
+   60  == Inserir elemento ordenado
+   64  == Excluir elemento do meio
+   69  == Excluir elemento do meio
+   73  == Excluir elemento do início
+   77  == Excluir elemento final
+   81  == Ver se a lista ficou vazia
+   84  == Destruir a lista
+   87  == Criar uma lista com dois elementos
+   92  == Esvaziar a lista e ver se ficou vazia
+   96  == Destruir a lista
+   99  == Criar uma lista com quatro elementos
+  106  == Verificar a lista de trás para diante
+  116  == Verificar a lista de frente para trás
+  126  == Verificar a lista andando demais de trás para diante
+  130  == Verificar a lista andando demais de frente para trás
+  134  == Destruir a lista
+  137  == Criar uma lista com cinco elementos
+  145  == Ir para o final da lista e tentar avançar
+  149  == Ir para o inicio da lista e tentar avançar
+  153  == Destruir a Lista
+  156  == Criar uma lista
+  159  == Ir ao inicio de lista vazia
+  163  == Ir ao fim de lista vazia
+  167  == Avançar em uma lista vazia
+  170  == Retroceder em uma lista vazia
+  173  == Procurar valor em uma lista vazia
+  176  == Destruir uma lista vazia
+  180  == Criar 10 listas simultaneamente
+  192  == Inserir elementos em diversas listas simultâneamente
+  214  == Excluir elemento de lista vazia
+  218  == Obter valor de lista vazia
+  221  == Destruir lista vazia
+  224  == Destruir apenas uma lista
+  227  == Testar avançar demais para frente
+  231  == Testar avançar demais para trás
+  235  == Inserir elemento antes
+  239  == Inserir elemento apos
+  243  == Inserir diversos elementos
+  254  == Verificar a lista de trás para diante
+  267  == Verificar a lista de frente para trás
+  279  == Verificar a lista andando demais de trás para diante
+  283  == Verificar a lista andando demais de frente para trás
+  287  == Testar ir ao inicio
+  291  == Testar ir ao final
+  295  == Destruir lista vazia
+  299  == Destruir listas simultaneamente
+!!!    0  Linha:   308  // fim 
+
+!!! N�mero de linhas lidas:         308
+!!! N�mero de casos de teste:        53
+!!! N�mero comandos corretos:       192
+!!! N�mero de falhas encontradas:     0
+
+!!! N�o foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0
