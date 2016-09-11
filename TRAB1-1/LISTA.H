@@ -12,10 +12,12 @@
 *
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: avs - Arndt Von Staa
+*           mmq - Matheus de Mello Queiroz
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -204,8 +206,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-                                          void * pValor        )
-       ;
+                                          void * pValor        ) ;
 
 
 /***********************************************************************
@@ -315,28 +316,29 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Função: LIS  &Procurar elemento contendo valor
 *
 *  $ED Descrição da função
-*     Procura o elemento que referencia o valor dado.
-*     A função compara ponteiro e não conteúdo apontado.
+*     Procura o elemento que contém o valor dado.
 *
 *  $EP Parâmetros
-*     pLista  - ponteiro para a lista onde procura
-*     pValor  - ponteiro para o valor procurado
-*               Pode ser NULL
+*     pLista        - ponteiro para a lista onde procura
+*     pValor        - ponteiro para o valor procurado
+*     ComparaValor  - ponteiro para a função que compara o
+*                     valor passado com o valor em um elemento.
+*     
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK  - se encontrou.
-*                      O elemento corrente é o primeiro elemento do
-*                      elemento corrente inclusive para o fim da lista
-*                      e que contém o ponteiro procurado
+*     LIS_CondRetOK           - se encontrou.
+*                      O elemento corrente passa a ser o que 
+*                      contém o valor procurado.
 *
 *     LIS_CondRetNaoEncontrou - se o ponteiro não foi encontrado
-*                      O elemento corrente continua o mesmo
+*                      O elemento corrente continua o mesmo.
 *     LIS_CondRetListaVazia   - se a lista estiver vazia
 *
 ***********************************************************************/
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
-                                    void * pValor        ) ;
+                                    void * pValor,
+									int   ( * ComparaValor ) ( void * pDadoElem, void * pDado ) ) ;
 
 #undef LISTA_EXT
 

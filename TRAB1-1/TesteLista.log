@@ -28,42 +28,47 @@
   102  == Verificar a lista de frente para trás
   112  == Verificar a lista andando demais de trás para diante
   116  == Verificar a lista andando demais de frente para trás
-  120  == Destruir a lista
-  123  == Criar uma lista com cinco elementos
-  131  == Ir para o final da lista e tentar avançar
-  135  == Ir para o inicio da lista e tentar avançar
-  139  == Destruir a Lista
-  142  == Criar uma lista
-  145  == Ir ao inicio de lista vazia
-  149  == Ir ao fim de lista vazia
-  153  == Avançar em uma lista vazia
-  156  == Retroceder em uma lista vazia
-  159  == Procurar valor em uma lista vazia
-  162  == Destruir uma lista vazia
-  166  == Criar 10 listas simultaneamente
-  178  == Inserir elementos em diversas listas simultâneamente
-  200  == Excluir elemento de lista vazia
-  204  == Obter valor de lista vazia
-  207  == Destruir lista vazia
-  210  == Destruir apenas uma lista
-  213  == Testar avançar demais para frente
-  217  == Testar avançar demais para trás
-  221  == Inserir elemento antes
-  225  == Inserir elemento apos
-  229  == Inserir diversos elementos
-  240  == Verificar a lista de trás para diante
-  253  == Verificar a lista de frente para trás
-  265  == Verificar a lista andando demais de trás para diante
-  269  == Verificar a lista andando demais de frente para trás
-  273  == Testar ir ao inicio
-  277  == Testar ir ao final
-  281  == Destruir lista vazia
-  285  == Destruir listas simultaneamente
-!!!    0  Linha:   294  // fim 
+  120  == Procurar elemento da lista
+  124  == Procurar elemento que não está na lista
+  127  == Destruir a lista
+  130  == Criar uma lista com cinco elementos
+  138  == Ir para o final da lista e tentar avançar
+  142  == Ir para o inicio da lista e tentar avançar
+  146  == Destruir a Lista
+  149  == Criar uma lista
+  152  == Ir ao inicio de lista vazia
+  156  == Ir ao fim de lista vazia
+  160  == Avançar em uma lista vazia
+  163  == Retroceder em uma lista vazia
+  166  == Procurar valor em uma lista vazia
+  169  == Destruir uma lista vazia
+  173  == Criar 10 listas simultaneamente
+  185  == Inserir elementos em diversas listas simultâneamente
+  207  == Destruir apenas uma lista
+  210  == Excluir elemento de lista vazia
+  214  == Procurar valor em lista vazia
+  217  == Obter valor de lista vazia
+  220  == Destruir lista vazia
+  223  == Testar avançar demais para frente
+  227  == Testar avançar demais para trás
+  231  == Inserir elemento antes
+  235  == Inserir elemento apos
+  239  == Procurar elemento que não está na lista
+  242  == Inserir diversos elementos
+  253  == Procurar valor de elemento da lista
+  259  == Verificar a lista de trás para diante
+  272  == Verificar a lista de frente para trás
+  284  == Verificar a lista andando demais de trás para diante
+  288  == Verificar a lista andando demais de frente para trás
+  292  == Testar ir ao inicio
+  296  == Testar ir ao final
+  300  == Destruir lista vazia
+  304  == Destruir listas simultaneamente
+!!!    0  Linha:   313  // fim 
 
-!!! Número de linhas lidas:         294
-!!! Número de casos de teste:        51
-!!! Número comandos corretos:       182
+!!! Número de linhas lidas:         313
+!!! Número de casos de teste:        56
+!!! Número comandos corretos:       191
 !!! Número de falhas encontradas:     0
 
 !!! Não foram encontrados problemas

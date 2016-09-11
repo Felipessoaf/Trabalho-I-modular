@@ -14,7 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     5       mmq   07/set/2016 correção na função LIS_ProcurarValor 
+*     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -453,7 +453,8 @@
 *  ****/
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
-                                    void * pValor        )
+                                    void * pValor,
+									int  ( * ComparaValor ) ( void * pDadoElem, void * pDado ) )
    {
 
       tpElemLista * pElem ;
@@ -471,7 +472,7 @@
             pElem != NULL ;
             pElem  = pElem->pProx )
       {
-         if ( pElem->pValor == pValor )
+         if ( ComparaValor( pElem->pValor, pValor ) )
          {
             pLista->pElemCorr = pElem ;
             return LIS_CondRetOK ;

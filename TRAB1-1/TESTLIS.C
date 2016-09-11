@@ -14,7 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     5       mmq   07/set/2016 adição de testes para a função LIS_ProcurarValor
+*     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -66,7 +66,9 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
    static void DestruirValor( void * pValor ) ;
 
-   static int ValidarInxLista( int inxLista , int Modo ) ;
+   static int  ComparaValor( void * pValorElem, void * pValor ) ;
+
+   static int  ValidarInxLista( int inxLista , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -93,7 +95,6 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 *     =irfinal                      inxLista
 *     =avancarelem                  inxLista  numElem CondRetEsp
 *     =procurarvalorelem            inxLista  string  CondRetEsp 
-*           - valores possiveis para CondRetEsp: ListaVazia, NaoAchou
 *
 ***********************************************************************/
 
@@ -395,9 +396,13 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
             strcpy( pDado , StringDado ) ;
 
+			CondRet = LIS_ProcurarValor( vtListas[ inxLista ] , pDado, ComparaValor );
+
+			DestruirValor( pDado );
+
 			return TST_CompararInt( CondRetEsp ,
-				LIS_ProcurarValor( vtListas[ inxLista ] , pDado ) ,
-                      "Condicao de retorno errada ao procurar elemento" );
+									CondRet,
+									"Condicao de retorno errada ao procurar elemento" );
 
          } /* fim ativa: Testar procurar elemento contendo valor */
 
@@ -422,6 +427,25 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
       free( pValor ) ;
 
    } /* Fim função: TLIS -Destruir valor */
+
+
+
+/***********************************************************************
+*
+*  $FC Função: TLIS -Compara valor
+*
+***********************************************************************/
+
+   int ComparaValor( void * pValorElem, void * pValor )
+   {
+	   if( strcmp( ( char * ) pValorElem, ( char * ) pValor ) == 0 )
+	   {
+		   return TRUE;
+	   }
+      
+	   return FALSE;
+
+   } /* Fim função: TLIS -Compara valor */
 
 
 /***********************************************************************
