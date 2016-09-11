@@ -6,9 +6,7 @@ TRAB1-1/TRAB1-1.vcxproj.user
 TRAB1-2/Debug/
 TRAB1-2/TRAB1-2.vcxproj
 TRAB1-2/TRAB1-2.vcxproj.filters
-TRAB1-1/TRAB1-1.vcxproj.user
-
-INF1301-TRAB1-FPFMMQPF/
+TRAB1-2/TRAB1-2.vcxproj.user
 
 *.opensdf
 *.sdf
@@ -17,4 +15,5 @@ INF1301-TRAB1-FPFMMQPF/
 *.pdb
 *.vcxproj
 *.suo
-TRAB1-2/TRAB1-2.vcxproj.user
+
+
