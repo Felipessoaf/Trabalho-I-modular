@@ -1,9 +1,15 @@
 
-!!! Inicio dos testes
-!!!      Construto sob teste: TRAB1-2.exe
-!!!      Script de teste:     TesteLista.script
 
-!!!    0  Linha:     1  // Script:    TesteLista2.script 
+LES - Laborat�rio de Engenharia de Software DI/PUC-Rio
+      Arcabou�o de teste de m�dulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: TRAB1-2.exe
+
+      Arquivo de teste:    TesteLista.script
+
+
+!!!    0  Linha:     1  // Script:    TesteLista.script 
 !!!    0  Linha:     2  // Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello 
 !!!    0  Linha:     3  // Data:      08/set/2016 
 !!!    0  Linha:     4  // Propósito: Testar o módulo lista apontando pra struct conteudo duplamente encadeada 
@@ -50,8 +56,8 @@
   224  == Destruir apenas uma lista
   227  == Testar avançar demais para frente
   231  == Testar avançar demais para trás
-  235  == Inserir elemento antes
-  239  == Inserir elemento apos
+  235  == Inserir elemento ordenado
+  239  == Inserir elemento ordenado
   243  == Inserir diversos elementos
   254  == Verificar a lista de trás para diante
   267  == Verificar a lista de frente para trás

@@ -1,7 +1,13 @@
 
-!!! Inicio dos testes
-!!!      Construto sob teste: TRAB1-1.exe
-!!!      Script de teste:     TesteLista.script
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: TRAB1-1.exe
+
+      Arquivo de teste:    TesteLista.script
+
 
 !!!    0  Linha:     1  // Script:    TesteLista2.script 
 !!!    0  Linha:     2  // Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello 

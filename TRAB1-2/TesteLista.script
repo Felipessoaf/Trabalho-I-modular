@@ -1,4 +1,4 @@
-// Script:    TesteLista2.script
+// Script:    TesteLista.script
 // Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello
 // Data:      08/set/2016
 // Propósito: Testar o módulo lista apontando pra struct conteudo duplamente encadeada
@@ -86,8 +86,8 @@
 
 == Criar uma lista com dois elementos
 =criarlista      lista1 
-=inselemapos     lista1   str01   str02   OK
-=inselemapos     lista1   str11   str12   OK
+=inselemord     lista1   str01   str02   OK
+=inselemord     lista1   str11   str12   OK
 
 == Esvaziar a lista e ver se ficou vazia
 =esvaziarlista   lista1
@@ -98,10 +98,10 @@
 
 == Criar uma lista com quatro elementos
 =criarlista      lista2 
-=inselemapos     lista2   str01   str02   OK
-=inselemapos     lista2   str11   str12   OK
-=inselemapos     lista2   str21   str22   OK
-=inselemapos     lista2   str31   str32   OK
+=inselemord     lista2   str01   str02   OK
+=inselemord     lista2   str11   str12   OK
+=inselemord     lista2   str21   str22   OK
+=inselemord     lista2   str31   str32   OK
 
 == Verificar a lista de trás para diante
 =obtervalorelem  lista2   str31   str32   pNaoNULL
@@ -136,11 +136,11 @@
 
 == Criar uma lista com cinco elementos
 =criarlista      lista3
-=inselemapos     lista3   str01   str02   OK
-=inselemapos     lista3   str11   str12   OK
-=inselemapos     lista3   str21   str22   OK
-=inselemapos     lista3   str31   str32   OK
-=inselemapos     lista3   str41   str42   OK
+=inselemord     lista3   str01   str02   OK
+=inselemord     lista3   str11   str12   OK
+=inselemord     lista3   str21   str22   OK
+=inselemord     lista3   str31   str32   OK
+=inselemord     lista3   str41   str42   OK
 
 == Ir para o final da lista e tentar avançar
 =irfinal         lista3
@@ -232,11 +232,11 @@
 =avancarelem     lista2   -1     FimLista
 =avancarelem     lista3   -1     FimLista
 
-== Inserir elemento antes
+== Inserir elemento ordenado
 =inselemord    lista4   str01   str02   OK
 =obtervalorelem  lista4   str01   str02   pNaoNULL
 
-== Inserir elemento apos
+== Inserir elemento ordenado
 =inselemord    lista5   str11   str12   OK
 =obtervalorelem lista5   str11   str12   pNaoNULL
 
