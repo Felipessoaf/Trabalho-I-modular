@@ -14,6 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  9		  fpf	11/set/2016	funções LIS_InserirElementoAntes e LIS_InserirElementoApos removidas dos testes
 *     8       mmq   09/set/2016 melhorias na legibilidade do modulo
 *	  7		  fpf	08/set/2016	teste das funções LIS_ExibirConteudoLista e LIS_InserirElementoOrdenado
 *	  6		  fpf	08/set/2016	teste da função LIS_ProcurarValor

@@ -16,6 +16,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  7		  fpf	11/set/2016	funções LIS_InserirElementoAntes e LIS_InserirElementoApos removidas da interface
 *	  6		  fpf	07/set/2016	implementação das funções LIS_InserirElementoOrdenado e LIS_ExibirConteudoLista
 *	  5		  fpf	06/set/2016	implementação da função preencheEstrutura
 *     4       avs   01/fev/2006 criar linguagem script simbólica
