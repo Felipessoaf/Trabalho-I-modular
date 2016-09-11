@@ -11,18 +11,20 @@
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs - Arndt Von Staa
 *           mmq - Matheus de Mello Queiroz
+*			fpf - Felipe Pessoa de Freitas
+*			pf  - Pedro Ferreira Alves Pinto
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*	  9		  fpf	11/set/2016	funções LIS_InserirElementoAntes e LIS_InserirElementoApos removidas dos testes
-*     8       mmq   09/set/2016 melhorias na legibilidade do modulo
-*	  7		  fpf	08/set/2016	teste das funções LIS_ExibirConteudoLista e LIS_InserirElementoOrdenado
-*	  6		  fpf	08/set/2016	teste da função LIS_ProcurarValor
-*	  5		  fpf	08/set/2016	alteração na função DestruirValor e adaptações nos testes para novo tipo
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     Versão  Autor		Data        Observações
+*	  9		  fpf		11/set/2016	funções LIS_InserirElementoAntes e LIS_InserirElementoApos removidas dos testes
+*     8       mmq		09/set/2016 melhorias na legibilidade do modulo
+*	  7		  fpf		08/set/2016	teste das funções LIS_ExibirConteudoLista e LIS_InserirElementoOrdenado
+*	  6		  fpf		08/set/2016	teste da função LIS_ProcurarValor
+*	  5		  fpf/pf	08/set/2016	alteração na função DestruirValor e adaptações nos testes para novo tipo
+*     4       avs		01/fev/2006 criar linguagem script simbólica
+*     3       avs		08/dez/2004 uniformização dos exemplos
+*     2       avs		07/jul/2003 unificação de todos os módulos em um só projeto
+*     1       avs		16/abr/2003 início desenvolvimento
 *
 ***************************************************************************/
 

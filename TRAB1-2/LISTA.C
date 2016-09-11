@@ -11,19 +11,21 @@
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs - Arndt Von Staa
 *           mmq - Matheus de Mello Queiroz
+*			fpf - Felipe Pessoa de Freitas
+*			pf - Pedro Ferreira Alves Pinto
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*	  10	  fpf	11/set/2016	funções LIS_InserirElementoAntes e LIS_InserirElementoApos encapsuladas no módulo
-*     9       mmq   09/set/2016 correcao de bugs
-*	  8		  fpf	08/set/2016	adaptação das funções para tratar o novo tipo
-*	  7		  fpf	07/set/2016	implementação das funções LIS_InserirElementoOrdenado e LIS_ExibirConteudoLista
-*	  6		  fpf	06/set/2016	implementação da função preencheEstrutura
-*	  5		  fpf	03/set/2016	implementação da estrutura a ser usada como valor
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     Versão  Autor		Data		Observações
+*	  10	  fpf		11/set/2016	funções LIS_InserirElementoAntes e LIS_InserirElementoApos encapsuladas no módulo
+*     9       mmq		09/set/2016 correcao de bugs
+*	  8		  fpf/pf	08/set/2016	adaptação das funções para tratar o novo tipo
+*	  7		  fpf/pf	07/set/2016	implementação das funções LIS_InserirElementoOrdenado e LIS_ExibirConteudoLista
+*	  6		  fpf		06/set/2016	implementação da função preencheEstrutura
+*	  5		  fpf/pf	03/set/2016	implementação da estrutura a ser usada como valor
+*     4       avs		01/fev/2006 criar linguagem script simbólica
+*     3       avs		08/dez/2004 uniformização dos exemplos
+*     2       avs		07/jul/2003 unificação de todos os módulos em um só projeto
+*     1       avs		16/abr/2003 início desenvolvimento
 *
 ***************************************************************************/
 
