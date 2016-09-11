@@ -14,7 +14,10 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     X       mmq   09/set/2016 melhorias na legibilidade do modulo
+*     8       mmq   09/set/2016 melhorias na legibilidade do modulo
+*	  7		  fpf	08/set/2016	teste das funções LIS_ExibirConteudoLista e LIS_InserirElementoOrdenado
+*	  6		  fpf	08/set/2016	teste da função LIS_ProcurarValor
+*	  5		  fpf	08/set/2016	alteração na função DestruirValor e adaptações nos testes para novo tipo
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -102,8 +105,6 @@ typedef struct tagConteudo {
 *     =criarlista                   inxLista
 *     =destruirlista                inxLista
 *     =esvaziarlista                inxLista
-*     =inselemantes                 inxLista  string  string  CondRetEsp
-*     =inselemapos                  inxLista  string  string  CondRetEsp
 *     =inselemord                   inxLista  string  string  CondRetEsp
 *     =obtervalorelem               inxLista  string  string  CondretPonteiro
 *     =excluirelem                  inxLista  CondRetEsp
@@ -216,102 +217,6 @@ typedef struct tagConteudo {
             return TST_CondRetOK ;
 
          } /* fim ativa: Testar Destruir lista */
-
-      /* Testar inserir elemento antes */
-
-         else if ( strcmp( ComandoTeste , INS_ELEM_ANTES_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "issi" ,
-				&inxLista, StringDado1, StringDado2, &CondRetEsp);
-
-            if ( ( numLidos != 4 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            pDado1 = ( char * ) malloc( strlen( StringDado1 ) + 1 ) ;
-            if ( pDado1 == NULL )
-            {
-               return TST_CondRetMemoria ;
-            } /* if */
-
-            strcpy( pDado1 , StringDado1 ) ;
-
-			pDado2 = ( char * ) malloc( strlen( StringDado2 ) + 1) ;
-			if ( pDado2 == NULL )
-			{
-				return TST_CondRetMemoria;
-			} /* if */
-
-			strcpy( pDado2 , StringDado2 ) ;
-
-
-			CondRet = LIS_InserirElementoAntes(vtListas[inxLista], pDado1, pDado2);
-
-            if ( CondRet != LIS_CondRetOK )
-            {
-               free( pDado1 ) ;
-            } /* if */
-
-			if (CondRet != LIS_CondRetOK)
-			{
-				free(pDado2);
-			} /* if */
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
-                     "Condicao de retorno errada ao inserir antes."                   ) ;
-
-         } /* fim ativa: Testar inserir elemento antes */
-
-      /* Testar inserir elemento apos */
-
-         else if ( strcmp( ComandoTeste , INS_ELEM_APOS_CMD ) == 0 )
-         {
-
-			numLidos = LER_LerParametros("issi",
-				&inxLista, StringDado1, StringDado2, &CondRetEsp);
-
-			if ((numLidos != 4)
-				|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
-			{
-				return TST_CondRetParm;
-			} /* if */
-
-			pDado1 = (char *)malloc(strlen(StringDado1) + 1);
-			if (pDado1 == NULL)
-			{
-				return TST_CondRetMemoria;
-			} /* if */
-
-			strcpy(pDado1, StringDado1);
-
-			pDado2 = (char *)malloc(strlen(StringDado2) + 1);
-			if (pDado2 == NULL)
-			{
-				return TST_CondRetMemoria;
-			} /* if */
-
-			strcpy(pDado2, StringDado2);
-
-
-			CondRet = LIS_InserirElementoApos(vtListas[inxLista], pDado1, pDado2);
-
-			if (CondRet != LIS_CondRetOK)
-			{
-				free(pDado1);
-			} /* if */
-
-			if (CondRet != LIS_CondRetOK)
-			{
-				free(pDado2);
-			} /* if */
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
-                     "Condicao de retorno errada ao inserir apos."                   ) ;
-
-         } /* fim ativa: Testar inserir elemento apos */
 
 	  /* Testar inserir elemento ordenado */
 

@@ -14,7 +14,11 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     X       mmq   09/set/2016 correcao de bugs
+*     9       mmq   09/set/2016 correcao de bugs
+*	  8		  fpf	08/set/2016	adaptação das funções para tratar o novo tipo
+*	  7		  fpf	07/set/2016	implementação das funções LIS_InserirElementoOrdenado e LIS_ExibirConteudoLista
+*	  6		  fpf	06/set/2016	implementação da função preencheEstrutura
+*	  5		  fpf	03/set/2016	implementação da estrutura a ser usada como valor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -105,6 +109,12 @@
 	static void preencheEstrutura(tpConteudo ** estrutura,
 		char * iniciais, char * nome);
 
+	static LIS_tpCondRet LIS_InserirElementoAntes(LIS_tppLista pLista,
+		char * iniciais, char * nome);
+
+	static LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista,
+		char * iniciais, char * nome);
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -176,126 +186,6 @@
 		LimparCabeca(pLista);
 
 	} /* Fim função: LIS  &Esvaziar lista */
-
-/***************************************************************************
-*
-*  Função: LIS  &Inserir elemento antes
-*  ****/
-
-	LIS_tpCondRet LIS_InserirElementoAntes(LIS_tppLista pLista,
-		char * iniciais, char * nome)
-	{
-
-		tpElemLista * pElem;
-		tpConteudo * conteudo;
-
-	#ifdef _DEBUG
-		assert(pLista != NULL);
-	#endif
-
-		preencheEstrutura(&conteudo, iniciais, nome);
-		if (conteudo == NULL)
-		{
-			return LIS_CondRetFaltouMemoria;
-		} /* if */		
-
-		/* Criar elemento a inserir antes */
-
-		pElem = CriarElemento(pLista, conteudo);
-		if (pElem == NULL)
-		{
-			return LIS_CondRetFaltouMemoria;
-		} /* if */
-
-		/* Encadear o elemento antes do elemento corrente */
-
-		if (pLista->pElemCorr == NULL)
-		{
-			pLista->pOrigemLista = pElem;
-			pLista->pFimLista = pElem;
-		}
-		else
-		{
-			if (pLista->pElemCorr->pAnt != NULL)
-			{
-				pElem->pAnt = pLista->pElemCorr->pAnt;
-				pLista->pElemCorr->pAnt->pProx = pElem;
-			}
-			else
-			{
-				pLista->pOrigemLista = pElem;
-			} /* if */
-
-			pElem->pProx = pLista->pElemCorr;
-			pLista->pElemCorr->pAnt = pElem;
-		} /* if */
-
-		pLista->pElemCorr = pElem;
-
-		return LIS_CondRetOK;
-
-	} /* Fim função: LIS  &Inserir elemento antes */
-
-/***************************************************************************
-*
-*  Função: LIS  &Inserir elemento após
-*  ****/
-
-	LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista, 
-		char * iniciais, char * nome)
-
-	{
-
-		tpElemLista * pElem;
-		tpConteudo * conteudo;
-
-	#ifdef _DEBUG
-		assert(pLista != NULL);
-	#endif
-
-		preencheEstrutura(&conteudo, iniciais, nome);
-		if (conteudo == NULL)
-		{
-			return LIS_CondRetFaltouMemoria;
-		} /* if */
-
-		/* Criar elemento a inerir após */
-
-		pElem = CriarElemento(pLista, conteudo);
-		if (pElem == NULL)
-		{
-			return LIS_CondRetFaltouMemoria;
-		} /* if */
-		
-		/* Encadear o elemento após o elemento */
-
-		if (pLista->pElemCorr == NULL)
-		{
-			pLista->pOrigemLista = pElem;
-			pLista->pFimLista = pElem;
-		}
-		else
-		{
-			if (pLista->pElemCorr->pProx != NULL)
-			{
-				pElem->pProx = pLista->pElemCorr->pProx;
-				pLista->pElemCorr->pProx->pAnt = pElem;
-			}
-			else
-			{
-				pLista->pFimLista = pElem;
-			} /* if */
-
-			pElem->pAnt = pLista->pElemCorr;
-			pLista->pElemCorr->pProx = pElem;
-
-		} /* if */
-
-		pLista->pElemCorr = pElem;
-
-		return LIS_CondRetOK;
-
-	} /* Fim função: LIS  &Inserir elemento após */
 
 /***************************************************************************
 *
@@ -719,6 +609,128 @@
 		strcpy( ( * estrutura )->iniciais, iniciais );
 		strcpy( ( * estrutura )->nome, nome );
 	} /* Fim função: LIS  -Preencher estrutura */
+
+/***********************************************************************
+*
+*  $FC Função: LIS  -Inserir elemento antes
+*
+***********************************************************************/
+
+	LIS_tpCondRet LIS_InserirElementoAntes(LIS_tppLista pLista,
+		char * iniciais, char * nome)
+	{
+
+		tpElemLista * pElem;
+		tpConteudo * conteudo;
+
+	#ifdef _DEBUG
+			assert(pLista != NULL);
+	#endif
+
+		preencheEstrutura(&conteudo, iniciais, nome);
+		if (conteudo == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+
+		/* Criar elemento a inserir antes */
+
+		pElem = CriarElemento(pLista, conteudo);
+		if (pElem == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+
+		/* Encadear o elemento antes do elemento corrente */
+
+		if (pLista->pElemCorr == NULL)
+		{
+			pLista->pOrigemLista = pElem;
+			pLista->pFimLista = pElem;
+		}
+		else
+		{
+			if (pLista->pElemCorr->pAnt != NULL)
+			{
+				pElem->pAnt = pLista->pElemCorr->pAnt;
+				pLista->pElemCorr->pAnt->pProx = pElem;
+			}
+			else
+			{
+				pLista->pOrigemLista = pElem;
+			} /* if */
+
+			pElem->pProx = pLista->pElemCorr;
+			pLista->pElemCorr->pAnt = pElem;
+		} /* if */
+
+		pLista->pElemCorr = pElem;
+
+		return LIS_CondRetOK;
+
+	} /* Fim função: LIS  -Inserir elemento antes */
+
+/***********************************************************************
+*
+*  $FC Função: LIS  -Inserir elemento após
+*
+***********************************************************************/
+
+	LIS_tpCondRet LIS_InserirElementoApos(LIS_tppLista pLista,
+		char * iniciais, char * nome)
+
+	{
+
+		tpElemLista * pElem;
+		tpConteudo * conteudo;
+
+	#ifdef _DEBUG
+			assert(pLista != NULL);
+	#endif
+
+		preencheEstrutura(&conteudo, iniciais, nome);
+		if (conteudo == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+
+		/* Criar elemento a inerir após */
+
+		pElem = CriarElemento(pLista, conteudo);
+		if (pElem == NULL)
+		{
+			return LIS_CondRetFaltouMemoria;
+		} /* if */
+
+		/* Encadear o elemento após o elemento */
+
+		if (pLista->pElemCorr == NULL)
+		{
+			pLista->pOrigemLista = pElem;
+			pLista->pFimLista = pElem;
+		}
+		else
+		{
+			if (pLista->pElemCorr->pProx != NULL)
+			{
+				pElem->pProx = pLista->pElemCorr->pProx;
+				pLista->pElemCorr->pProx->pAnt = pElem;
+			}
+			else
+			{
+				pLista->pFimLista = pElem;
+			} /* if */
+
+			pElem->pAnt = pLista->pElemCorr;
+			pLista->pElemCorr->pProx = pElem;
+
+		} /* if */
+
+		pLista->pElemCorr = pElem;
+
+		return LIS_CondRetOK;
+
+	} /* Fim função: LIS  -Inserir elemento após */
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
 

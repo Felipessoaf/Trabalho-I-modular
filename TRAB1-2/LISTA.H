@@ -16,6 +16,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  6		  fpf	07/set/2016	implementação das funções LIS_InserirElementoOrdenado e LIS_ExibirConteudoLista
+*	  5		  fpf	06/set/2016	implementação da função preencheEstrutura
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -158,55 +160,6 @@ typedef struct tagConteudo tpConteudo;
 ***********************************************************************/
 
    void LIS_EsvaziarLista( LIS_tppLista pLista ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Inserir elemento antes
-*
-*  $ED Descrição da função
-*     Insere novo elemento antes do elemento corrente.
-*     Caso a lista esteja vazia, insere o primeiro elemento da lista.
-*
-*  $EP Parâmetros
-*     pLista   - ponteiro para a lista onde deve ser inserido o elemento
-*     iniciais - string com as iniciais do nome
-*	  nome     - string com o nome
-*
-*  $FV Valor retornado
-*     LIS_CondRetOK
-*     LIS_CondRetFaltouMemoria
-*
-***********************************************************************/
-
-   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-	   char * iniciais, char * nome);
-
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Inserir elemento após
-*
-*  $ED Descrição da função
-*     Insere novo elemento apás o elemento corrente.
-*     Caso a lista esteja vazia, insere o primeiro elemento da lista.
-*
-*  $EP Parâmetros
-*     Parâmetros
-*        pLista   - ponteiro para a lista onde deve ser inserido o elemento
-*        iniciais - string com as iniciais do nome
-*		 nome     - string com o nome
-*           
-*
-*  $FV Valor retornado
-*     Valor retornado
-*        LIS_CondRetOK
-*        LIS_CondRetFaltouMemoria
-*
-***********************************************************************/
-
-   LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-	   char * iniciais, char * nome) ;
 
 
 /***********************************************************************
