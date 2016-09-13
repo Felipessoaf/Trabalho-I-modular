@@ -174,8 +174,6 @@
 =procurarvalorelem lista4   "??"   ListaVazia
 =obtervalorelem    lista4   "???"  pNULL
 
-== 
-
 == Destruir uma lista vazia
 =esvaziarlista     lista4
 =destruirlista     lista4

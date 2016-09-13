@@ -50,39 +50,37 @@ LES - Laboratório de Engenharia de Software DI/PUC-Rio
   165  == Avançar em uma lista vazia
   169  == Retroceder em uma lista vazia
   173  == Procurar valor em uma lista vazia
-  177  ==
->>>    1  Linha:   179  O caso de teste anterior está vazio. 
-  179  == Destruir uma lista vazia
-  183  == Criar 10 listas simultaneamente
-  195  == Inserir elementos em diversas listas simultâneamente
-  217  == Destruir apenas uma lista
-  220  == Excluir elemento de lista vazia
-  224  == Procurar valor em lista vazia
-  227  == Obter valor de lista vazia
-  230  == Destruir lista vazia
-  233  == Testar avançar demais para frente
-  237  == Testar avançar demais para trás
-  241  == Inserir elemento antes
-  245  == Inserir elemento apos
-  249  == Procurar elemento que não está na lista
-  252  == Inserir diversos elementos
-  263  == Procurar valor de elemento da lista
-  269  == Verificar a lista de trás para diante
-  282  == Verificar a lista de frente para trás
-  294  == Verificar a lista andando demais de trás para diante
-  298  == Verificar a lista andando demais de frente para trás
-  302  == Testar ir ao inicio
-  306  == Testar ir ao final
-  310  == Destruir lista vazia
-  314  == Destruir listas simultaneamente
-!!!    1  Linha:   323  // fim 
+  177  == Destruir uma lista vazia
+  181  == Criar 10 listas simultaneamente
+  193  == Inserir elementos em diversas listas simultâneamente
+  215  == Destruir apenas uma lista
+  218  == Excluir elemento de lista vazia
+  222  == Procurar valor em lista vazia
+  225  == Obter valor de lista vazia
+  228  == Destruir lista vazia
+  231  == Testar avançar demais para frente
+  235  == Testar avançar demais para trás
+  239  == Inserir elemento antes
+  243  == Inserir elemento apos
+  247  == Procurar elemento que não está na lista
+  250  == Inserir diversos elementos
+  261  == Procurar valor de elemento da lista
+  267  == Verificar a lista de trás para diante
+  280  == Verificar a lista de frente para trás
+  292  == Verificar a lista andando demais de trás para diante
+  296  == Verificar a lista andando demais de frente para trás
+  300  == Testar ir ao inicio
+  304  == Testar ir ao final
+  308  == Destruir lista vazia
+  312  == Destruir listas simultaneamente
+!!!    0  Linha:   321  // fim 
 
-!!! Número de linhas lidas:         323
-!!! Número de casos de teste:        58
+!!! Número de linhas lidas:         321
+!!! Número de casos de teste:        57
 !!! Número comandos corretos:       195
-!!! Número de falhas encontradas:     1
+!!! Número de falhas encontradas:     0
 
-!!! Foram encontrados problemas
+!!! Não foram encontrados problemas
 
 
 !!! Numero de espacos ainda alocados: 0

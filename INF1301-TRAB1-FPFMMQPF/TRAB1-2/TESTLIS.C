@@ -433,12 +433,7 @@ typedef struct tagConteudo {
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet = LIS_ExibirConteudoLista(vtListas[inxLista]);
-
-			 if (CondRet != LIS_CondRetOK)
-			 {
-				 return TST_CondRetErro;
-			 } /* if */
+			 LIS_ExibirConteudoLista(vtListas[inxLista]);
 
 			 return TST_CondRetOK;
 

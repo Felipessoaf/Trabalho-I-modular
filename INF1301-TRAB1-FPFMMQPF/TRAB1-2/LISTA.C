@@ -502,7 +502,7 @@
 *  Função: LIS  &Exibir conteudo lista
 *  ****/
 
-	LIS_tpCondRet LIS_ExibirConteudoLista(LIS_tppLista pLista)
+	void LIS_ExibirConteudoLista(LIS_tppLista pLista)
 	{
 
 		tpElemLista * aux;
@@ -511,14 +511,12 @@
 			assert(pLista != NULL);
 	#endif
 		
-		printf("INICIAIS\t\tNOME\n\n");
+		printf("\n\nINICIAIS\t\tNOME\n\n");
 		
 		for (aux = pLista->pOrigemLista; aux != NULL; aux = aux->pProx)
 		{
 			printf("%s\t\t%s\n",aux->pValor->iniciais,aux->pValor->nome);
 		}
-
-		return LIS_CondRetOK;
 
 	} /* Fim função: LIS  &Exibir conteudo lista */
 

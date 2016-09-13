@@ -45,6 +45,10 @@
 == Verificar ObterValor relativo a lista vazia
 =obtervalorelem  lista0   "???"   "???"     pNULL
 
+== Excluir elemento lista vazia
+=excluirelem     lista0             OK
+=recuperar
+
 == Inserir elemento ordenado
 =inselemord      lista0   str01   str02   OK
 =obtervalorelem  lista0   str01   str02   pNaoNULL
@@ -295,6 +299,9 @@
 == Destruir lista vazia
 =esvaziarlista   lista0
 =destruirlista   lista0
+
+== Exibir lista
+=exibirconteudo lista6 
 
 == Destruir listas simultaneamente
 =destruirlista   lista1

@@ -325,12 +325,9 @@ typedef struct tagConteudo tpConteudo;
 *  $EP Parâmetros
 *     pLista - ponteiro para a lista a ser exibida
 *
-*  $FV Valor retornado
-*     LIS_CondRetOK
-*
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ExibirConteudoLista(LIS_tppLista pLista);
+   void LIS_ExibirConteudoLista(LIS_tppLista pLista);
 
 #undef LISTA_EXT
 
