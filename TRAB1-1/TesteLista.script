@@ -37,6 +37,10 @@
 == Verificar ExcluirElemento relativo a lista vazia
 =excluirelem       lista0          ListaVazia
 
+== Verificar condição de retorno da ExcluirElemento
+=excluirelem       lista0          OK
+=recuperar
+
 == Verificar ObterValor relativo a lista vazia
 =obtervalorelem    lista0   "???"  pNULL
 
@@ -123,6 +127,7 @@
 
 == Procurar elemento que não está na lista
 =procurarvalorelem lista2   str4   NaoAchou
+=obtervalorelem    lista2   str0   pNaoNULL
 
 == Destruir a lista
 =destruirlista     lista2
@@ -159,12 +164,17 @@
 
 == Avançar em uma lista vazia
 =avancarelem       lista4   1      ListaVazia
+=obtervalorelem    lista4   "???"  pNULL
 
 == Retroceder em uma lista vazia
 =avancarelem       lista4   -1     ListaVazia
+=obtervalorelem    lista4   "???"  pNULL
 
 == Procurar valor em uma lista vazia
 =procurarvalorelem lista4   "??"   ListaVazia
+=obtervalorelem    lista4   "???"  pNULL
+
+== 
 
 == Destruir uma lista vazia
 =esvaziarlista     lista4
