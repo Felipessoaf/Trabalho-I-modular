@@ -14,6 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  X		  fpf	24/set/2016	Incluido teste da LIS_AlterarElemento
 *     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
@@ -41,6 +42,7 @@ static const char OBTER_NO_CMD            [ ] = "=obterNo"           ;
 static const char EXCLUIR_NO_CMD          [ ] = "=excluirNoCorrente" ;
 static const char IR_PROX_CMD             [ ] = "=irProx"            ;
 static const char IR_ANT_CMD              [ ] = "=irAnt"             ;
+static const char ALTERAR_NO_CMD		  [ ] = "=alterarNoCorrente" ;
 static const char DESTRUIR_LISTA_CMD      [ ] = "=destroiLista"      ;
 
 
@@ -85,6 +87,7 @@ static int  ValidarInxLista( int inxLista , int Modo ) ;
 *     =excluirNoCorrente            inxLista
 *     =irProx                       inxLista           CondRetEsp
 *     =irAnt                        inxLista           CondRetEsp
+*	  =alterarNoCorrente			inxLista  char	   CondRetEsp
 *     =destroiLista                 inxLista           CondRetEsp
 *
 ***********************************************************************/
@@ -122,7 +125,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 			if (   ( numLidos != 3 )
 				|| ( ! ValidarInxLista( inxLista , VAZIO ) ) 
-				|| ( strlen( StringIdLista ) > DIM_ID_LISTA ) )
+				|| ( strlen( StringIdLista ) > DIM_ID_LISTA-1 ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
@@ -132,7 +135,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 			if( vtListas[ inxLista ] == NULL )
 			{
-				CondRet = TST_CondRetErro;
+				CondRet = TST_CondRetMemoria;
 			}
 			else
 			{
@@ -156,6 +159,20 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				|| ( ! ValidarInxLista( inxLista , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
+			} /* if */
+
+			if ( vtListas[ inxLista ] == NULL )
+			{
+				return TST_CompararInt(CondRetEsp, LIS_CondRetNaoExiste,
+					"Lista deveria existir.");
+			} /* if */
+			else
+			{
+				if (CondRetEsp != LIS_CondRetOK)
+				{
+					return TST_CompararInt(CondRetEsp, LIS_CondRetOK,
+						"Lista nao deveria existir.");
+				} /* if */
 			} /* if */
 
 			LIS_DestruirLista( vtListas[ inxLista ] ) ;
@@ -192,7 +209,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 		} /* fim ativa: LIS  &Obter referência para o identificador da lista */
 
-	/* Testar inserir elemento apos */
+	/* Testar inserir elemento */
 
 		else if ( strcmp( ComandoTeste , INSERIR_NO_CMD ) == 0 )
 		{
@@ -224,7 +241,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao inserir no." ) ;
 
-		} /* fim ativa: Testar inserir elemento apos */
+		} /* fim ativa: Testar inserir elemento */
 
 	/* LIS  &Excluir elemento */
 
@@ -319,6 +336,42 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				"Condicao de retorno errada ao ir para o proximo nó." ) ;
 
 		} /* fim ativa: LIS  &Ir para o proximo elemento */
+
+	/* LIS  &Alterar o valor contido no elemento */
+
+		else if (strcmp(ComandoTeste, ALTERAR_NO_CMD) == 0)
+		{
+
+			numLidos = LER_LerParametros("ici",
+				&inxLista, &CharDado, &CondRetEsp);
+
+			if ((numLidos != 3)
+				|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			if (vtListas[inxLista] == NULL)
+			{
+				return TST_CompararInt(CondRetEsp, LIS_CondRetNaoExiste,
+					"Lista deveria existir.");
+			} /* if */
+
+			pDado = (char *)malloc(sizeof(char));
+
+			if (pDado == NULL)
+			{
+				return TST_CondRetMemoria;
+			} /* if */
+
+			*pDado = CharDado;
+
+			CondRet = LIS_AlterarElemento(vtListas[inxLista],pDado);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao alterar nó corrente.");
+
+		} /* fim ativa: LIS  &Alterar o valor contido no elemento */
 
 
 	return TST_CondRetNaoConhec ;

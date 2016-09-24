@@ -168,7 +168,7 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Inserir elemento após
+*  Função: LIS  &Inserir elemento
 *  ****/
 
    LIS_tpCondRet LIS_InserirElemento( LIS_tppLista pLista ,
@@ -182,7 +182,7 @@
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir após */
+      /* Criar elemento a inserir após */
 
          pElem = CriarElemento( pLista , pValor ) ;
          if ( pElem == NULL )
@@ -216,7 +216,7 @@
                   
          return LIS_CondRetOK ;
 
-   } /* Fim função: LIS  &Inserir elemento após */
+   } /* Fim função: LIS  &Inserir elemento */
 
 /***************************************************************************
 *
