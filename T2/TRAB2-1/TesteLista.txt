@@ -1,0 +1,275 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: D:\Users\mdime\Documents\PUC\INF1301\T1\T2\TRAB2-1\TRAB2-1.exe
+
+      Arquivo de teste:    TesteLista.script
+
+
+!!!    0  Linha:     1  // Script:    TesteLista.script 
+!!!    0  Linha:     2  // Autor:     Arndt Von Staa, Pedro Ferreira, Felipe Pessoa, Matheus de Mello 
+!!!    0  Linha:     3  // Data:      08/set/2016 
+!!!    0  Linha:     4  // Propósito: Testar o módulo lista apontando pra struct conteudo duplamente encadeada 
+    6  == Inicializar valores
+   52  == Criar lista
+   55  == excluir no de lista vazia
+>>>    1  Linha:    56  A lista está vazia. Deveria ser: 0  É: 2
+<<<    0  Linha:    57  Falha esperada foi recuperada. 
+   59  == Obter indice de lista
+   62  == Obter valor de no de lista vazia
+   65  == Ir para o próximo nó em lista vazia
+   68  == Ir para o nó anterior em lista vazia
+   71  == Destruir lista vazia
+   76  == Criar lista
+   79  == Obter indice de lista
+   82  == Inserir no na lista
+   86  == Ir para o próximo nó quando o corrente já é o último nó da lista
+   89  == Ir para o nó anterior quando o corrente já é o último nó da lista
+   92  == Excluir No
+   95  == Destruir lista cheia
+  108  == Criar lista com indice de 4 caracteres
+  111  == Obter indice de lista com 4 caracteres
+  114  == Destruir lista
+!!!    0  Linha:   119  // == Verificar ExcluirElemento relativo a lista vazia 
+!!!    0  Linha:   120  // =excluirelem       lista0          ListaVazia 
+!!!    0  Linha:   122  ////=//= Verificar condição de retorno da ExcluirElemento 
+!!!    0  Linha:   123  ////=excluirelem       lista0          OK 
+!!!    0  Linha:   124  ////=recuperar 
+!!!    0  Linha:   126  ////=//= Verificar ObterValor relativo a lista vazia 
+!!!    0  Linha:   127  ////=obtervalorelem    lista0   "???"  pNULL 
+!!!    0  Linha:   129  ////=//= Inserir elemento em lista vazia 
+!!!    0  Linha:   130  ////=inselemantes      lista0   str0   OK 
+!!!    0  Linha:   131  ////=obtervalorelem    lista0   str0   pNaoNULL 
+!!!    0  Linha:   133  //=//= Inserir elemento após primeiro 
+!!!    0  Linha:   134  //=inselemapos       lista0   str1   OK 
+!!!    0  Linha:   135  //=obtervalorelem    lista0   str1   pNaoNULL 
+!!!    0  Linha:   137  //=//= Inserir elemento antes do último 
+!!!    0  Linha:   138  //=inselemantes      lista0   str2   OK 
+!!!    0  Linha:   139  //=obtervalorelem    lista0   str2   pNaoNULL 
+!!!    0  Linha:   141  //=//= Excluir elemento do meio 
+!!!    0  Linha:   142  //=obtervalorelem    lista0   str2   pNaoNULL 
+!!!    0  Linha:   143  //=excluirelem       lista0          OK 
+!!!    0  Linha:   145  //=//= Excluir elemento do início 
+!!!    0  Linha:   146  //=obtervalorelem    lista0   str0   pNaoNULL 
+!!!    0  Linha:   147  //=excluirelem       lista0          OK 
+!!!    0  Linha:   149  //=//= Excluir elemento final, único 
+!!!    0  Linha:   150  //=obtervalorelem    lista0   str1   pNaoNULL 
+!!!    0  Linha:   151  //=excluirelem       lista0          OK 
+!!!    0  Linha:   153  //=//= Ver se a lista ficou vazia 
+!!!    0  Linha:   154  //=obtervalorelem    lista0   "???"  pNULL 
+!!!    0  Linha:   156  //=//= Destruir a lista 
+!!!    0  Linha:   157  //=destruirlista     lista0 
+!!!    0  Linha:   159  //=//= Criar uma lista com dois elementos 
+!!!    0  Linha:   160  //=criarlista        lista1 
+!!!    0  Linha:   161  //=inselemapos       lista1   str0   OK 
+!!!    0  Linha:   162  //=inselemapos       lista1   str1   OK 
+!!!    0  Linha:   164  //=//= Esvaziar a lista e ver se ficou vazia 
+!!!    0  Linha:   165  //=esvaziarlista     lista1 
+!!!    0  Linha:   166  //=obtervalorelem    lista1   "???"  pNULL 
+!!!    0  Linha:   168  //=//= Destruir a lista 
+!!!    0  Linha:   169  //=destruirlista     lista1 
+!!!    0  Linha:   171  //=//= Criar uma lista com quatro elementos 
+!!!    0  Linha:   172  //=criarlista        lista2 
+!!!    0  Linha:   173  //=inselemapos       lista2   str0   OK 
+!!!    0  Linha:   174  //=inselemapos       lista2   str1   OK 
+!!!    0  Linha:   175  //=inselemapos       lista2   str2   OK 
+!!!    0  Linha:   176  //=inselemapos       lista2   str3   OK 
+!!!    0  Linha:   178  //=//= Verificar a lista de trás para diante 
+!!!    0  Linha:   179  //=obtervalorelem    lista2   str3   pNaoNULL 
+!!!    0  Linha:   180  //=avancarelem       lista2   -1     OK 
+!!!    0  Linha:   181  //=obtervalorelem    lista2   str2   pNaoNULL 
+!!!    0  Linha:   182  //=avancarelem       lista2   -1     OK 
+!!!    0  Linha:   183  //=obtervalorelem    lista2   str1   pNaoNULL 
+!!!    0  Linha:   184  //=avancarelem       lista2   -1     OK 
+!!!    0  Linha:   185  //=obtervalorelem    lista2   str0   pNaoNULL 
+!!!    0  Linha:   186  //=avancarelem       lista2   -1     FimLista 
+!!!    0  Linha:   188  //=//= Verificar a lista de frente para trás 
+!!!    0  Linha:   189  //=obtervalorelem    lista2   str0   pNaoNULL 
+!!!    0  Linha:   190  //=avancarelem       lista2   1      OK 
+!!!    0  Linha:   191  //=obtervalorelem    lista2   str1   pNaoNULL 
+!!!    0  Linha:   192  //=avancarelem       lista2   1      OK 
+!!!    0  Linha:   193  //=obtervalorelem    lista2   str2   pNaoNULL 
+!!!    0  Linha:   194  //=avancarelem       lista2   1      OK 
+!!!    0  Linha:   195  //=obtervalorelem    lista2   str3   pNaoNULL 
+!!!    0  Linha:   196  //=avancarelem       lista2   1      FimLista 
+!!!    0  Linha:   198  //=//= Verificar a lista andando demais de trás para diante 
+!!!    0  Linha:   199  //=avancarelem       lista2   -10    FimLista 
+!!!    0  Linha:   200  //=obtervalorelem    lista2   str0   pNaoNULL 
+!!!    0  Linha:   202  //=//= Verificar a lista andando demais de frente para trás 
+!!!    0  Linha:   203  //=avancarelem       lista2   10     FimLista 
+!!!    0  Linha:   204  //=obtervalorelem    lista2   str3   pNaoNULL 
+!!!    0  Linha:   206  //=//= Procurar elemento da lista 
+!!!    0  Linha:   207  //=procurarvalorelem lista2   str0   OK 
+!!!    0  Linha:   208  //=obtervalorelem    lista2   str0   pNaoNULL 
+!!!    0  Linha:   210  //=//= Procurar elemento que não está na lista 
+!!!    0  Linha:   211  //=procurarvalorelem lista2   str4   NaoAchou 
+!!!    0  Linha:   212  //=obtervalorelem    lista2   str0   pNaoNULL 
+!!!    0  Linha:   214  //=//= Destruir a lista 
+!!!    0  Linha:   215  //=destruirlista     lista2 
+!!!    0  Linha:   217  //=//= Criar uma lista com cinco elementos 
+!!!    0  Linha:   218  //=criarlista        lista3 
+!!!    0  Linha:   219  //=inselemapos       lista3   str0   OK 
+!!!    0  Linha:   220  //=inselemapos       lista3   str1   OK 
+!!!    0  Linha:   221  //=inselemapos       lista3   str2   OK 
+!!!    0  Linha:   222  //=inselemapos       lista3   str3   OK 
+!!!    0  Linha:   223  //=inselemapos       lista3   str4   OK 
+!!!    0  Linha:   225  //=//= Ir para o final da lista e tentar avançar 
+!!!    0  Linha:   226  //=irfinal           lista3 
+!!!    0  Linha:   227  //=avancarelem       lista3   1      FimLista 
+!!!    0  Linha:   229  //=//= Ir para o inicio da lista e tentar avançar 
+!!!    0  Linha:   230  //=irinicio          lista3 
+!!!    0  Linha:   231  //=avancarelem       lista3   -1     FimLista 
+!!!    0  Linha:   233  //=//= Destruir a Lista 
+!!!    0  Linha:   234  //=destruirlista     lista3 
+!!!    0  Linha:   236  //=//= Criar uma lista 
+!!!    0  Linha:   237  //=criarlista        lista4 
+!!!    0  Linha:   239  //=//= Ir ao inicio de lista vazia 
+!!!    0  Linha:   240  //=irinicio          lista4 
+!!!    0  Linha:   241  //=obtervalorelem    lista4   "???"  pNULL 
+!!!    0  Linha:   243  //=//= Ir ao fim de lista vazia 
+!!!    0  Linha:   244  //=irfinal           lista4 
+!!!    0  Linha:   245  //=obtervalorelem    lista4   "???"  pNULL 
+!!!    0  Linha:   247  //=//= Avançar em uma lista vazia 
+!!!    0  Linha:   248  //=avancarelem       lista4   1      ListaVazia 
+!!!    0  Linha:   249  //=obtervalorelem    lista4   "???"  pNULL 
+!!!    0  Linha:   251  //=//= Retroceder em uma lista vazia 
+!!!    0  Linha:   252  //=avancarelem       lista4   -1     ListaVazia 
+!!!    0  Linha:   253  //=obtervalorelem    lista4   "???"  pNULL 
+!!!    0  Linha:   255  //=//= Procurar valor em uma lista vazia 
+!!!    0  Linha:   256  //=procurarvalorelem lista4   "??"   ListaVazia 
+!!!    0  Linha:   257  //=obtervalorelem    lista4   "???"  pNULL 
+!!!    0  Linha:   259  //=//= Destruir uma lista vazia 
+!!!    0  Linha:   260  //=esvaziarlista     lista4 
+!!!    0  Linha:   261  //=destruirlista     lista4 
+!!!    0  Linha:   263  //=//= Criar 10 listas simultaneamente 
+!!!    0  Linha:   264  //=criarlista        lista0 
+!!!    0  Linha:   265  //=criarlista        lista1 
+!!!    0  Linha:   266  //=criarlista        lista2 
+!!!    0  Linha:   267  //=criarlista        lista3 
+!!!    0  Linha:   268  //=criarlista        lista4 
+!!!    0  Linha:   269  //=criarlista        lista5 
+!!!    0  Linha:   270  //=criarlista        lista6 
+!!!    0  Linha:   271  //=criarlista        lista7 
+!!!    0  Linha:   272  //=criarlista        lista8 
+!!!    0  Linha:   273  //=criarlista        lista9 
+!!!    0  Linha:   275  //=//= Inserir elementos em diversas listas simultâneamente 
+!!!    0  Linha:   276  //=inselemapos       lista0   str0   OK 
+!!!    0  Linha:   277  //=inselemapos       lista1   str1   OK 
+!!!    0  Linha:   278  //=inselemapos       lista2   str2   OK 
+!!!    0  Linha:   279  //=inselemapos       lista3   str3   OK 
+!!!    0  Linha:   280  //=inselemapos       lista4   str4   OK 
+!!!    0  Linha:   281  //=inselemapos       lista5   str0   OK 
+!!!    0  Linha:   282  //=inselemapos       lista6   str1   OK 
+!!!    0  Linha:   283  //=inselemapos       lista7   str2   OK 
+!!!    0  Linha:   284  //=inselemapos       lista8   str3   OK 
+!!!    0  Linha:   285  //=inselemapos       lista9   str4   OK 
+!!!    0  Linha:   286  //=obtervalorelem    lista0   str0   pNaoNULL 
+!!!    0  Linha:   287  //=obtervalorelem    lista1   str1   pNaoNULL 
+!!!    0  Linha:   288  //=obtervalorelem    lista2   str2   pNaoNULL 
+!!!    0  Linha:   289  //=obtervalorelem    lista3   str3   pNaoNULL 
+!!!    0  Linha:   290  //=obtervalorelem    lista4   str4   pNaoNULL 
+!!!    0  Linha:   291  //=obtervalorelem    lista5   str0   pNaoNULL 
+!!!    0  Linha:   292  //=obtervalorelem    lista6   str1   pNaoNULL 
+!!!    0  Linha:   293  //=obtervalorelem    lista7   str2   pNaoNULL 
+!!!    0  Linha:   294  //=obtervalorelem    lista8   str3   pNaoNULL 
+!!!    0  Linha:   295  //=obtervalorelem    lista9   str4   pNaoNULL 
+!!!    0  Linha:   297  //=//= Destruir apenas uma lista 
+!!!    0  Linha:   298  //=destruirlista     lista9 
+!!!    0  Linha:   300  //=//= Excluir elemento de lista vazia 
+!!!    0  Linha:   301  //=esvaziarlista     lista8 
+!!!    0  Linha:   302  //=excluirelem       lista8          ListaVazia 
+!!!    0  Linha:   304  //=//= Procurar valor em lista vazia 
+!!!    0  Linha:   305  //=procurarvalorelem lista8   "??"   ListaVazia 
+!!!    0  Linha:   307  //=//= Obter valor de lista vazia 
+!!!    0  Linha:   308  //=obtervalorelem    lista8   "??"   pNULL 
+!!!    0  Linha:   310  //=//= Destruir lista vazia 
+!!!    0  Linha:   311  //=destruirlista     lista8 
+!!!    0  Linha:   313  //=//= Testar avançar demais para frente 
+!!!    0  Linha:   314  //=avancarelem       lista0   1      FimLista 
+!!!    0  Linha:   315  //=avancarelem       lista1   1      FimLista 
+!!!    0  Linha:   317  //=//= Testar avançar demais para trás 
+!!!    0  Linha:   318  //=avancarelem       lista2   -1     FimLista 
+!!!    0  Linha:   319  //=avancarelem       lista3   -1     FimLista 
+!!!    0  Linha:   321  //=//= Inserir elemento antes 
+!!!    0  Linha:   322  //=inselemantes      lista4   str0   OK 
+!!!    0  Linha:   323  //=obtervalorelem    lista4   str0   pNaoNULL 
+!!!    0  Linha:   325  //=//= Inserir elemento apos 
+!!!    0  Linha:   326  //=inselemapos       lista5   str1   OK 
+!!!    0  Linha:   327  //=obtervalorelem    lista5   str1   pNaoNULL 
+!!!    0  Linha:   329  //=//= Procurar elemento que não está na lista 
+!!!    0  Linha:   330  //=procurarvalorelem lista5   str3   NaoAchou 
+!!!    0  Linha:   332  //=//= Inserir diversos elementos 
+!!!    0  Linha:   333  //=inselemantes      lista6   str0   OK 
+!!!    0  Linha:   334  //=obtervalorelem    lista6   str0   pNaoNULL 
+!!!    0  Linha:   335  //=avancarelem       lista6   1      OK 
+!!!    0  Linha:   336  //=inselemapos       lista6   str2   OK 
+!!!    0  Linha:   337  //=obtervalorelem    lista6   str2   pNaoNULL 
+!!!    0  Linha:   338  //=inselemapos       lista6   str3   OK 
+!!!    0  Linha:   339  //=obtervalorelem    lista6   str3   pNaoNULL 
+!!!    0  Linha:   340  //=inselemapos       lista6   str4   OK 
+!!!    0  Linha:   341  //=obtervalorelem    lista6   str4   pNaoNULL 
+!!!    0  Linha:   343  //=//= Procurar valor de elemento da lista 
+!!!    0  Linha:   344  //=procurarvalorelem lista6   str2   OK 
+!!!    0  Linha:   345  //=obtervalorelem    lista6   str2   pNaoNULL 
+!!!    0  Linha:   346  //=procurarvalorelem lista6   str4   OK 
+!!!    0  Linha:   347  //=obtervalorelem    lista6   str4   pNaoNULL 
+!!!    0  Linha:   349  //=//= Verificar a lista de trás para diante 
+!!!    0  Linha:   350  //=irfinal           lista6 
+!!!    0  Linha:   351  //=obtervalorelem    lista6   str4   pNaoNULL 
+!!!    0  Linha:   352  //=avancarelem       lista6   -1     OK 
+!!!    0  Linha:   353  //=obtervalorelem    lista6   str3   pNaoNULL 
+!!!    0  Linha:   354  //=avancarelem       lista6   -1     OK 
+!!!    0  Linha:   355  //=obtervalorelem    lista6   str2   pNaoNULL 
+!!!    0  Linha:   356  //=avancarelem       lista6   -1     OK 
+!!!    0  Linha:   357  //=obtervalorelem    lista6   str1   pNaoNULL 
+!!!    0  Linha:   358  //=avancarelem       lista6   -1     OK 
+!!!    0  Linha:   359  //=obtervalorelem    lista6   str0   pNaoNULL 
+!!!    0  Linha:   360  //=avancarelem       lista6   -1     FimLista 
+!!!    0  Linha:   362  //=//= Verificar a lista de frente para trás 
+!!!    0  Linha:   363  //=obtervalorelem    lista6   str0   pNaoNULL 
+!!!    0  Linha:   364  //=avancarelem       lista6   1      OK 
+!!!    0  Linha:   365  //=obtervalorelem    lista6   str1   pNaoNULL 
+!!!    0  Linha:   366  //=avancarelem       lista6   1      OK 
+!!!    0  Linha:   367  //=obtervalorelem    lista6   str2   pNaoNULL 
+!!!    0  Linha:   368  //=avancarelem       lista6   1      OK 
+!!!    0  Linha:   369  //=obtervalorelem    lista6   str3   pNaoNULL 
+!!!    0  Linha:   370  //=avancarelem       lista6   1      OK 
+!!!    0  Linha:   371  //=obtervalorelem    lista6   str4   pNaoNULL 
+!!!    0  Linha:   372  //=avancarelem       lista6   1      FimLista 
+!!!    0  Linha:   374  //=//= Verificar a lista andando demais de trás para diante 
+!!!    0  Linha:   375  //=avancarelem       lista6   -10    FimLista 
+!!!    0  Linha:   376  //=obtervalorelem    lista6   str0   pNaoNULL 
+!!!    0  Linha:   378  //=//= Verificar a lista andando demais de frente para trás 
+!!!    0  Linha:   379  //=avancarelem       lista6   10     FimLista 
+!!!    0  Linha:   380  //=obtervalorelem    lista6   str4   pNaoNULL 
+!!!    0  Linha:   382  //=//= Testar ir ao inicio 
+!!!    0  Linha:   383  //=irinicio          lista6 
+!!!    0  Linha:   384  //=avancarelem       lista6   -1     FimLista 
+!!!    0  Linha:   386  //=//= Testar ir ao final 
+!!!    0  Linha:   387  //=irfinal           lista6 
+!!!    0  Linha:   388  //=avancarelem       lista6   1      FimLista 
+!!!    0  Linha:   390  //=//= Destruir lista vazia 
+!!!    0  Linha:   391  //=esvaziarlista     lista0 
+!!!    0  Linha:   392  //=destruirlista     lista0 
+!!!    0  Linha:   394  //=//= Destruir listas simultaneamente 
+!!!    0  Linha:   395  //=destruirlista     lista1 
+!!!    0  Linha:   396  //=destruirlista     lista2 
+!!!    0  Linha:   397  //=destruirlista     lista3 
+!!!    0  Linha:   398  //=destruirlista     lista4 
+!!!    0  Linha:   399  //=destruirlista     lista5 
+!!!    0  Linha:   400  //=destruirlista     lista6 
+!!!    0  Linha:   401  //=destruirlista     lista7 
+!!!    0  Linha:   403  // fim 
+
+!!! Número de linhas lidas:         403
+!!! Número de casos de teste:        18
+!!! Número comandos corretos:        57
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

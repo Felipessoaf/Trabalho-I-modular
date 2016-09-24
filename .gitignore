@@ -1,0 +1,10 @@
+*.user
+*.filters
+*.vcxproj
+T2/TRAB2-1/Debug/
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.ilk
+*.pdb
