@@ -108,12 +108,9 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	char * pDado ;
 
 	int ValEsp = -1 ;
-
-	int i ;
-
+	
 	int numElem = -1 ;
-
-
+	
 
 	/* LIS  &Criar lista */
 

@@ -81,7 +81,7 @@
 
    } LIS_tpLista ;
 
-/***** Protótipos das funções encapuladas no módulo *****/
+/***** Protótipos das funções encapsuladas no módulo *****/
 
    static void LimparCabeca( LIS_tppLista pLista ) ;
 
@@ -93,7 +93,7 @@
    static void LiberarElemento( LIS_tppLista   pLista ,
                                 tpElemLista  * pElem   ) ;
 
-   LIS_tpCondRet AvancarElementoCorrente( LIS_tppLista pLista ,
+   static LIS_tpCondRet AvancarElementoCorrente( LIS_tppLista pLista ,
 										  int numElem ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
