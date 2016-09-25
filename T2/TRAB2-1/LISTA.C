@@ -14,6 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     6       mmq   23/set/2016 adaptar para a utilizacao na aplicacao "Juiz de Xadrez"
 *     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
