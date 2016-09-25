@@ -78,8 +78,6 @@ static int  ValidarInxLista( int inxLista , int Modo ) ;
 *
 *     Comandos disponíveis:
 *
-*     =resetteste
-*           - anula o vetor de listas. Provoca vazamento de memória
 *     =criarLista                   inxLista  string   CondRetEsp
 *     =obterIdLista                 inxLista  string  
 *     =inserirNo                    inxLista  char     CondRetEsp  

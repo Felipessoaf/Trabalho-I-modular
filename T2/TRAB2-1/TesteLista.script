@@ -68,8 +68,17 @@
 == Ir para o nó anterior em lista vazia
 =irAnt              lista0           ListaVazia
 
+== Alterar nó em lista vazia
+=alterarNoCorrente  lista0   char2   ListaVazia
+
 == Destruir lista vazia
 =destroiLista       lista0           OK  
+
+//== Destruir lista inexistente
+//=destroiLista		lista0			ListaNaoExiste
+
+//== Alterar nó em lista inexistente
+//=alterarNoCorrente  lista1   char2   ListaNaoExiste
 
 
 
@@ -86,10 +95,36 @@
 == Ir para o próximo nó quando o corrente já é o último nó da lista
 =irProx             lista1   FimLista
 
-== Ir para o nó anterior quando o corrente já é o último nó da lista
+== Ir para o nó anterior quando o corrente já é o primeiro nó da lista
 =irAnt              lista1   OrigemLista
 
 == Excluir No
+=excluirNoCorrente  lista1
+
+== Inserir vários nós
+=inserirNo          lista1   char1   OK
+=obterNo            lista1   char1   OK
+=inserirNo          lista1   char2   OK
+=obterNo            lista1   char2   OK
+=inserirNo          lista1   char3   OK
+=obterNo            lista1   char3   OK
+=inserirNo          lista1   char4   OK
+=obterNo            lista1   char4   OK
+
+== Ir para o nó anterior
+=irAnt				lista1	 OK
+
+== Ir para o próximo nó
+=irProx				lista1   OK
+
+== Alterar nó
+=alterarNoCorrente  lista1   char2   OK
+=obterNo			lista1   char2   OK
+
+== Excluir Nós
+=excluirNoCorrente  lista1
+=excluirNoCorrente  lista1
+=excluirNoCorrente  lista1
 =excluirNoCorrente  lista1
 
 == Destruir lista cheia
