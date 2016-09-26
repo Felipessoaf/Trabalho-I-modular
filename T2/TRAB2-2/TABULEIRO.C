@@ -71,6 +71,9 @@
 		int min;
 			/* Numero minimo de vezes que esse movimento pode ser repetido em uma jogada */
 
+		int primeiroMov;
+			/* Movimento que so pode ser executado na primeira jogada daquela peça */
+
 	} tpMovimentoPeca;
 
 /***** Protótipos das funções encapsuladas no módulo *****/
