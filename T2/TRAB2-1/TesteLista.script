@@ -59,6 +59,10 @@
 == Obter indice de lista
 =obterIdLista       lista0   id0
 
+== Obter indice de lista
+=obterIdLista       lista0   id9
+=recuperar
+
 == Obter valor de no de lista vazia
 =obterNo            lista0   char0   ListaVazia
 
@@ -73,6 +77,7 @@
 
 == Destruir lista vazia
 =destroiLista       lista0           OK  
+
 
 == Criar lista
 =criarLista         lista1   id1     OK
@@ -132,13 +137,23 @@
 
 
 
-== Criar lista com indice de 4 caracteres
+== Criar listas com indice de 4 caracteres
 =criarLista        lista4   id4    OK
+=criarLista		   lista5	id5	   OK
+=criarLista		   lista6	id6	   OK
 
-== Obter indice de lista com 4 caracteres
+== Obter indices de listas com 4 caracteres
 =obterIdLista      lista4   id4
+=obterIdLista      lista5   id5
+=obterIdLista      lista6   id6
 
-== Destruir lista
+== Destruir listas
 =destroiLista      lista4         OK
+=destroiLista      lista5         OK
+=destroiLista      lista6         OK
+
+== Criar lista com indice com mais de 4 caracteres
+=criarLista        lista3   id9    OK
+=recuperar
 
 // fim

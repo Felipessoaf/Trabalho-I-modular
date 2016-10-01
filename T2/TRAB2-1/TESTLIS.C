@@ -60,6 +60,8 @@ static const char DESTRUIR_LISTA_CMD      [ ] = "=destroiLista"      ;
 #define DIM_VT_LISTA   10
 #define DIM_ID_LISTA   5
 
+#define DIM_VALOR     100
+
 LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -102,6 +104,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	TST_tpCondRet CondRet ;
 	TST_tpCondRet CondRetAux;
 
+	char IdListaDado[DIM_VALOR];
 	char StringIdLista[ DIM_ID_LISTA ] ;
 	char * pIdLista;
 
@@ -119,14 +122,16 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		{
 
 			numLidos = LER_LerParametros( "isi" ,
-					&inxLista, StringIdLista, &CondRetEsp ) ;
+				&inxLista, IdListaDado, &CondRetEsp);
 
 			if (   ( numLidos != 3 )
 				|| ( ! ValidarInxLista( inxLista , VAZIO ) ) 
-				|| ( strlen( StringIdLista ) > DIM_ID_LISTA-1 ) )
+				|| (strlen(IdListaDado) > DIM_ID_LISTA - 1))
 			{
 				return TST_CondRetParm ;
 			} /* if */
+
+			strcpy(StringIdLista, IdListaDado);
 
 			CondRet = 
 				LIS_CriarLista(StringIdLista, DestruirValor,
@@ -165,13 +170,16 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		{
 
 			numLidos = LER_LerParametros( "is" ,
-					&inxLista, StringIdLista ) ;
+				&inxLista, IdListaDado);
 
 			if (   ( numLidos != 2 )
-				|| ( ! ValidarInxLista( inxLista , NAO_VAZIO ) ) )
+				|| ( ! ValidarInxLista( inxLista , NAO_VAZIO ) ) 
+				|| (strlen(IdListaDado) > DIM_ID_LISTA - 1))
 			{
 				return TST_CondRetParm ;
 			} /* if */
+
+			strcpy(StringIdLista, IdListaDado);
 
 			pIdLista = NULL;
 			CondRet = LIS_ObterId(vtListas[inxLista], &pIdLista);
