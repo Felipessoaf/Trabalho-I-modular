@@ -104,16 +104,17 @@
 *  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tppLista LIS_CriarLista( char * id,
-								void   ( * ExcluirValor ) ( void * pDado ) )
+   LIS_tpCondRet LIS_CriarLista(char * id,
+								void   ( * ExcluirValor ) ( void * pDado ), 
+								LIS_tppLista * pLista1)
    {
 
-      LIS_tpLista * pLista = NULL ;
+	  LIS_tppLista pLista;
 
       pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista ) ) ;
       if ( pLista == NULL )
       {
-         return NULL ;
+         return LIS_CondRetFaltouMemoria ;
       } /* if */
 
       LimparCabeca( pLista ) ;
@@ -121,14 +122,16 @@
 	  pLista->pIdLista = ( char * ) malloc( ( strlen( id ) + 1 ) * sizeof( char ) );
 	  if( pLista-> pIdLista == NULL )
 	  {
-		  return NULL;
+		  return LIS_CondRetFaltouMemoria;
 	  } /* if */
 
 	  strcpy( pLista->pIdLista, id );
 
       pLista->ExcluirValor = ExcluirValor ;
 
-      return pLista ;
+	  *pLista1 = pLista;
+
+      return LIS_CondRetOK;
 
    } /* Fim função: LIS  &Criar lista */
 
@@ -137,7 +140,7 @@
 *  Função: LIS  &Destruir lista
 *  ****/
 
-   void LIS_DestruirLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_DestruirLista(LIS_tppLista pLista)
    {
 
       #ifdef _DEBUG
@@ -149,6 +152,8 @@
 	  free( pLista->pIdLista );
       free( pLista ) ;
 
+	  return LIS_CondRetOK;
+
    } /* Fim função: LIS  &Destruir lista */
 
    /***************************************************************************
@@ -156,14 +161,16 @@
 *  Função: LIS  &Obter referência para o identificador da lista
 *  ****/
 
-   char * LIS_ObterId( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char ** pId)
    {
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
 
-	  return pLista->pIdLista;
+	  *pId = pLista->pIdLista;
+
+	  return LIS_CondRetOK;
 
    } /* Fim função: LIS  &Obter referência para o identificador da lista */
 
@@ -297,7 +304,8 @@
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   void * LIS_ObterElemento( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_ObterElemento(LIS_tppLista pLista,
+									void ** pValor	)
    {
 
       #ifdef _DEBUG
@@ -306,10 +314,13 @@
 
       if ( pLista->pElemCorr == NULL )
       {
-        return NULL ;
+        pValor = NULL ;
+		return LIS_CondRetListaVazia;
       } /* if */
 
-      return pLista->pElemCorr->pValor ;
+	  *pValor = pLista->pElemCorr->pValor;
+
+	  return LIS_CondRetOK;
 
    } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
 
@@ -348,7 +359,7 @@
 
    void LimparCabeca( LIS_tppLista pLista )
    {
-
+	  pLista->pIdLista = NULL;
       pLista->pOrigemLista = NULL ;
       pLista->pFimLista = NULL ;
       pLista->pElemCorr = NULL ;

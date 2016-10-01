@@ -114,23 +114,22 @@ typedef enum {
 *     Não existe identificador de tipo associado à lista.
 *
 *  $EP Parâmetros
+*	  id			- ponteiro para a string id que identifica a lista.
 *     ExcluirValor  - ponteiro para a função que processa a
 *                     exclusão do valor referenciado pelo elemento
 *                     a ser excluído.
 *                     Ver descrição do módulo.
+*	  pLista		- ponteiro para a lista a ser criada.
 *
 *  $FV Valor retornado
-*     Se executou corretamente retorna o ponteiro para a lista.
-*     Este ponteiro será utilizado pelas funções que manipulem esta lista.
-*
-*     Se ocorreu algum erro, por exemplo falta de memória ou dados errados,
-*     a função retornará NULL.
-*     Não será dada mais informação quanto ao problema ocorrido.
+*     LIS_CondRetOK - Executou corretamente.
+*	  LIS_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória 
 *
 ***********************************************************************/
 
-LIS_tppLista LIS_CriarLista( char * id,
-							void  ( * ExcluirValor ) ( void * pDado ) ) ;
+LIS_tpCondRet LIS_CriarLista(char * id,
+							 void  ( * ExcluirValor ) ( void * pDado ), 
+							 LIS_tppLista * pLista);
 
 
 /***********************************************************************
@@ -149,7 +148,7 @@ LIS_tppLista LIS_CriarLista( char * id,
 *
 ***********************************************************************/
 
-void LIS_DestruirLista( LIS_tppLista pLista ) ;
+LIS_tpCondRet LIS_DestruirLista(LIS_tppLista pLista);
 
 
 /***********************************************************************
@@ -169,7 +168,7 @@ void LIS_DestruirLista( LIS_tppLista pLista ) ;
 *
 ***********************************************************************/
 
-char * LIS_ObterId( LIS_tppLista pLista ) ;
+LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char ** pId);
 
 /***********************************************************************
 *
@@ -187,13 +186,12 @@ char * LIS_ObterId( LIS_tppLista pLista ) ;
 *           
 *
 *  $FV Valor retornado
-*     Valor retornado
 *        LIS_CondRetOK
 *        LIS_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_InserirElemento( LIS_tppLista pLista ,
+LIS_tpCondRet LIS_InserirElemento( LIS_tppLista pLista ,
                                       void * pValor         ) ;
 
 
@@ -249,6 +247,7 @@ LIS_tpCondRet LIS_AlterarElemento(LIS_tppLista pLista,
 *
 *  $EP Parâmetros
 *     pLista - ponteiro para a lista de onde se quer o valor
+*	  pValor - ponteiro onde será armazenado o valor
 *
 *  $FV Valor retornado
 *     não NULL - se o elemento corrente existe
@@ -257,7 +256,8 @@ LIS_tpCondRet LIS_AlterarElemento(LIS_tppLista pLista,
 *
 ***********************************************************************/
 
-void * LIS_ObterElemento( LIS_tppLista pLista ) ;
+LIS_tpCondRet LIS_ObterElemento(LIS_tppLista pLista,
+								void ** pValor	  ) ;
 
 
 /***********************************************************************

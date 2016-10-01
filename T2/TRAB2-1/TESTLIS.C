@@ -100,6 +100,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		CondRetEsp = -1  ;
 
 	TST_tpCondRet CondRet ;
+	TST_tpCondRet CondRetAux;
 
 	char StringIdLista[ DIM_ID_LISTA ] ;
 	char * pIdLista;
@@ -127,17 +128,9 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				return TST_CondRetParm ;
 			} /* if */
 
-			vtListas[ inxLista ] =
-					LIS_CriarLista( StringIdLista, DestruirValor ) ;
-
-			if( vtListas[ inxLista ] == NULL )
-			{
-				CondRet = TST_CondRetMemoria;
-			}
-			else
-			{
-				CondRet = TST_CondRetOK;
-			}
+			CondRet = 
+				LIS_CriarLista(StringIdLista, DestruirValor,
+				&vtListas[inxLista]);
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao criar lista." ) ;
@@ -156,20 +149,6 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				|| ( ! ValidarInxLista( inxLista , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
-			} /* if */
-
-			if ( vtListas[ inxLista ] == NULL )
-			{
-				return TST_CompararInt(CondRetEsp, LIS_CondRetNaoExiste,
-					"Lista deveria existir.");
-			} /* if */
-			else
-			{
-				if (CondRetEsp != LIS_CondRetOK)
-				{
-					return TST_CompararInt(CondRetEsp, LIS_CondRetOK,
-						"Lista nao deveria existir.");
-				} /* if */
 			} /* if */
 
 			LIS_DestruirLista( vtListas[ inxLista ] ) ;
@@ -194,7 +173,8 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				return TST_CondRetParm ;
 			} /* if */
 
-			pIdLista = ( char * ) LIS_ObterId( vtListas[ inxLista ] );
+			pIdLista = NULL;
+			CondRet = LIS_ObterId(vtListas[inxLista], &pIdLista);
 			if ( pIdLista == NULL )
 			{
 				return TST_CompararPonteiroNulo( NAO_NULO , pIdLista ,
@@ -275,24 +255,29 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				return TST_CondRetParm ;
 			} /* if */
 
-			pDado = ( char * ) LIS_ObterElemento( vtListas[ inxLista ] ) ;
+			pDado = NULL;
+			CondRet = LIS_ObterElemento(vtListas[inxLista], &pDado);
+			CondRetAux = TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao obter no.");
 
-			if ( pDado == NULL )
+			if (CondRetAux != TST_CondOK)
 			{
-				return TST_CompararInt( CondRetEsp , LIS_CondRetListaVazia ,
-						"Nó deveria existir." ) ;
-			} /* if */
-			else
-			{
-				if( CondRetEsp != LIS_CondRetOK )
-				{
-					return TST_CompararInt( CondRetEsp , LIS_CondRetOK ,
-							"Nó nao deveria existir." ) ;
-				} /* if */
+				return CondRetAux;
 			} /* if */
 
-			return TST_CompararChar( CharDado , *pDado ,
-					"Valor no Nó errado." ) ;
+			if (CondRet == LIS_CondRetListaVazia)
+			{
+				return TST_CondOK;
+			}
+
+			if (pDado == NULL)
+			{
+				return TST_CompararPonteiroNulo(NAO_NULO, pDado,
+					"Valor deveria existir.");
+			}
+
+			return TST_CompararChar(CharDado, *pDado,
+				"Valor no Nó errado.");
 
 		} /* fim ativa: LIS  &Obter referência para o valor contido no elemento */
 
@@ -346,12 +331,6 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
 			{
 				return TST_CondRetParm;
-			} /* if */
-
-			if (vtListas[inxLista] == NULL)
-			{
-				return TST_CompararInt(CondRetEsp, LIS_CondRetNaoExiste,
-					"Lista deveria existir.");
 			} /* if */
 
 			pDado = (char *)malloc(sizeof(char));
