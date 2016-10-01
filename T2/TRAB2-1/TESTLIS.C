@@ -15,6 +15,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  8		  fpf	01/out/2016	Alteração das funções para acompanhar as alterações do módulo lista
 *	  7		  fpf	24/set/2016	Incluido teste da LIS_AlterarElemento
 *     6       mmq   23/set/2016 adaptar para a utilizacao na aplicacao "Juiz de Xadrez"
 *     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor

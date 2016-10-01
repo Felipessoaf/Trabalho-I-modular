@@ -13,10 +13,12 @@
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs - Arndt Von Staa
+*           fpf - Felipe Pessoa de Freitas
 *           mmq - Matheus de Mello Queiroz
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  7		  fpf	01/out/2016	Alteração das funções para somente retornar tpCondRet
 *     6       mmq   23/set/2016 adaptar para a utilizacao na aplicacao "Juiz de Xadrez"
 *     5       mmq   11/set/2016 alterar a função LIS_ProcuraValor
 *     4       avs   01/fev/2006 criar linguagem script simbólica
