@@ -36,26 +36,7 @@ Max 1
 Min 1
 Primeiro 0
 --FimComer
---Pos
-a 7 b
-b 7 b
-c 7 b
-d 7 b
-e 7 b
-f 7 b
-g 7 b
-h 7 b
-a 2 p
-b 2 p
-c 2 p
-d 2 p
-e 2 p
-f 2 p
-g 2 p
-h 2 p
---FimPos
 <<<<<<<<<<
-
 >>>>>>>>>>
 Nome t
 --Andar
@@ -130,10 +111,4 @@ Max 8
 Min 1
 Primeiro 0
 --FimComer
---Pos
-a 1 p
-h 1 p
-a 8 b
-h 8 b
---FimPos
 <<<<<<<<<<
