@@ -28,7 +28,7 @@
 #include "LISTA.H"
 #undef TABULEIRO_OWN
 
-#define pathArquivo "E:/Lipe/PUC/6º Período/INF1301/T2/Repo/trunk/T2/TRAB2-2/PecasXadrez.txt"
+#define pathArquivo "C:/Users/pedro/Documents/Trab1 Modular/trunk/T2/TRAB2-2/PecasXadrez.txt"
 
 /***********************************************************************
 *
@@ -125,7 +125,7 @@ typedef struct TAB_tagTabuleiro
 
 	static void DestruirValorGenerico(void * pValor);
 
-	static void DestruirValorMatriz(void * pValor); //TODO
+	static void DestruirValorMatriz(void * pValor); 
 
 	static void DestruirValorCasa(void * pValor); 
 
@@ -159,28 +159,31 @@ typedef struct TAB_tagTabuleiro
 	   if (temp != TAB_CondRetOK)
 	   {
 		   return TAB_CondRetFaltouMemoria;
-	   }
+	   } /* if */
+
 	   for (i = 0; i < 8; i++)
 	   {
 		   LIS_tppLista tempCol;
-		   temp = LIS_CriarLista((char*)(i + 49), DestruirValorCasa, &tempCol);
+		   char id[1];
+		   id[0] = (char)(i + 49);
+		   temp = LIS_CriarLista(id, DestruirValorCasa, &tempCol);
 		   if (temp != TAB_CondRetOK)
 		   {
 			   return TAB_CondRetFaltouMemoria;
-		   }
+		   } /* if */
 		   for (j = 0; j < 8; j++)
 		   {
 			   temp = LIS_InserirElemento(tempCol, CriarCasa());
 			   if (temp != TAB_CondRetOK)
 			   {
 				   return TAB_CondRetFaltouMemoria;
-			   }
+			   } /* if */
 		   }
 		   temp = LIS_InserirElemento(pTabuleiroTemp->pMatriz, tempCol);
 		   if (temp != TAB_CondRetOK)
 		   {
 			   return TAB_CondRetFaltouMemoria;
-		   }
+		   } /* if */
 	   }
 
 	   *pTabuleiro = pTabuleiroTemp;
@@ -195,16 +198,118 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Inserir peca
 *  ****/
 
-   TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada)
+   TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char * pCoordenada)
    {
 	   tpCasa * pCasa;
-	   TAB_tppTabuleiro pTabTemp = *pTabuleiro;
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+	   
+	   pTabTemp = *pTabuleiro;
+
+	   if (cor != 'p' && cor != 'b' && cor != 'P' && cor != 'B')
+	   {
+		   return TAB_CondRetCorInexistente;
+	   } /* if */
+
+	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) || 
+		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+		
+	   //TODO : PEÇA EXISTE vsdknsadkjlbfJKLwfjefgrrgaenfgajkrengkjwnetogmnqe3nrgjoneqrlgnlqwgçnlkqerngklneçlgnçlarengklq
+
 	   pCasa = MoverCorrente(pTabTemp->pMatriz,pCoordenada);
 	   pCasa->cor = cor;
 	   strcpy(pCasa->nome, pNome);
+
 	   return TAB_CondRetOK;
 
    } /* Fim função: TAB  &Inserir peca */
+
+
+/***************************************************************************
+*
+*  Função: TAB  &Retirar peca
+*  ****/
+
+   TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada)
+   {
+	   tpCasa * pCasa;
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+
+	   pTabTemp = *pTabuleiro;
+
+	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
+		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa->cor = 'u';
+	   strcpy(pCasa->nome, "xxxx");
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Retirar peca */
+
+
+/***************************************************************************
+*
+*  Função: TAB  &Obter peca
+*  ****/
+
+   TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome)
+   {
+	   tpCasa * pCasa;
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+
+	   pTabTemp = *pTabuleiro;
+
+	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
+		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   *pCor = pCasa->cor;
+
+	   strcpy(*pNome, pCasa->nome);
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Obter peca */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
@@ -223,6 +328,7 @@ typedef struct TAB_tagTabuleiro
 		free(pValor);
 	} /* Fim função: TAB -Destruir valor peca*/
 
+
 /***********************************************************************
 *
 *  $FC Função: TLIS -Destruir valor generico
@@ -233,6 +339,7 @@ typedef struct TAB_tagTabuleiro
 	{
 		free(pValor);
 	} /* Fim função: TAB -Destruir valor generico*/
+
 
 /***********************************************************************
 *
@@ -282,6 +389,7 @@ typedef struct TAB_tagTabuleiro
 		return pCasa;
 	} /* Fim função: TAB -Criar casa*/
 
+
 /***********************************************************************
 *
 *  $FC Função: TAB  -Ler Arquivo de peças
@@ -320,8 +428,18 @@ typedef struct TAB_tagTabuleiro
 				}
 				else if (strncmp(line, "Nome", 4) == 0)
 				{
+					int i;
 					strncpy(pecaTemp->nome, &line[5], 4);
-					printf("%s", pecaTemp->nome);
+
+					for (i = 0; i < 4; i++)
+					{
+						if (pecaTemp->nome[i] == '\n')
+						{
+							pecaTemp->nome[i] = '\0';
+						}
+					}
+
+					printf("%s\n", pecaTemp->nome);
 				}
 				else if ((strncmp(line, "--Andar", 7) == 0) || (strncmp(line, "--Comer", 7) == 0))
 				{
@@ -377,6 +495,7 @@ typedef struct TAB_tagTabuleiro
 		return lisPecas;
 	}
 
+
 /***********************************************************************
 *
 *  $FC Função: TAB  -Mover corrente
@@ -405,6 +524,11 @@ typedef struct TAB_tagTabuleiro
 
 	int main()
 	{
-		LerArquivoPecas();
+		TAB_tppTabuleiro oi;
+
+		TAB_CriarTabuleiro(&oi);
+
+		printf("%d\n",TAB_InserirPeca(&oi, "a", 'B',"K9"));
+
 		return 0;
 	}

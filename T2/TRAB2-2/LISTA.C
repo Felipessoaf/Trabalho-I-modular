@@ -350,6 +350,18 @@
 
    } /* Fim função: LIS  &Ir para o nó anterior */
 
+/***************************************************************************
+*
+*  Função: LIS  &Andar para o nó inicial
+*  ****/
+
+   LIS_tpCondRet LIS_AndarInicio(LIS_tppLista pLista)
+   {
+	   pLista->pElemCorr = pLista->pOrigemLista;
+	   return LIS_CondRetOK;
+
+   } /* Fim função: LIS  &Andar para o nó inicial */
+   
 
 /*****  Código das funções encapsuladas no módulo  *****/
 

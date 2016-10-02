@@ -117,6 +117,48 @@ typedef enum {
 
 	TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada);
 
+/***********************************************************************
+*
+*  $FC Função: TAB  &Retirar peca
+*
+*  $ED Descrição da função
+*     Retira peça de um tabuleiro de xadrez
+*
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser retirado
+*	 pCoordenada	- ponteiro para coordenada da casa
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char* pCoordenada);
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Obter peca
+*
+*  $ED Descrição da função
+*     Obter peça de um tabuleiro de xadrez
+*
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser obtido
+*	 pCoordenada	- ponteiro para coordenada da casa
+*	 pCor			- ponteiro para onde sera retornado a cor
+*	 pNome			- ponteiro para onde sera retornado o nome
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome)
+
 #undef TABULEIRO_EXT
 
 /********** Fim do módulo de definição: TAB  Tabuleiro de xadrez **********/
