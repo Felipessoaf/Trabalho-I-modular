@@ -72,8 +72,11 @@ typedef enum {
 	TAB_CondRetPecaInexistente,
 	/* Peça inexistente */
 
-	TAB_CondRetCorInexistente
+	TAB_CondRetCorInexistente,
 	/* Cor inexistente */
+
+	TAB_CondRetMovimentoInvalido
+	/* Movimento invalido */
 
 } TAB_tpCondRet;
 
@@ -119,6 +122,28 @@ typedef enum {
 ***********************************************************************/
 
 	TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada);
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Inserir peca
+*
+*  $ED Descrição da função
+*     Insere peça em um tabuleiro de xadrez
+*    
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser inserido
+*	 origem			- coordenada de origem
+*	 destino		- coordenada de destino
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK              - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
+*	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*	  TAB_CondRetMovimentoInvalido - movimento invalido
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino);
 
 /***********************************************************************
 *
@@ -219,7 +244,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro pTabuleiro);
+	TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro);
 
 #undef TABULEIRO_EXT
 

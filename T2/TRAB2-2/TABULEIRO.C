@@ -148,6 +148,8 @@ typedef struct TAB_tagTabuleiro
 
 	static int validarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
 
+	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * pCoordenada);
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -252,7 +254,64 @@ typedef struct TAB_tagTabuleiro
 
    } /* Fim função: TAB  &Inserir peca */
 
+/***************************************************************************
+*
+*  Função: TAB  &Mover peca
+*  ****/
 
+   TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino)
+   {
+	   int i, j;
+	   char alcance[2];
+	   tpCasa * pCasaOrigem;
+	   tpCasa * pCasaDestino;
+
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+
+	   pTabTemp = *pTabuleiro;
+
+	   if (!ValidarCoordenada(origem) || !ValidarCoordenada(destino))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   }
+
+	   if (!validarMovimento(pTabTemp, origem, destino))
+	   {
+		   return TAB_CondRetMovimentoInvalido;
+	   }
+
+	   pCasaDestino = MoverCorrente(pTabTemp->pMatriz, destino);
+	   pCasaOrigem = MoverCorrente(pTabTemp->pMatriz, origem);
+
+	   pCasaDestino->cor = pCasaOrigem->cor;
+	   strcpy(pCasaDestino->nome, pCasaOrigem->nome);
+
+	   pCasaOrigem->cor = 'u';
+	   strcpy(pCasaOrigem->nome, "xxxx");
+
+	   pCasaOrigem->primeiroMov = 0;
+	   pCasaDestino->primeiroMov = 0;
+	   	
+	   for (i = 0; i < 8; i++)
+	   {
+		   alcance[0] = 'A' + i;
+		   for (j = 0; j < 8; j++)
+		   {
+			   alcance[1] = '1' + j;
+			   AtualizaListas(pTabTemp, alcance);
+		   }
+	   }
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Mover peca */
+
+   
 /***************************************************************************
 *
 *  Função: TAB  &Retirar peca
@@ -381,16 +440,20 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Destruir tabuleiro
 *  ****/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro pTabuleiro)
+   TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro)
    {
+	   TAB_tppTabuleiro pTabTemp;
+
 	   if ( pTabuleiro == NULL)
 	   {
 		   return TAB_CondRetNaoExiste;
 	   } /* if */
 
-	   LIS_DestruirLista(pTabuleiro->pMatriz);
-	   LIS_DestruirLista(pTabuleiro->pPecas);
-	   free(pTabuleiro);
+	   pTabTemp = *pTabuleiro;
+
+	   LIS_DestruirLista(pTabTemp->pMatriz);
+	   LIS_DestruirLista(pTabTemp->pPecas);
+	   free(pTabTemp);
 
 	   return TAB_CondRetOK;
 
@@ -686,7 +749,7 @@ typedef struct TAB_tagTabuleiro
 		int comer, i, colidiu, foraTab, branco;
 
 		LIS_tppLista pMovimento;
-		LIS_tpCondRet CondRet;
+		LIS_tpCondRet CondRet = LIS_CondRetOK;
 
 		tpPeca * pPeca;
 		tpMovimentoPeca * pMov;
@@ -694,6 +757,11 @@ typedef struct TAB_tagTabuleiro
 		tpCasa * pCasaOrigem;
 		tpCasa * pCasaDestino;
 		tpCasa * pCasaTemp;
+
+		if (!strcmp(origem, destino))
+		{
+			return 0;
+		}
 
 		pCasaOrigem = MoverCorrente(pTabuleiro->pMatriz, origem);
 		pCasaDestino = MoverCorrente(pTabuleiro->pMatriz, destino);
@@ -704,7 +772,6 @@ typedef struct TAB_tagTabuleiro
 		strcpy(nomePeca, pCasaOrigem->nome);
 
 		cor = pCasaOrigem->cor;
-		pMovimento = pPeca->pComer;
 
 		for (LIS_AndarInicio(pTabuleiro->pPecas); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pTabuleiro->pPecas))
 		{
@@ -795,6 +862,51 @@ typedef struct TAB_tagTabuleiro
 		}
 
 		return FALSE;
+	}
+
+/***********************************************************************
+*
+*  $FC Função: TAB  -Atualiza listas
+*
+***********************************************************************/
+
+	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * coordenada)
+	{
+		int i, j;
+		int ameaca, ameacado;
+		char alcance[2];
+		LIS_tppLista pAmeacados, pAmeacantes;
+		tpCasa * pCasa;
+
+		LIS_CriarLista("amdo", DestruirValorGenerico, &pAmeacados);
+		LIS_CriarLista("amte", DestruirValorGenerico, &pAmeacantes);
+
+		for (i = 0; i < 8; i++)
+		{
+			alcance[0] = 'A' + i;
+			for (j = 0; j < 8; j++)
+			{
+				alcance[1] = '1' + j;
+				ameaca = validarMovimento(pTabuleiro, coordenada, alcance);
+				ameacado = validarMovimento(pTabuleiro, alcance, coordenada );
+				if (ameaca)
+				{
+					LIS_InserirElemento(pAmeacados, alcance);
+				}
+				if (ameacado)
+				{
+					LIS_InserirElemento(pAmeacantes, alcance);
+				}
+			}
+		}
+
+		pCasa = MoverCorrente(pTabuleiro->pMatriz, coordenada);
+
+		LIS_DestruirLista(pCasa->pAmeacados);
+		LIS_DestruirLista(pCasa->pAmeacantes);
+
+		pCasa->pAmeacados = pAmeacados;
+		pCasa->pAmeacantes = pAmeacantes;
 	}
 
 	/*int main()

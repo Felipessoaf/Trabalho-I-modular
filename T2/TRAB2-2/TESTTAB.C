@@ -254,7 +254,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				return TST_CondRetParm ;
 			} /* if */
 
-			CondRet = TAB_DestruirTabuleiro( vtTabuleiros[inxTab] );
+			CondRet = TAB_DestruirTabuleiro( &vtTabuleiros[inxTab] );
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao destruir tabuleiro." ) ;
