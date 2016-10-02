@@ -501,6 +501,7 @@ typedef struct TAB_tagTabuleiro
 *  $FC Função: TAB  -Mover corrente
 *
 ***********************************************************************/
+
 	tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada)
 	{
 		int linha, coluna,i;

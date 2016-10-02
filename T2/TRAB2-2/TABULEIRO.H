@@ -157,7 +157,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome)
+	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome);
 
 #undef TABULEIRO_EXT
 
