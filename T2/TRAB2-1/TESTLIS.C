@@ -136,9 +136,8 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 			strcpy(StringIdLista, IdListaDado);
 
-			CondRet = 
-				LIS_CriarLista(StringIdLista, DestruirValor,
-				&vtListas[inxLista]);
+			CondRet = LIS_CriarLista(StringIdLista, DestruirValor, 
+					&vtListas[inxLista]);
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao criar lista." ) ;
@@ -278,7 +277,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 			if (CondRet == LIS_CondRetListaVazia)
 			{
-				return TST_CondOK;
+				return TST_CondRetOK;
 			}
 
 			if (pDado == NULL)
