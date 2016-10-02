@@ -400,8 +400,8 @@ typedef struct TAB_tagTabuleiro
 	void DestruirValorPeca(void * pValor)
 	{
 		tpPeca * tempPeca = (tpPeca*)pValor;
-		LIS_DestruirLista(tempPeca->pAndar);
-		LIS_DestruirLista(tempPeca->pComer);
+		LIS_DestruirLista( tempPeca->pAndar );
+		LIS_DestruirLista( tempPeca->pComer );
 		free(pValor);
 	} /* Fim função: TAB -Destruir valor peca*/
 
@@ -414,7 +414,7 @@ typedef struct TAB_tagTabuleiro
 
 	void DestruirValorGenerico(void * pValor)
 	{
-		free(pValor);
+		free( pValor );
 	} /* Fim função: TAB -Destruir valor generico*/
 
 
@@ -451,7 +451,7 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	tpCasa* CriarCasa()
+	tpCasa * CriarCasa()
 	{
 		tpCasa * pCasa;
 		pCasa = (tpCasa*)malloc(sizeof(tpCasa));
@@ -459,13 +459,12 @@ typedef struct TAB_tagTabuleiro
 		pCasa->cor = 'u';
 		strcpy(pCasa->nome,"xxxx");
 
-		LIS_CriarLista("amdo",DestruirValorGenerico,&pCasa->pAmeacados);
-		LIS_CriarLista("amte", DestruirValorGenerico, &pCasa->pAmeacantes);
-		
+		LIS_CriarLista( "amdo", DestruirValorGenerico, &pCasa->pAmeacados  );
+		LIS_CriarLista( "amte", DestruirValorGenerico, &pCasa->pAmeacantes );
 
 		return pCasa;
-	} /* Fim função: TAB -Criar casa*/
 
+	} /* Fim função: TAB -Criar casa*/
 
 /***********************************************************************
 *
@@ -493,15 +492,15 @@ typedef struct TAB_tagTabuleiro
 			{
 				if (strncmp(line, ">>>>>>>>>>", 10) == 0)
 				{
-					pecaTemp = (tpPeca*)malloc(sizeof(tpPeca));
+
+					pecaTemp = ( tpPeca * ) malloc( sizeof( tpPeca ) );
 				
 					pecaTemp->cor = 'u';
 
-					LIS_CriarLista("a", DestruirValorGenerico, &lisTemp);
-					pecaTemp->pAndar = lisTemp;
+					LIS_CriarLista( "a", DestruirValorGenerico, &pecaTemp->pAndar );
 
-					LIS_CriarLista("c", DestruirValorGenerico, &lisTemp);
-					pecaTemp->pComer = lisTemp;
+					LIS_CriarLista( "c", DestruirValorGenerico, &pecaTemp->pComer );
+
 				}
 				else if (strncmp(line, "Nome", 4) == 0)
 				{
@@ -520,7 +519,35 @@ typedef struct TAB_tagTabuleiro
 				}
 				else if ((strncmp(line, "--Andar", 7) == 0) || (strncmp(line, "--Comer", 7) == 0))
 				{
-					movPeca = (tpMovimentoPeca*)malloc(sizeof(tpMovimentoPeca));
+					movPeca = ( tpMovimentoPeca * ) malloc( sizeof( tpMovimentoPeca ) );
+				}
+				else if (strncmp(line, "Oeste", 5) == 0)
+				{
+					movPeca->coordenadas[0] = (int)line[6] - '0';
+				}
+				else if (strncmp(line, "Norte", 5) == 0)
+				{
+					movPeca->coordenadas[1] = (int)line[6] - '0';
+				}
+				else if (strncmp(line, "Leste", 5) == 0)
+				{
+					movPeca->coordenadas[2] = (int)line[6] - '0';
+				}
+				else if (strncmp(line, "Sul", 3) == 0)
+				{
+					movPeca->coordenadas[3] = (int)line[4] - '0';
+				}
+				else if (strncmp(line, "Max", 3) == 0)
+				{
+					movPeca->max = (int)line[4] - '0';
+				}
+				else if (strncmp(line, "Min", 3) == 0)
+				{
+					movPeca->min = (int)line[4] - '0';
+				}
+				else if (strncmp(line, "Primeiro", 8) == 0)
+				{
+					movPeca->primeiroMov = (int)line[9] - '0';
 				}
 				else if (strncmp(line, "--FimAndar", 10) == 0)
 				{	
@@ -531,34 +558,6 @@ typedef struct TAB_tagTabuleiro
 				{
 					printf("---------\nComer\ncoord = %d %d %d %d\nmax = %d\nmin = %d\nprim = %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3], movPeca->max, movPeca->min, movPeca->primeiroMov);
 					LIS_InserirElemento(pecaTemp->pComer, pecaTemp);
-				}
-				else if (strncmp(line, "Oeste", 5) == 0)
-				{
-					movPeca->coordenadas[0] = (int)line[6] - 48;
-				}
-				else if (strncmp(line, "Norte", 5) == 0)
-				{
-					movPeca->coordenadas[1] = (int)line[6] - 48;
-				}
-				else if (strncmp(line, "Leste", 5) == 0)
-				{
-					movPeca->coordenadas[2] = (int)line[6] - 48;
-				}
-				else if (strncmp(line, "Sul", 3) == 0)
-				{
-					movPeca->coordenadas[3] = (int)line[4] - 48;
-				}
-				else if (strncmp(line, "Max", 3) == 0)
-				{
-					movPeca->max = (int)line[4] - 48;
-				}
-				else if (strncmp(line, "Min", 3) == 0)
-				{
-					movPeca->min = (int)line[4] - 48;
-				}
-				else if (strncmp(line, "Primeiro", 8) == 0)
-				{
-					movPeca->primeiroMov = (int)line[9] - 48;
 				}
 				else if (strncmp(line, "<<<<<<<<<<", 10) == 0)
 				{
