@@ -26,6 +26,8 @@
 *
 ***************************************************************************/
 
+#include "LISTA.H"
+
 #if defined( TABULEIRO_OWN )
 #define TABULEIRO_EXT
 #else
@@ -179,7 +181,6 @@ typedef enum {
 ***********************************************************************/
 
 	TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
-
 
 /***********************************************************************
 *
