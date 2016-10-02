@@ -108,7 +108,7 @@ typedef enum {
 *
 *  $FV Valor retornado
 *     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*	  TAB_CondRetNaoExiste - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *	  TAB_CondRetPecaInexistente - Peça a ser inserida não existe
 *	  TAB_CondRetCorInexistente - Cor não existe
@@ -130,7 +130,7 @@ typedef enum {
 *
 *  $FV Valor retornado
 *     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*	  TAB_CondRetNaoExiste - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *
 ***********************************************************************/
@@ -152,12 +152,72 @@ typedef enum {
 *
 *  $FV Valor retornado
 *     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*	  TAB_CondRetNaoExiste - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *
 ***********************************************************************/
 
 	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome);
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Obter lista ameaçantes
+*
+*  $ED Descrição da função
+*     Obter lista ameaçantes de uma peça de um tabuleiro de xadrez
+*
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser obtido
+*	 pCoordenada	- ponteiro para coordenada da casa
+*	 pLista			- ponteiro para a lista a ser preenchida
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
+
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Obter lista ameaçados
+*
+*  $ED Descrição da função
+*     Obter lista ameaçados de uma peça de um tabuleiro de xadrez
+*
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser obtido
+*	 pCoordenada	- ponteiro para coordenada da casa
+*	 pLista			- ponteiro para a lista a ser preenchida
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_ObterListaAmeacados(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Destruir tabuleiro
+*
+*  $ED Descrição da função
+*     Destroi o tabuleiro
+*
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser destruido
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro);
 
 #undef TABULEIRO_EXT
 

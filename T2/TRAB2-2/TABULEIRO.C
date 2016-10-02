@@ -312,6 +312,106 @@ typedef struct TAB_tagTabuleiro
    } /* Fim função: TAB  &Obter peca */
 
 
+/***************************************************************************
+*
+*  Função: TAB  &Obter lista ameaçantes
+*  ****/
+
+   TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista)
+   {
+	   tpCasa * pCasa;
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+
+	   pTabTemp = *pTabuleiro;
+
+	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
+		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   *pLista = pCasa->pAmeacantes;
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Obter lista ameacantes */
+
+
+/***************************************************************************
+*
+*  Função: TAB  &Obter lista ameaçados
+*  ****/
+
+   TAB_tpCondRet TAB_ObterListaAmeacados(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista)
+   {
+	   tpCasa * pCasa;
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+
+	   pTabTemp = *pTabuleiro;
+
+	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
+		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   {
+		   return TAB_CondRetCasaInexistente;
+	   } /* if */
+
+	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   *pLista = pCasa->pAmeacados;
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Obter lista ameacados */
+
+
+/***************************************************************************
+*
+*  Função: TAB  &Destruir tabuleiro
+*  ****/
+
+   TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro)
+   {
+	   tpCasa * pCasa;
+	   TAB_tppTabuleiro pTabTemp;
+
+	   if (pTabuleiro == NULL)
+	   {
+		   return TAB_CondRetNaoExiste;
+	   } /* if */
+
+	   pTabTemp = *pTabuleiro;
+
+	   LIS_DestruirLista(pTabTemp->pMatriz);
+	   LIS_DestruirLista(pTabTemp->pPecas);
+	   free(pTabTemp);
+
+	   *pTabuleiro = NULL;
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Destruir tabuleiro */
+
+
 /*****  Código das funções encapsuladas no módulo  *****/
 
 /***********************************************************************
