@@ -144,6 +144,8 @@ typedef struct TAB_tagTabuleiro
 
 	static tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada);
 
+	static int ValidarNome(LIS_tppLista pLista, char * nome);
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -640,6 +642,27 @@ typedef struct TAB_tagTabuleiro
 
 		return pCasa;
 
+	}
+
+/***********************************************************************
+*
+*  $FC Função: TAB  -Validar nome
+*
+***********************************************************************/
+
+	int ValidarNome(LIS_tppLista pLista, char * nome)
+	{
+		LIS_tpCondRet CondRet;
+		tpPeca * pPeca;
+		for (LIS_AndarInicio(pLista); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pLista))
+		{
+			LIS_ObterElemento(pLista, &pPeca);
+			if (strcmp(nome, pPeca->nome) == 0)
+			{
+				return FALSE;
+			}
+		}
+		return TRUE;
 	}
 
 	/*int main()
