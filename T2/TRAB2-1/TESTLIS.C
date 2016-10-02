@@ -47,6 +47,7 @@ static const char IR_PROX_CMD             [ ] = "=irProx"            ;
 static const char IR_ANT_CMD              [ ] = "=irAnt"             ;
 static const char ALTERAR_NO_CMD		  [ ] = "=alterarNoCorrente" ;
 static const char DESTRUIR_LISTA_CMD      [ ] = "=destroiLista"      ;
+static const char ANDAR_INICIO_CMD		  [ ] = "=andarInicio"		 ;
 
 
 #define TRUE  1
@@ -92,6 +93,7 @@ static int  ValidarInxLista( int inxLista , int Modo ) ;
 *     =irAnt                        inxLista           CondRetEsp
 *	  =alterarNoCorrente			inxLista  char	   CondRetEsp
 *     =destroiLista                 inxLista           CondRetEsp
+*	  =andarInicio					inxLista           CondRetEsp
 *
 ***********************************************************************/
 
@@ -357,6 +359,27 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				"Condicao de retorno errada ao alterar nó corrente.");
 
 		} /* fim ativa: LIS  &Alterar o valor contido no elemento */
+
+	/* LIS  &Andar inicio */
+
+		else if (strcmp(ComandoTeste, ANDAR_INICIO_CMD) == 0)
+		{
+
+			numLidos = LER_LerParametros("ii",
+				&inxLista, &CondRetEsp);
+
+			if ((numLidos != 2)
+				|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = LIS_AndarInicio(vtListas[inxLista]);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao alterar nó corrente.");
+
+		} /* fim ativa: LIS  &Andar inicio */
 
 
 	return TST_CondRetNaoConhec ;

@@ -303,6 +303,23 @@ LIS_tpCondRet LIS_IrProxElemento( LIS_tppLista pLista ) ;
 
 LIS_tpCondRet LIS_IrAntElemento( LIS_tppLista pLista ) ;
 
+/***********************************************************************
+*
+*  $FC Função: LIS  &Andar para o nó inicial
+*
+*  $ED Descrição da função
+*     Retrocede o no corrente para o inicial.
+*
+*  $EP Parâmetros
+*     pLista  - ponteiro para a lista a ser manipulada
+*
+*  $FV Valor retornado
+*     CondRetOK         - se numElem elementos tiverem sido andados
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_AndarInicio(LIS_tppLista pLista);
+
 #undef LISTA_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/

@@ -114,6 +114,10 @@
 == Ir para o próximo nó
 =irProx				lista1   OK
 
+== Ir para o inicio
+=andarInicio		lista1 	 OK
+=obterNo			lista1   char1   OK
+
 == Alterar nó
 =alterarNoCorrente  lista1   char2   OK
 =obterNo			lista1   char2   OK
