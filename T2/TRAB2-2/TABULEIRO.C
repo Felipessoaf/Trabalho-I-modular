@@ -10,7 +10,8 @@
 *  -------------------------------------------Gestor:  LES/DI/PUC-Rio
 *  Autores: pf - Pedro Ferreira
 *           mmq - Matheus de Mello Queiroz
-*			fpf - Felipe Pessoa de Freitas			
+*			fpf - Felipe Pessoa de Freitas	
+*
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
 *     1       pf   25/set/2016 início da implementação das peças
@@ -25,10 +26,12 @@
 
 #define TABULEIRO_OWN
 #include "TABULEIRO.h"
-#include "LISTA.H"
 #undef TABULEIRO_OWN
 
-#define pathArquivo "C:/Users/pedro/Documents/Trab1 Modular/trunk/T2/TRAB2-2/PecasXadrez.txt"
+#define pathArquivo "PecasXadrez.txt"
+
+#define FALSE 0
+#define TRUE  1
 
 /***********************************************************************
 *
@@ -41,8 +44,10 @@ typedef struct TAB_tagTabuleiro
 {
 	LIS_tppLista pPecas;
 		   /* Cabeça da lista com as peças disponiveis */
+
 	LIS_tppLista pMatriz;
 		   /* Cabeça da matriz */
+
 } TAB_tpTabuleiro;
 
 
@@ -56,10 +61,10 @@ typedef struct TAB_tagTabuleiro
 	typedef struct tagPeca{
 		
 		char nome[4];
-			/* Nome da peça */
+				/* Nome da peça */
 
 		char cor;
-			/* Cor da peça, podendo ser b (branco) ou p (preto) */
+				/* Cor da peça, podendo ser b (branco) ou p (preto) */
 
 		LIS_tppLista pAndar;
 				/* Ponteiro da Lista contendo os movimentos da peça de andar */
@@ -103,13 +108,13 @@ typedef struct TAB_tagTabuleiro
 	typedef struct tagCasa{
 		
 		char nome[4];
-			/* Nome da peça na casa */
+				/* Nome da peça na casa */
 
 		char cor;
-			/* Cor da peça na casa */
+				/* Cor da peça na casa */
 
 		int primeiroMov;
-			/* Movimento que so pode ser executado na primeira jogada daquela peça */
+				/* Movimento que so pode ser executado na primeira jogada daquela peça */
 
 		LIS_tppLista pAmeacantes;
 				/* Ponteiro da Lista contendo as casas que contém peças que legalmente ameaçam a presente casa */
@@ -127,11 +132,15 @@ typedef struct TAB_tagTabuleiro
 
 	static void DestruirValorMatriz(void * pValor); 
 
-	static void DestruirValorCasa(void * pValor); 
+	static void DestruirValorCasa(void * pValor);
 
 	static tpCasa * CriarCasa(); 
 
 	static LIS_tppLista LerArquivoPecas();
+
+	static int ValidarCor( char cor );
+
+	static int ValidarCoordenada( char * pCoordenada );
 
 	static tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada);
 
@@ -145,8 +154,9 @@ typedef struct TAB_tagTabuleiro
    TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro)
    {
 	   int i, j;
+
 	   TAB_tppTabuleiro pTabuleiroTemp;
-	   TAB_tpCondRet temp;
+	   LIS_tpCondRet    CondRet;
 
 	   pTabuleiroTemp = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
 	   if (pTabuleiroTemp == NULL)
@@ -155,32 +165,35 @@ typedef struct TAB_tagTabuleiro
 	   } /* if */
 
 	   pTabuleiroTemp->pPecas = LerArquivoPecas();
-	   temp = LIS_CriarLista("matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz);
-	   if (temp != TAB_CondRetOK)
+	   CondRet = LIS_CriarLista("matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz);
+	   if (CondRet != TAB_CondRetOK)
 	   {
 		   return TAB_CondRetFaltouMemoria;
 	   } /* if */
 
 	   for (i = 0; i < 8; i++)
 	   {
-		   LIS_tppLista tempCol;
-		   char id[1];
-		   id[0] = (char)(i + 49);
-		   temp = LIS_CriarLista(id, DestruirValorCasa, &tempCol);
-		   if (temp != TAB_CondRetOK)
+		   LIS_tppLista pListaColunaTemp;
+
+		   char id = (i + '0');
+
+		   CondRet = LIS_CriarLista( &id, DestruirValorCasa, &pListaColunaTemp );
+		   if (CondRet != TAB_CondRetOK)
 		   {
 			   return TAB_CondRetFaltouMemoria;
 		   } /* if */
+
 		   for (j = 0; j < 8; j++)
 		   {
-			   temp = LIS_InserirElemento(tempCol, CriarCasa());
-			   if (temp != TAB_CondRetOK)
+			   CondRet = LIS_InserirElemento(pListaColunaTemp, CriarCasa());
+			   if (CondRet != TAB_CondRetOK)
 			   {
 				   return TAB_CondRetFaltouMemoria;
 			   } /* if */
 		   }
-		   temp = LIS_InserirElemento(pTabuleiroTemp->pMatriz, tempCol);
-		   if (temp != TAB_CondRetOK)
+
+		   CondRet = LIS_InserirElemento(pTabuleiroTemp->pMatriz, pListaColunaTemp);
+		   if (CondRet != TAB_CondRetOK)
 		   {
 			   return TAB_CondRetFaltouMemoria;
 		   } /* if */
@@ -201,6 +214,7 @@ typedef struct TAB_tagTabuleiro
    TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char * pCoordenada)
    {
 	   tpCasa * pCasa;
+
 	   TAB_tppTabuleiro pTabTemp;
 
 	   if (pTabuleiro == NULL)
@@ -210,18 +224,12 @@ typedef struct TAB_tagTabuleiro
 	   
 	   pTabTemp = *pTabuleiro;
 
-	   if (cor != 'p' && cor != 'b' && cor != 'P' && cor != 'B')
+	   if ( ! ValidarCor( cor ) )
 	   {
 		   return TAB_CondRetCorInexistente;
 	   } /* if */
 
-	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) || 
-		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
-
-	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   if ( ! ValidarCoordenada( pCoordenada ) )
 	   {
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
@@ -254,13 +262,7 @@ typedef struct TAB_tagTabuleiro
 
 	   pTabTemp = *pTabuleiro;
 
-	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
-		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
-
-	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
+	   if ( ! ValidarCoordenada( pCoordenada ) )
 	   {
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
@@ -291,18 +293,12 @@ typedef struct TAB_tagTabuleiro
 
 	   pTabTemp = *pTabuleiro;
 
-	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
-		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   if ( ! ValidarCoordenada( pCoordenada ) )
 	   {
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
-
-	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa = MoverCorrente( pTabTemp->pMatriz, pCoordenada );
 	   *pCor = pCasa->cor;
 
 	   strcpy(*pNome, pCasa->nome);
@@ -329,18 +325,12 @@ typedef struct TAB_tagTabuleiro
 
 	   pTabTemp = *pTabuleiro;
 
-	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
-		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   if (! ValidarCoordenada( pCoordenada ) )
 	   {
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
-
-	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa   = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
 	   *pLista = pCasa->pAmeacantes;
 
 	   return TAB_CondRetOK;
@@ -365,18 +355,12 @@ typedef struct TAB_tagTabuleiro
 
 	   pTabTemp = *pTabuleiro;
 
-	   if (!(((int)pCoordenada[0] >= 65 && (int)pCoordenada[0] <= 72) ||
-		   ((int)pCoordenada[0] <= 97 && (int)pCoordenada[0] >= 104)))
+	   if ( ! ValidarCoordenada( pCoordenada ) )
 	   {
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   if (!((int)pCoordenada[1] >= 49 && (int)pCoordenada[1] <= 56))
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
-
-	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa   = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
 	   *pLista = pCasa->pAmeacados;
 
 	   return TAB_CondRetOK;
@@ -389,23 +373,16 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Destruir tabuleiro
 *  ****/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro)
+   TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro pTabuleiro)
    {
-	   tpCasa * pCasa;
-	   TAB_tppTabuleiro pTabTemp;
-
-	   if (pTabuleiro == NULL)
+	   if ( pTabuleiro == NULL)
 	   {
 		   return TAB_CondRetNaoExiste;
 	   } /* if */
 
-	   pTabTemp = *pTabuleiro;
-
-	   LIS_DestruirLista(pTabTemp->pMatriz);
-	   LIS_DestruirLista(pTabTemp->pPecas);
-	   free(pTabTemp);
-
-	   *pTabuleiro = NULL;
+	   LIS_DestruirLista(pTabuleiro->pMatriz);
+	   LIS_DestruirLista(pTabuleiro->pPecas);
+	   free(pTabuleiro);
 
 	   return TAB_CondRetOK;
 
@@ -449,7 +426,7 @@ typedef struct TAB_tagTabuleiro
 
 	void DestruirValorMatriz(void * pValor)
 	{
-		LIS_DestruirLista((LIS_tppLista)pValor);
+		LIS_DestruirLista( (LIS_tppLista) pValor );
 	} /* Fim função: TAB -Destruir valor matriz*/
 
 
@@ -504,10 +481,10 @@ typedef struct TAB_tagTabuleiro
 		tpPeca* pecaTemp;
 		tpMovimentoPeca* movPeca;
 
-		LIS_CriarLista("p", DestruirValorPeca, &lisPecas);
-
 		FILE * pFile = fopen(pathArquivo, "r");
 		char line[50];
+
+		LIS_CriarLista("p", DestruirValorPeca, &lisPecas);
 
 		if (pFile == NULL)
 			printf("Erro, nao foi possivel abrir o arquivo\n");
@@ -595,6 +572,43 @@ typedef struct TAB_tagTabuleiro
 		return lisPecas;
 	}
 
+/***********************************************************************
+*
+*  $FC Função: TAB  -Validar Cor
+*
+***********************************************************************/
+
+	int ValidarCor( char cor )
+	{
+		if (cor != 'p' && cor != 'b' && cor != 'P' && cor != 'B')
+		{
+			return FALSE;
+		} /* if */
+
+		return TRUE;
+	}
+
+/***********************************************************************
+*
+*  $FC Função: TAB  -Validar Coordenada
+*
+***********************************************************************/
+
+	int ValidarCoordenada( char * pCoordenada )
+	{
+		if ( ! ( pCoordenada[0] >= 'A' && pCoordenada[0] <= 'H' ) ||
+		     ! ( pCoordenada[0] <= 'a' && pCoordenada[0] >= 'h' ) )
+		{
+			return FALSE;
+		} /* if */
+
+		if ( ! ( pCoordenada[1] >= '1' && pCoordenada[1] <= '8' ) )
+		{
+			return FALSE;
+		} /* if */
+
+		return TRUE;
+	}
 
 /***********************************************************************
 *
@@ -604,26 +618,32 @@ typedef struct TAB_tagTabuleiro
 
 	tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada)
 	{
-		int linha, coluna,i;
+		int linha, coluna, i;
 		tpCasa * pCasa;
-		LIS_tppLista tempLinha;
-		coluna = (pCoordenada[0] < 97) ? (int)pCoordenada[0] - 65 : (int)pCoordenada[0] - 97;
-		linha = (int)pCoordenada[1] - 48;
+		LIS_tppLista pListaCasa;
+
+		coluna = ( pCoordenada[0] < 97) ? pCoordenada[0] - 65 : pCoordenada[0] - 97;
+		linha  = pCoordenada[1] - 48;
+
 		LIS_AndarInicio(pLista);
 		for (i = 0; i < coluna; i ++ )
 		{
 			LIS_IrProxElemento(pLista);
 		}
-		LIS_ObterElemento(pLista,&tempLinha);
+
+		LIS_ObterElemento(pLista, (void**) &pListaCasa);
 		for (i = 0; i < linha; i++)
 		{
-			LIS_IrProxElemento(tempLinha);
+			LIS_IrProxElemento(pListaCasa);
 		}
-		LIS_ObterElemento(tempLinha, &pCasa);
+
+		LIS_ObterElemento( pListaCasa, (void**) &pCasa);
+
 		return pCasa;
+
 	}
 
-	int main()
+	/*int main()
 	{
 		TAB_tppTabuleiro oi;
 
@@ -632,4 +652,4 @@ typedef struct TAB_tagTabuleiro
 		printf("%d\n",TAB_InserirPeca(&oi, "a", 'B',"K9"));
 
 		return 0;
-	}
+	}*/

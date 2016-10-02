@@ -11,9 +11,10 @@
 *
 *  Projeto: INF 1301 / Juiz de Xadrez
 *  -------------------------------------------Gestor:  LES/DI/PUC-Rio
-*  Autores: pf - Pedro Ferreira
-*           mmq - Matheus de Mello Queiroz
-*			fpf - Felipe Pessoa de Freitas
+*  Autores: fpf - Felipe Pessoa de Freitas
+*			mmq - Matheus de Mello Queiroz
+*			pf  - Pedro Ferreira
+*			
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -85,10 +86,10 @@ typedef enum {
 *     Cria um tabuleiro de xadrez
 *    
 *  $EP Parâmetros
-*	 pTabuleiro		- ponteiro para o tabuleiro a ser criado
+*	 pTabuleiro - referencia para o tabuleiro a ser criado
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK - Executou corretamente.
+*     TAB_CondRetOK            - Executou corretamente.
 *	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
 *
 ***********************************************************************/
@@ -109,11 +110,11 @@ typedef enum {
 *	 pCoordenada	- ponteiro para coordenada da casa
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*     TAB_CondRetOK              - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *	  TAB_CondRetPecaInexistente - Peça a ser inserida não existe
-*	  TAB_CondRetCorInexistente - Cor não existe
+*	  TAB_CondRetCorInexistente  - Cor não existe
 *
 ***********************************************************************/
 
@@ -131,8 +132,8 @@ typedef enum {
 *	 pCoordenada	- ponteiro para coordenada da casa
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*     TAB_CondRetOK              - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *
 ***********************************************************************/
@@ -153,8 +154,8 @@ typedef enum {
 *	 pNome			- ponteiro para onde sera retornado o nome
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*     TAB_CondRetOK              - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *
 ***********************************************************************/
@@ -174,8 +175,8 @@ typedef enum {
 *	 pLista			- ponteiro para a lista a ser preenchida
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*     TAB_CondRetOK              - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *
 ***********************************************************************/
@@ -195,8 +196,8 @@ typedef enum {
 *	 pLista			- ponteiro para a lista a ser preenchida
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK - Executou corretamente.
-*	  TAB_CondRetNaoExiste - Tabuleiro não existe
+*     TAB_CondRetOK              - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
 *
 ***********************************************************************/
@@ -218,7 +219,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro);
+	TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro pTabuleiro);
 
 #undef TABULEIRO_EXT
 

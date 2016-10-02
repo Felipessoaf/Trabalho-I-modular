@@ -1,0 +1,2 @@
+'u'    é cor reservada
+'xxxx' é peça reservada
