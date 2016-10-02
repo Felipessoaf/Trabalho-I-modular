@@ -552,12 +552,12 @@ typedef struct TAB_tagTabuleiro
 				else if (strncmp(line, "--FimAndar", 10) == 0)
 				{	
 					printf("---------\nAndar\ncoord = %d %d %d %d\nmax = %d\nmin = %d\nprim = %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3], movPeca->max, movPeca->min, movPeca->primeiroMov);
-					LIS_InserirElemento(pecaTemp->pAndar, pecaTemp);
+					LIS_InserirElemento(pecaTemp->pAndar, movPeca);
 				}
 				else if (strncmp(line, "--FimComer", 10) == 0)
 				{
 					printf("---------\nComer\ncoord = %d %d %d %d\nmax = %d\nmin = %d\nprim = %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3], movPeca->max, movPeca->min, movPeca->primeiroMov);
-					LIS_InserirElemento(pecaTemp->pComer, pecaTemp);
+					LIS_InserirElemento(pecaTemp->pComer, movPeca);
 				}
 				else if (strncmp(line, "<<<<<<<<<<", 10) == 0)
 				{
