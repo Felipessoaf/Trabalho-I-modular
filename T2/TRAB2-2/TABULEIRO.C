@@ -45,6 +45,7 @@ typedef struct TAB_tagTabuleiro
 		   /* Cabeça da matriz */
 } TAB_tpTabuleiro;
 
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: TAB Conteudo da lista de peças
@@ -132,6 +133,8 @@ typedef struct TAB_tagTabuleiro
 
 	static LIS_tppLista LerArquivoPecas();
 
+	static tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada);
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -184,7 +187,25 @@ typedef struct TAB_tagTabuleiro
 
 	   return TAB_CondRetOK;
 
-   } /* Fim função: LIS  &Criar lista */
+   } /* Fim função: TAB  &Criar tabuleiro */
+
+
+/***************************************************************************
+*
+*  Função: TAB  &Inserir peca
+*  ****/
+
+   TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada)
+   {
+	   tpCasa * pCasa;
+	   TAB_tppTabuleiro pTabTemp = *pTabuleiro;
+	   pCasa = MoverCorrente(pTabTemp->pMatriz,pCoordenada);
+	   pCasa->cor = cor;
+	   strcpy(pCasa->nome, pNome);
+	   return TAB_CondRetOK;
+
+   } /* Fim função: TAB  &Inserir peca */
+
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
@@ -354,6 +375,32 @@ typedef struct TAB_tagTabuleiro
 
 		fclose(pFile);
 		return lisPecas;
+	}
+
+/***********************************************************************
+*
+*  $FC Função: TAB  -Mover corrente
+*
+***********************************************************************/
+	tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada)
+	{
+		int linha, coluna,i;
+		tpCasa * pCasa;
+		LIS_tppLista tempLinha;
+		coluna = (pCoordenada[0] < 97) ? (int)pCoordenada[0] - 65 : (int)pCoordenada[0] - 97;
+		linha = (int)pCoordenada[1] - 48;
+		LIS_AndarInicio(pLista);
+		for (i = 0; i < coluna; i ++ )
+		{
+			LIS_IrProxElemento(pLista);
+		}
+		LIS_ObterElemento(pLista,&tempLinha);
+		for (i = 0; i < linha; i++)
+		{
+			LIS_IrProxElemento(tempLinha);
+		}
+		LIS_ObterElemento(tempLinha, &pCasa);
+		return pCasa;
 	}
 
 	int main()

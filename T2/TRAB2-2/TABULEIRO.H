@@ -60,8 +60,17 @@ typedef enum {
 	TAB_CondRetNaoExiste,
 	/* O tabuleiro não existe */
 
-	TAB_CondRetFaltouMemoria
+	TAB_CondRetFaltouMemoria,
 	/* Faltou memória ao tentar criar um elemento de tabuleiro */
+
+	TAB_CondRetCasaInexistente,
+	/* Coordenada para casa inválida */
+
+	TAB_CondRetPecaInexistente,
+	/* Peça inexistente */
+
+	TAB_CondRetCorInexistente
+	/* Cor inexistente */
 
 } TAB_tpCondRet;
 
@@ -83,6 +92,30 @@ typedef enum {
 ***********************************************************************/
 
 	TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro);
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Inserir peca
+*
+*  $ED Descrição da função
+*     Insere peça em um tabuleiro de xadrez
+*    
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser inserido
+*	 pNome			- ponteiro para o nome da peça
+*	 cor			- cor da peça
+*	 pCoordenada	- ponteiro para coordenada da casa
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*	  TAB_CondRetPecaInexistente - Peça a ser inserida não existe
+*	  TAB_CondRetCorInexistente - Cor não existe
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada);
 
 #undef TABULEIRO_EXT
 
