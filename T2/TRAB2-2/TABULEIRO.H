@@ -1,0 +1,92 @@
+#if ! defined( TABULEIRO_ )
+#define TABULEIRO_
+/***************************************************************************
+*
+*  $MCD Módulo de definição: TAB	Tabuleiro de xadrez
+*
+*  Arquivo gerado:              TABULEIRO.h
+*  Letras identificadoras:      TAB
+*
+*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
+*
+*  Projeto: INF 1301 / Juiz de Xadrez
+*  -------------------------------------------Gestor:  LES/DI/PUC-Rio
+*  Autores: pf - Pedro Ferreira
+*           mmq - Matheus de Mello Queiroz
+*			fpf - Felipe Pessoa de Freitas
+*
+*  $HA Histórico de evolução:
+*     Versão  Autor    Data     Observações
+*     1       fpf   01/out/2016 início desenvolvimento
+*
+*  $ED Descrição do módulo
+*     Implementa tabuleiro de xadrez
+*     O tabuleiro possui uma cabeça encapsulando o seu estado.
+*
+*
+***************************************************************************/
+
+#if defined( TABULEIRO_OWN )
+#define TABULEIRO_EXT
+#else
+#define TABULEIRO_EXT extern
+#endif
+
+/***** Declarações exportadas pelo módulo *****/
+
+/* Tipo referência para um tabuleiro */
+
+typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro;
+
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: TAB Condições de retorno
+*
+*
+*  $ED Descrição do tipo
+*     Condições de retorno das funções do tabuleiro
+*
+***********************************************************************/
+
+typedef enum {
+
+	TAB_CondRetOK,
+	/* Concluiu corretamente */
+
+	TAB_CondRetNaoAchou,
+	/* Não encontrou o valor procurado */
+
+	TAB_CondRetNaoExiste,
+	/* O tabuleiro não existe */
+
+	TAB_CondRetFaltouMemoria
+	/* Faltou memória ao tentar criar um elemento de tabuleiro */
+
+} TAB_tpCondRet;
+
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Criar tabuleiro
+*
+*  $ED Descrição da função
+*     Cria um tabuleiro de xadrez
+*    
+*  $EP Parâmetros
+*	 pTabuleiro		- ponteiro para o tabuleiro a ser criado
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória
+*
+***********************************************************************/
+
+	TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro);
+
+#undef TABULEIRO_EXT
+
+/********** Fim do módulo de definição: TAB  Tabuleiro de xadrez **********/
+
+#else
+#endif

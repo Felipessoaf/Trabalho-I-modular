@@ -13,7 +13,7 @@
 *			fpf - Felipe Pessoa de Freitas			
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       avs   25/set/2016 início da implementação das peças
+*     1       pf   25/set/2016 início da implementação das peças
 *
 ***************************************************************************/
 
@@ -28,15 +28,22 @@
 #include "LISTA.H"
 #undef TABULEIRO_OWN
 
-#define pathArquivo "C:/Users/pedro/Documents/Trab1 Modular/trunk/T2/TRAB2-2/PecasXadrez.txt"
+#define pathArquivo "E:/Lipe/PUC/6º Período/INF1301/T2/Repo/trunk/T2/TRAB2-2/PecasXadrez.txt"
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: TAB Cabeça da Matriz
+*  $TC Tipo de dados: TAB Descritor da cabeça do Tabuleiro
 *
 *
 ***********************************************************************/
 
+typedef struct TAB_tagTabuleiro
+{
+	LIS_tppLista pPecas;
+		   /* Cabeça da lista com as peças disponiveis */
+	LIS_tppLista pMatriz;
+		   /* Cabeça da matriz */
+} TAB_tpTabuleiro;
 
 /***********************************************************************
 *
@@ -85,21 +92,174 @@
 
 	} tpMovimentoPeca;
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: TAB Conteudo da lista de casas
+*
+*
+***********************************************************************/
+
+	typedef struct tagCasa{
+		
+		char nome[4];
+			/* Nome da peça na casa */
+
+		char cor;
+			/* Cor da peça na casa */
+
+		int primeiroMov;
+			/* Movimento que so pode ser executado na primeira jogada daquela peça */
+
+		LIS_tppLista pAmeacantes;
+				/* Ponteiro da Lista contendo as casas que contém peças que legalmente ameaçam a presente casa */
+
+		LIS_tppLista pAmeacados;
+				/* Ponteiro da Lista contendo as casas legalmente ameaçadas pela peça na presente casa */
+
+	} tpCasa;
+
 /***** Protótipos das funções encapsuladas no módulo *****/
+
+	static void DestruirValorPeca(void * pValor);
+
+	static void DestruirValorGenerico(void * pValor);
+
+	static void DestruirValorMatriz(void * pValor); //TODO
+
+	static void DestruirValorCasa(void * pValor); 
+
+	static tpCasa * CriarCasa(); 
 
 	static LIS_tppLista LerArquivoPecas();
 
-	static void DestruirValor(void * pValor);
+/*****  Código das funções exportadas pelo módulo  *****/
+
+/***************************************************************************
+*
+*  Função: TAB  &Criar tabuleiro
+*  ****/
+
+   TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro)
+   {
+	   int i, j;
+	   TAB_tppTabuleiro pTabuleiroTemp;
+	   TAB_tpCondRet temp;
+
+	   pTabuleiroTemp = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
+	   if (pTabuleiroTemp == NULL)
+	   {
+		   return TAB_CondRetFaltouMemoria;
+	   } /* if */
+
+	   pTabuleiroTemp->pPecas = LerArquivoPecas();
+	   temp = LIS_CriarLista("matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz);
+	   if (temp != TAB_CondRetOK)
+	   {
+		   return TAB_CondRetFaltouMemoria;
+	   }
+	   for (i = 0; i < 8; i++)
+	   {
+		   LIS_tppLista tempCol;
+		   temp = LIS_CriarLista((char*)(i + 49), DestruirValorCasa, &tempCol);
+		   if (temp != TAB_CondRetOK)
+		   {
+			   return TAB_CondRetFaltouMemoria;
+		   }
+		   for (j = 0; j < 8; j++)
+		   {
+			   temp = LIS_InserirElemento(tempCol, CriarCasa());
+			   if (temp != TAB_CondRetOK)
+			   {
+				   return TAB_CondRetFaltouMemoria;
+			   }
+		   }
+		   temp = LIS_InserirElemento(pTabuleiroTemp->pMatriz, tempCol);
+		   if (temp != TAB_CondRetOK)
+		   {
+			   return TAB_CondRetFaltouMemoria;
+		   }
+	   }
+
+	   *pTabuleiro = pTabuleiroTemp;
+
+	   return TAB_CondRetOK;
+
+   } /* Fim função: LIS  &Criar lista */
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
+/***********************************************************************
+*
+*  $FC Função: TLIS -Destruir valor peca
+*
+***********************************************************************/
 
-	void DestruirValor(void * pValor)
+	void DestruirValorPeca(void * pValor)
 	{
-
+		tpPeca * tempPeca = (tpPeca*)pValor;
+		LIS_DestruirLista(tempPeca->pAndar);
+		LIS_DestruirLista(tempPeca->pComer);
 		free(pValor);
+	} /* Fim função: TAB -Destruir valor peca*/
 
-	} /* Fim função: TAB -Destruir valor */
+/***********************************************************************
+*
+*  $FC Função: TLIS -Destruir valor generico
+*
+***********************************************************************/
+
+	void DestruirValorGenerico(void * pValor)
+	{
+		free(pValor);
+	} /* Fim função: TAB -Destruir valor generico*/
+
+/***********************************************************************
+*
+*  $FC Função: TLIS -Destruir valor matriz
+*
+***********************************************************************/
+
+	void DestruirValorMatriz(void * pValor)
+	{
+		LIS_DestruirLista((LIS_tppLista)pValor);
+	} /* Fim função: TAB -Destruir valor matriz*/
+
+
+/***********************************************************************
+*
+*  $FC Função: TLIS -Destruir valor casa
+*
+***********************************************************************/
+
+	void DestruirValorCasa(void * pValor)
+	{
+		tpCasa * tempCasa = (tpCasa*)pValor;
+		LIS_DestruirLista(tempCasa->pAmeacados);
+		LIS_DestruirLista(tempCasa->pAmeacantes);
+		free(pValor);
+	} /* Fim função: TAB -Destruir valor casa*/
+
+
+/***********************************************************************
+*
+*  $FC Função: TLIS -Criar casa
+*
+***********************************************************************/
+
+	tpCasa* CriarCasa()
+	{
+		tpCasa * pCasa;
+		pCasa = (tpCasa*)malloc(sizeof(tpCasa));
+		pCasa->primeiroMov = 0;
+		pCasa->cor = 'u';
+		strcpy(pCasa->nome,"xxxx");
+
+		LIS_CriarLista("amdo",DestruirValorGenerico,&pCasa->pAmeacados);
+		LIS_CriarLista("amte", DestruirValorGenerico, &pCasa->pAmeacantes);
+		
+
+		return pCasa;
+	} /* Fim função: TAB -Criar casa*/
 
 /***********************************************************************
 *
@@ -115,7 +275,7 @@
 		tpPeca* pecaTemp;
 		tpMovimentoPeca* movPeca;
 
-		LIS_CriarLista("p", DestruirValor, &lisPecas);
+		LIS_CriarLista("p", DestruirValorPeca, &lisPecas);
 
 		FILE * pFile = fopen(pathArquivo, "r");
 		char line[50];
@@ -131,10 +291,10 @@
 				
 					pecaTemp->cor = 'u';
 
-					LIS_CriarLista("a", DestruirValor, &lisTemp);
+					LIS_CriarLista("a", DestruirValorGenerico, &lisTemp);
 					pecaTemp->pAndar = lisTemp;
 
-					LIS_CriarLista("c", DestruirValor, &lisTemp);
+					LIS_CriarLista("c", DestruirValorGenerico, &lisTemp);
 					pecaTemp->pComer = lisTemp;
 				}
 				else if (strncmp(line, "Nome", 4) == 0)
@@ -193,7 +353,7 @@
 			}
 
 		fclose(pFile);
-		return 0;
+		return lisPecas;
 	}
 
 	int main()

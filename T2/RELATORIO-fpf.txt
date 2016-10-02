@@ -5,4 +5,5 @@ Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
 28/09	2h					revisar código		Alteração no módulo testlis e dos métodos do módulo lista
 29/09	1h					revisar código		Alteração no módulo lista
 01/09	1h					revisar código		Alteração nos módulos teslis e lista
-01/09	1h					revisar código		Complementando testes			
+01/09	1h					revisar código		Complementando testes		
+01/09	3h					codificar			Iniciadas as implementações do tabuleiro	
