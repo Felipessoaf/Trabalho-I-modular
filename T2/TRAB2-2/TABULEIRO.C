@@ -146,6 +146,8 @@ typedef struct TAB_tagTabuleiro
 
 	static int ValidarNome(LIS_tppLista pLista, char * nome);
 
+	static int validarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -236,11 +238,15 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 		
-	   //TODO : PEÇA EXISTE vsdknsadkjlbfJKLwfjefgrrgaenfgajkrengkjwnetogmnqe3nrgjoneqrlgnlqwgçnlkqerngklneçlgnçlarengklq
+	   if (!ValidarNome(pTabTemp->pPecas, pNome))
+	   {
+		   return TAB_CondRetPecaInexistente;
+	   } /* if */
 
 	   pCasa = MoverCorrente(pTabTemp->pMatriz,pCoordenada);
 	   pCasa->cor = cor;
 	   strcpy(pCasa->nome, pNome);
+	   pCasa->primeiroMov = 1;
 
 	   return TAB_CondRetOK;
 
@@ -477,7 +483,7 @@ typedef struct TAB_tagTabuleiro
 	LIS_tppLista LerArquivoPecas()
 	{
 		LIS_tppLista lisPecas;
-		LIS_tppLista lisTemp;
+		//LIS_tppLista lisTemp;
 
 		tpPeca* pecaTemp;
 		tpMovimentoPeca* movPeca;
@@ -652,17 +658,143 @@ typedef struct TAB_tagTabuleiro
 
 	int ValidarNome(LIS_tppLista pLista, char * nome)
 	{
-		LIS_tpCondRet CondRet;
+		LIS_tpCondRet CondRet = LIS_CondRetOK;
 		tpPeca * pPeca;
 		for (LIS_AndarInicio(pLista); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pLista))
 		{
 			LIS_ObterElemento(pLista, &pPeca);
 			if (strcmp(nome, pPeca->nome) == 0)
 			{
-				return FALSE;
+				return TRUE;
 			}
 		}
-		return TRUE;
+		return FALSE;
+	}
+
+/***********************************************************************
+*
+*  $FC Função: TAB  -Validar movimento
+*
+***********************************************************************/
+
+	int validarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
+	{
+		char nomePeca[4];
+		char cor;
+		char pAlcance[2];
+
+		int comer, i, colidiu, foraTab, branco;
+
+		LIS_tppLista pMovimento;
+		LIS_tpCondRet CondRet;
+
+		tpPeca * pPeca;
+		tpMovimentoPeca * pMov;
+
+		tpCasa * pCasaOrigem;
+		tpCasa * pCasaDestino;
+		tpCasa * pCasaTemp;
+
+		pCasaOrigem = MoverCorrente(pTabuleiro->pMatriz, origem);
+		pCasaDestino = MoverCorrente(pTabuleiro->pMatriz, destino);
+
+		comer = strcmp(pCasaDestino->nome, "xxxx") ? 1 : 0;
+		branco = (pCasaDestino->cor != 'b' || pCasaDestino->cor != 'B') ? -1 : 1;
+
+		strcpy(nomePeca, pCasaOrigem->nome);
+
+		cor = pCasaOrigem->cor;
+		pMovimento = pPeca->pComer;
+
+		for (LIS_AndarInicio(pTabuleiro->pPecas); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pTabuleiro->pPecas))
+		{
+			LIS_ObterElemento(pTabuleiro->pPecas, &pPeca);
+			if (strcmp(nomePeca, pPeca->nome) == 0)
+			{
+				pMovimento = comer ? pPeca->pComer : pPeca->pAndar;
+				break;
+			}
+		}
+
+		for (LIS_AndarInicio(pMovimento); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pMovimento))
+		{
+			LIS_ObterElemento(pMovimento, &pMov);
+
+			// confere primeiro movimento
+			if (pMov->primeiroMov && !MoverCorrente(pTabuleiro->pMatriz, pAlcance)->primeiroMov)
+			{
+				continue;
+			}
+
+			pAlcance[0] = origem[0] + branco*(pMov->coordenadas[1] - 48) - branco*(pMov->coordenadas[3] - 48);
+			pAlcance[1] = origem[0] + branco*(pMov->coordenadas[0] - 48) - branco*(pMov->coordenadas[2] - 48);
+
+			foraTab = 0;
+			colidiu = 0;
+
+			// primeiro passo
+			if (!ValidarCoordenada(pAlcance))
+			{
+				continue;
+			}
+			pCasaTemp = MoverCorrente(pTabuleiro->pMatriz, pAlcance);
+			if (strcmp(pCasaTemp->nome, "xxxx") && !comer)
+			{
+				continue;
+			}
+
+			// min
+			for (i = 1; i < pMov->min; i++)
+			{
+				pAlcance[0] = pAlcance[0] + branco*(pMov->coordenadas[1] - 48) - branco*(pMov->coordenadas[3] - 48);
+				pAlcance[1] = pAlcance[0] + branco*(pMov->coordenadas[0] - 48) - branco*(pMov->coordenadas[2] - 48);
+				if (!ValidarCoordenada(pAlcance))
+				{
+					foraTab = 1;
+					continue;
+				}
+				pCasaTemp = MoverCorrente(pTabuleiro->pMatriz, pAlcance);
+				if (strcmp(pCasaTemp->nome, "xxxx"))
+				{
+					if (strcmp(pAlcance, destino))
+					{
+						colidiu = 1;
+					}
+				}
+			}
+
+			if (foraTab || colidiu)
+			{
+				continue;
+			}
+			if (!strcmp(pAlcance, destino))
+			{
+				return TRUE;
+			}
+
+			//max
+			for (i = pMov->min; i < pMov->max; i++)
+			{
+				pAlcance[0] = pAlcance[0] + branco*(pMov->coordenadas[1] - 48) - branco*(pMov->coordenadas[3] - 48);
+				pAlcance[1] = pAlcance[0] + branco*(pMov->coordenadas[0] - 48) - branco*(pMov->coordenadas[2] - 48);
+				if (!strcmp(pAlcance, destino) && !colidiu)
+				{
+					return TRUE;
+				}
+				if (!ValidarCoordenada(pAlcance))
+				{
+					foraTab = 1;
+					continue;
+				}
+				pCasaTemp = MoverCorrente(pTabuleiro->pMatriz, pAlcance);
+				if (strcmp(pCasaTemp->nome, "xxxx"))
+				{
+					colidiu = 1;
+				}
+			}
+		}
+
+		return FALSE;
 	}
 
 	/*int main()
