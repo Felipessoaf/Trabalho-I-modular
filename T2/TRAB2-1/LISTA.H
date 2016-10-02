@@ -124,7 +124,7 @@ typedef enum {
 *	  pLista		- ponteiro para a lista a ser criada.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Executou corretamente.
+*     LIS_CondRetOK            - Executou corretamente.
 *	  LIS_CondRetFaltouMemoria - Ocorreu algum erro de falta de memória 
 *
 ***********************************************************************/
@@ -132,26 +132,6 @@ typedef enum {
 LIS_tpCondRet LIS_CriarLista(char * id,
 							 void  ( * ExcluirValor ) ( void * pDado ), 
 							 LIS_tppLista * pLista);
-
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Destruir lista
-*
-*  $ED Descrição da função
-*     Destrói a lista fornecida.
-*     O parâmetro ponteiro para a lista não é modificado.
-*     Se ocorrer algum erro durante a destruição, a lista resultará
-*     estruturalmente incorreta.
-*     OBS. não existe previsão para possíveis falhas de execução.
-*
-*  $FV Valor retornado
-*     LIS_CondRetOK    - destruiu sem problemas
-*
-***********************************************************************/
-
-LIS_tpCondRet LIS_DestruirLista(LIS_tppLista pLista);
-
 
 /***********************************************************************
 *
@@ -164,9 +144,7 @@ LIS_tpCondRet LIS_DestruirLista(LIS_tppLista pLista);
 *     pLista - ponteiro para a lista de onde se quer o valor
 *
 *  $FV Valor retornado
-*     não NULL - se o elemento corrente existe
-*     NULL     - se a lista estiver vazia
-*                Pode retornar NULL se o valor inserido no elemento for NULL.
+*     LIS_CondRetOK - se o elemento corrente existe
 *
 ***********************************************************************/
 
@@ -196,6 +174,26 @@ LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char ** pId);
 LIS_tpCondRet LIS_InserirElemento( LIS_tppLista pLista ,
                                       void * pValor         ) ;
 
+/***********************************************************************
+*
+*  $FC Função: LIS  &Obter referência para o valor contido no elemento
+*
+*  $ED Descrição da função
+*     Obtem a referência para o valor contido no elemento corrente da lista
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista de onde se quer o valor
+*	  pValor - ponteiro onde será armazenado o valor
+*
+*  $FV Valor retornado
+*     LIS_CondRetOK         - se o elemento corrente existe
+*     LIS_CondRetListaVazia - se a lista estiver vazia
+*                Pode ocorrer se o valor inserido no elemento for NULL.
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_ObterElemento(LIS_tppLista pLista,
+								void ** pValor	  ) ;
 
 /***********************************************************************
 *
@@ -211,13 +209,67 @@ LIS_tpCondRet LIS_InserirElemento( LIS_tppLista pLista ,
 *     pLista    - ponteiro para a lista na qual deve excluir.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK
-*     LIS_CondRetListaVazia
+*     LIS_CondRetOK         - se o elemento foi excluido
+*     LIS_CondRetListaVazia - se a lista está vazia
 *
 ***********************************************************************/
 
 LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
 
+/***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o proximo elemento
+*
+*  $ED Descrição da função
+*     Avança o no corrente.
+*
+*  $EP Parâmetros
+*     pLista  - ponteiro para a lista a ser manipulada
+*
+*  $FV Valor retornado
+*     LIS_CondRetOK         - se tiver andado
+*     LIS_CondRetListaVazia - se a lista está vazia
+*     LIS_CondRetFimLista   - se encontrou o fim da lista antes de andar
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_IrProxElemento( LIS_tppLista pLista ) ;
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o nó anterior
+*
+*  $ED Descrição da função
+*     Retrocede o no corrente.
+*
+*  $EP Parâmetros
+*     pLista  - ponteiro para a lista a ser manipulada
+*
+*  $FV Valor retornado
+*     LIS_CondRetOK          - se tiver andado
+*     LIS_CondRetListaVazia  - se a lista está vazia
+*     LIS_CondRetOrigemLista - se encontrou o início da lista antes de andar
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_IrAntElemento( LIS_tppLista pLista ) ;
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Andar para o nó inicial
+*
+*  $ED Descrição da função
+*     Retrocede o no corrente para o inicial.
+*
+*  $EP Parâmetros
+*     pLista  - ponteiro para a lista a ser manipulada
+*
+*  $FV Valor retornado
+*     LIS_CondRetOK - se tiver andado para o início
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_AndarInicio(LIS_tppLista pLista);
 
 /***********************************************************************
 *
@@ -239,86 +291,26 @@ LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
 LIS_tpCondRet LIS_AlterarElemento(LIS_tppLista pLista,
 								  void * pValor		) ;
 
-
 /***********************************************************************
 *
-*  $FC Função: LIS  &Obter referência para o valor contido no elemento
+*  $FC Função: LIS  &Destruir lista
 *
 *  $ED Descrição da função
-*     Obtem a referência para o valor contido no elemento corrente da lista
+*     Destrói a lista fornecida.
+*     O parâmetro ponteiro para a lista não é modificado.
+*     Se ocorrer algum erro durante a destruição, a lista resultará
+*     estruturalmente incorreta.
+*     OBS. não existe previsão para possíveis falhas de execução.
 *
 *  $EP Parâmetros
-*     pLista - ponteiro para a lista de onde se quer o valor
-*	  pValor - ponteiro onde será armazenado o valor
+*     pLista - ponteiro para a lista a ser destruída
 *
 *  $FV Valor retornado
-*     não NULL - se o elemento corrente existe
-*     NULL     - se a lista estiver vazia
-*                Pode retornar NULL se o valor inserido no elemento for NULL.
+*     LIS_CondRetOK - destruiu sem problemas
 *
 ***********************************************************************/
 
-LIS_tpCondRet LIS_ObterElemento(LIS_tppLista pLista,
-								void ** pValor	  ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Ir para o proximo elemento
-*
-*  $ED Descrição da função
-*     Avança o no corrente.
-*
-*  $EP Parâmetros
-*     pLista  - ponteiro para a lista a ser manipulada
-*
-*  $FV Valor retornado
-*     CondRetOK         - se numElem elementos tiverem sido andados
-*     CondRetFimLista   - se encontrou o fim da lista antes de andar numElem
-*                         elementos
-*     CondRetListaVazia - se a lista está vazia
-*
-***********************************************************************/
-
-LIS_tpCondRet LIS_IrProxElemento( LIS_tppLista pLista ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Ir para o nó anterior
-*
-*  $ED Descrição da função
-*     Retrocede o no corrente.
-*
-*  $EP Parâmetros
-*     pLista  - ponteiro para a lista a ser manipulada
-*
-*  $FV Valor retornado
-*     CondRetOK         - se numElem elementos tiverem sido andados
-*     CondRetFimLista   - se encontrou o fim da lista antes de andar numElem
-*                         elementos
-*     CondRetListaVazia - se a lista está vazia
-*
-***********************************************************************/
-
-LIS_tpCondRet LIS_IrAntElemento( LIS_tppLista pLista ) ;
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Andar para o nó inicial
-*
-*  $ED Descrição da função
-*     Retrocede o no corrente para o inicial.
-*
-*  $EP Parâmetros
-*     pLista  - ponteiro para a lista a ser manipulada
-*
-*  $FV Valor retornado
-*     CondRetOK         - se numElem elementos tiverem sido andados
-*
-***********************************************************************/
-
-LIS_tpCondRet LIS_AndarInicio(LIS_tppLista pLista);
+LIS_tpCondRet LIS_DestruirLista(LIS_tppLista pLista);
 
 #undef LISTA_EXT
 
