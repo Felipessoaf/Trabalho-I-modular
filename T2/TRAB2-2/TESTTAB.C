@@ -1,16 +1,16 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TLIS Teste lista de símbolos
+*  $MCI Módulo de implementação: TTAB Teste tabuleiro de xadrez
 *
-*  Arquivo gerado:              TestLIS.c
-*  Letras identificadoras:      TLIS
+*  Arquivo gerado:              TestTAB.c
+*  Letras identificadoras:      TTAB
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: fpf - Felipe Pessoa de Freitas
+*  Projeto: INF 1301 / Juiz de Xadrez
+*  -------------------------------------------Gestor:  LES/DI/PUC-Rio
+*  Autores: pf - Pedro Ferreira
 *           mmq - Matheus de Mello Queiroz
+*			fpf - Felipe Pessoa de Freitas
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor      Data     Observações
@@ -30,13 +30,14 @@
 #include    "Tabuleiro.h"
 
 
-
-static const char CRIAR_TABULEIRO_CMD         [ ] = "=criarTab";
-static const char INSERIR_PECA_CMD            [ ] = "=inserirPeca";
-static const char DESTRUIR_TABULEIRO_CMD      [ ] = "=destruirTab";
-
-
-
+static const char CRIAR_TABULEIRO_CMD         [ ] = "=criarTab"		;
+static const char INSERIR_PECA_CMD            [ ] = "=inserirPeca"	;
+static const char MOVER_PECA_CMD			  [ ] = "=moverPeca"	;
+static const char RETIRAR_PECA_CMD			  [	] = "=retirarPeca"	;
+static const char OBTER_PECA_CMD			  [ ] = "=obterPeca"	;
+static const char OBTER_LIS_AMDO_CMD		  [ ] = "=obterLisAmdo"	;
+static const char OBTER_LIS_AMTE_CMD		  [ ] = "=obterLisAmte"	;
+static const char DESTRUIR_TABULEIRO_CMD      [ ] = "=destruirTab"	;
 
 
 #define TRUE  1
@@ -48,85 +49,217 @@ static const char DESTRUIR_TABULEIRO_CMD      [ ] = "=destruirTab";
 #define NULO     0
 #define NAO_NULO 1
 
-#define DIM_VT_LISTA   10
+#define DIM_VT_TABULEIRO   10
 
 #define DIM_VALOR     100
 
-TAB_tppTabuleiro vtTabuleiros[ DIM_VT_LISTA ];
+TAB_tppTabuleiro vtTabuleiros[DIM_VT_TABULEIRO];
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-static int  ValidarInxLista( int inxLista , int Modo ) ;
+static int  ValidarInxTab( int inxTab , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: TLIS &Testar lista
+*  $FC Função: TTAB &Testar tabuleiro
 *
 *  $ED Descrição da função
-*     Podem ser criadas até 10 listas, identificadas pelos índices 0 a 10
+*     Podem ser criadas até 10 tabuleiros, identificados pelos índices 0 a 9
 *
 *     Comandos disponíveis:
 *
-*     =criarTab    inxTabuleiro CondRetEsp
-*     =destruirTab inxTabuleiro CondRetEsp
+*     =criarTab			inxTabuleiro		CondRetEsp
+*     =inserirPeca		inxTabuleiro		CondRetEsp 
+*     =moverPeca		inxTabuleiro		CondRetEsp
+*     =retirarPeca		inxTabuleiro		CondRetEsp
+*     =obterPeca		inxTabuleiro		CondRetEsp
+*     =obterLisAmdo		inxTabuleiro		CondRetEsp
+*     =obterLisAmte		inxTabuleiro		CondRetEsp
+*     =destruirTab		inxTabuleiro		CondRetEsp
 *
 ***********************************************************************/
 
 TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 {
-	int inxLista   = -1 ,
+	int inxTab   = -1 ,
 		numLidos   = -1 ,
 		CondRetEsp = -1  ;
 
-	TST_tpCondRet CondRet ;
+	TST_tpCondRet CondRet = TST_CondRetOK;
 	TST_tpCondRet CondRetAux;
 
 	char IdListaDado[DIM_VALOR];
 
-	/* LIS  &Criar tabuleiro */
+	/* TAB  &Criar tabuleiro */
 
 		if ( strcmp( ComandoTeste , CRIAR_TABULEIRO_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxLista, &CondRetEsp );
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
 
 			if (   ( numLidos != 2 )
-				|| ( ! ValidarInxLista( inxLista , VAZIO ) ) )
+				|| ( ! ValidarInxTab( inxTab , VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			CondRet = TAB_CriarTabuleiro( &vtTabuleiros[inxLista] );
+			CondRet = TAB_CriarTabuleiro( &vtTabuleiros[inxTab] );
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
-					"Condicao de retorno errada ao criar lista." ) ;
+					"Condicao de retorno errada ao criar tabuleiro." ) ;
 
-		} /* fim ativa: LIS  &Criar tabuleiro */
+		} /* fim ativa: TAB  &Criar tabuleiro */
+
+
+	/* TAB  &Inserir peca */
+
+		if ( strcmp( ComandoTeste , INSERIR_PECA_CMD ) == 0 )
+		{
+
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+
+			if (   ( numLidos != 2 )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
+			{
+				return TST_CondRetParm ;
+			} /* if */
+
+			//CondRet = TAB_InserirPeca( &vtTabuleiros[inxTab] );
+
+			return TST_CompararInt( CondRetEsp , CondRet ,
+					"Condicao de retorno errada ao inserir peca." ) ;
+
+		} /* fim ativa: TAB  &Inserir peca */
+
+
+	/* TAB  &Mover peca */
+
+		if ( strcmp( ComandoTeste , MOVER_PECA_CMD ) == 0 )
+		{
+
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+
+			if (   ( numLidos != 2 )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
+			{
+				return TST_CondRetParm ;
+			} /* if */
+
+			//CondRet = TAB_MoverPeca(&vtTabuleiros[inxTab]);
+
+			return TST_CompararInt( CondRetEsp , CondRet ,
+					"Condicao de retorno errada ao mover peca." ) ;
+
+		} /* fim ativa: TAB  &Mover peca */
+
+
+	/* TAB  &Retirar peca */
+
+		if ( strcmp( ComandoTeste , RETIRAR_PECA_CMD ) == 0 )
+		{
+
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+
+			if (   ( numLidos != 2 )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
+			{
+				return TST_CondRetParm ;
+			} /* if */
+
+			//CondRet = TAB_RetirarPeca( &vtTabuleiros[inxTab] );
+
+			return TST_CompararInt( CondRetEsp , CondRet ,
+					"Condicao de retorno errada ao retirar peca." ) ;
+
+		} /* fim ativa: TAB  &Retirar peca */
+
+
+	/* TAB  &Obter peca */
+
+		if ( strcmp( ComandoTeste , OBTER_PECA_CMD ) == 0 )
+		{
+
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+
+			if (   ( numLidos != 2 )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
+			{
+				return TST_CondRetParm ;
+			} /* if */
+
+			//CondRet = TAB_ObterPeca( &vtTabuleiros[inxTab] );
+
+			return TST_CompararInt( CondRetEsp , CondRet ,
+					"Condicao de retorno errada ao obter peca." ) ;
+
+		} /* fim ativa: TAB  &Obter peca */
+
+
+	/* TAB  &Obter lista ameaçantes */
+
+		if ( strcmp( ComandoTeste , OBTER_LIS_AMTE_CMD ) == 0 )
+		{
+
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+
+			if (   ( numLidos != 2 )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
+			{
+				return TST_CondRetParm ;
+			} /* if */
+
+			//CondRet = TAB_ObterListaAmeacantes(&vtTabuleiros[inxTab]);
+
+			return TST_CompararInt( CondRetEsp , CondRet ,
+					"Condicao de retorno errada ao obter lista ameacantes." ) ;
+
+		} /* fim ativa: TAB  &Obter lista ameaçantes */
+
+
+	/* TAB  &Obter lista ameaçados */
+
+		if ( strcmp( ComandoTeste , OBTER_LIS_AMDO_CMD ) == 0 )
+		{
+
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+
+			if (   ( numLidos != 2 )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
+			{
+				return TST_CondRetParm ;
+			} /* if */
+
+			//CondRet = TAB_ObterListaAmeacados(&vtTabuleiros[inxTab]);
+
+			return TST_CompararInt( CondRetEsp , CondRet ,
+					"Condicao de retorno errada ao obter lista ameacados." ) ;
+
+		} /* fim ativa: TAB  &Obter lista ameaçados */
 
 
 
-		/* LIS  &Destruir tabuleiro */
+	/* TAB  &Destruir tabuleiro */
 
 		else if ( strcmp( ComandoTeste , DESTRUIR_TABULEIRO_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxLista, &CondRetEsp );
+			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
 
 			if (   ( numLidos != 2 )
-				|| ( ! ValidarInxLista( inxLista , NAO_VAZIO ) ) )
+				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			CondRet = TAB_DestruirTabuleiro( vtTabuleiros[inxLista] );
+			CondRet = TAB_DestruirTabuleiro( vtTabuleiros[inxTab] );
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
-					"Condicao de retorno errada ao criar lista." ) ;
+					"Condicao de retorno errada ao destruir tabuleiro." ) ;
 
-		} /* fim ativa: LIS  &Destruir tabuleiro */
+		} /* fim ativa: TAB  &Destruir tabuleiro */
 
 		
 
@@ -138,28 +271,28 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 /***********************************************************************
 *
-*  $FC Função: TLIS -Validar indice de lista
+*  $FC Função: TLIS -Validar indice do tabuleiro
 *
 ***********************************************************************/
 
-int ValidarInxLista( int inxLista , int Modo )
+int ValidarInxTab( int inxTab , int Modo )
 {
 
-	if (   ( inxLista <  0 )
-		|| ( inxLista >= DIM_VT_LISTA ) )
+	if (   ( inxTab <  0 )
+		|| ( inxTab >= DIM_VT_TABULEIRO ) )
 	{
 		return FALSE ;
 	} /* if */
 
 	if ( Modo == VAZIO )
 	{
-		if ( vtTabuleiros[ inxLista ] != NULL )
+		if ( vtTabuleiros[ inxTab ] != NULL )
 		{
 			return FALSE ;
 		} /* if */
 	} else
 	{
-		if ( vtTabuleiros[ inxLista ] == NULL )
+		if ( vtTabuleiros[ inxTab ] == NULL )
 		{
 			return FALSE ;
 		} /* if */
@@ -167,7 +300,7 @@ int ValidarInxLista( int inxLista , int Modo )
 
 	return TRUE ;
 
-} /* Fim função: TLIS -Validar indice de lista */
+} /* Fim função: TLIS -Validar indice do tabuleiro */
 
-/********** Fim do módulo de implementação: TLIS Teste lista de símbolos **********/
+/********** Fim do módulo de implementação: TTAB Teste tabuleiro de xadrez **********/
 
