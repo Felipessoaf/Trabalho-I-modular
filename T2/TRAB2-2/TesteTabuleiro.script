@@ -5,19 +5,66 @@
 
 == Inicializar valores
 =declararparm   tab0  int  0
+=declararparm   tab1  int  1
 
 
-=declararparm   OK               int  0
-=declararparm   NaoAchou         int  1
-=declararparm   TabNaoExiste     int  2
-=declararparm   FaltouMemoria    int  3
-=declararparm   CasaNaoExiste    int  4
-=declararparm   PecaNaoExiste    int  5
-=declararparm   CorNaoExiste     int  6
+=declararparm   preto   char  'p'
+=declararparm   branco  char  'b'
+=declararparm   errc    char  'e'
+
+
+=declararparm   peao   string  "p"
+=declararparm   torre  string  "t"
+=declararparm   errp   string  "err"
+
+
+=declararparm   OK                 int  0
+=declararparm   EntradaInvalida    int  1
+=declararparm   TabNaoExiste       int  2
+=declararparm   FaltouMemoria      int  3
+=declararparm   CasaNaoExiste      int  4
+=declararparm   PecaNaoExiste      int  5
+=declararparm   CorNaoExiste       int  6
+=declararparm   MovimentoInvalido  int  7
+=declararparm   CasaVazia          int  8
+
 
 
 == Criar tabuleiro
 =criarTab     tab0  OK
+
+== Inserir peca de tipo inexistente
+=inserirPeca  tab0  errp  preto  "H8"  PecaNaoExiste
+=inserirPeca  tab0  errp  preto  "H8"  OK
+=recuperar
+
+== Inserir peca de cor inexistente
+=inserirPeca  tab0  peao  errc   "H8"  CorNaoExiste
+=inserirPeca  tab0  peao  errc   "H8"  OK
+=recuperar
+
+== Inserir peca em casa inexistente
+=inserirPeca  tab0  peao  preto  "H9"  CasaNaoExiste
+=inserirPeca  tab0  peao  preto  "H9"  OK
+=recuperar
+
+== Inserir peca
+=inserirPeca  tab0  peao  preto   "H8"  OK
+=obterPeca    tab0  "H8"  preto   peao  OK
+
+== Obter peca - cor esperada diferente da existente
+=obterPeca    tab0  "H8"  branco  peao   OK
+=recuperar
+
+== Obter peca - tipo esperado diferente do existente
+=obterPeca    tab0  "H8"  preto   torre  OK
+=recuperar
+
+== Obter peca - casa inexistente
+=obterPeca    tab0  "H0"  branco  torre  CasaNaoExiste
+
+== Obter peca - casa vazia
+=obterPeca    tab0  "H7"  branco  torre  CasaVazia
 
 == Destruir tabuleiro
 =destruirTab  tab0  OK

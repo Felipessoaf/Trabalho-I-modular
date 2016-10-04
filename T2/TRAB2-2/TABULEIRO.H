@@ -75,8 +75,11 @@ typedef enum {
 	TAB_CondRetCorInexistente,
 	/* Cor inexistente */
 
-	TAB_CondRetMovimentoInvalido
+	TAB_CondRetMovimentoInvalido,
 	/* Movimento invalido */
+
+	TAB_CondRetCasaVazia
+	/* Não existe peça na casa especificada */
 
 } TAB_tpCondRet;
 
@@ -179,13 +182,14 @@ typedef enum {
 *	 pNome			- ponteiro para onde sera retornado o nome
 *
 *  $FV Valor retornado
-*     TAB_CondRetOK              - Executou corretamente.
+*     TAB_CondRetOK              - Executou corretamente
 *	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *	  TAB_CondRetCasaInexistente - Coordenada da casa inválida
+*     TAB_CondRetCasaVazia       - Não há peça na casa
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome);
+	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome );
 
 /***********************************************************************
 *

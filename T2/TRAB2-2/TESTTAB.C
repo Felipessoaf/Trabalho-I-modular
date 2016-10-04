@@ -71,14 +71,14 @@ static int  ValidarInxTab( int inxTab , int Modo ) ;
 *
 *     Comandos disponíveis:
 *
-*     =criarTab			inxTabuleiro		CondRetEsp
-*     =inserirPeca		inxTabuleiro		CondRetEsp 
-*     =moverPeca		inxTabuleiro		CondRetEsp
-*     =retirarPeca		inxTabuleiro		CondRetEsp
-*     =obterPeca		inxTabuleiro		CondRetEsp
-*     =obterLisAmdo		inxTabuleiro		CondRetEsp
-*     =obterLisAmte		inxTabuleiro		CondRetEsp
-*     =destruirTab		inxTabuleiro		CondRetEsp
+*     =criarTab			inxTabuleiro							CondRetEsp
+*     =inserirPeca		inxTabuleiro	nome	cor		coord	CondRetEsp 
+*     =moverPeca		inxTabuleiro	orig	dest			CondRetEsp
+*     =retirarPeca		inxTabuleiro							CondRetEsp
+*     =obterPeca		inxTabuleiro	coord	NomeEsp	CorEsp	CondRetEsp
+*     =obterLisAmdo		inxTabuleiro							CondRetEsp
+*     =obterLisAmte		inxTabuleiro							CondRetEsp
+*     =destruirTab		inxTabuleiro							CondRetEsp
 *
 ***********************************************************************/
 
@@ -91,7 +91,13 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	TST_tpCondRet CondRet = TST_CondRetOK;
 	TST_tpCondRet CondRetAux;
 
-	char IdListaDado[DIM_VALOR];
+	char corDado;
+	char nomeDado[4];
+	char coordOrigDado[3];
+	char coordDestDado[3];
+
+	char   pCor;
+	char * pNome;
 
 	/* TAB  &Criar tabuleiro */
 
@@ -100,8 +106,8 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
 
-			if (   ( numLidos != 2 )
-				|| ( ! ValidarInxTab( inxTab , VAZIO ) ) )
+			if (    ( numLidos != 2 )
+				 || ( ! ValidarInxTab( inxTab , VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
@@ -113,21 +119,21 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 		} /* fim ativa: TAB  &Criar tabuleiro */
 
-
 	/* TAB  &Inserir peca */
 
 		if ( strcmp( ComandoTeste , INSERIR_PECA_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+			numLidos = LER_LerParametros( "iscsi" , 
+					&inxTab, nomeDado, &corDado, coordDestDado, &CondRetEsp );
 
-			if (   ( numLidos != 2 )
+			if (   ( numLidos != 5 )
 				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			//CondRet = TAB_InserirPeca( &vtTabuleiros[inxTab] );
+			CondRet = TAB_InserirPeca( &vtTabuleiros[inxTab], nomeDado, corDado, coordDestDado );
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao inserir peca." ) ;
@@ -140,15 +146,16 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		if ( strcmp( ComandoTeste , MOVER_PECA_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+			numLidos = LER_LerParametros( "issi" , 
+				&inxTab, coordOrigDado, coordDestDado, &CondRetEsp );
 
-			if (   ( numLidos != 2 )
+			if (   ( numLidos != 4 )
 				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			//CondRet = TAB_MoverPeca(&vtTabuleiros[inxTab]);
+			CondRet = TAB_MoverPeca( &vtTabuleiros[inxTab], coordOrigDado, coordDestDado );
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao mover peca." ) ;
@@ -182,18 +189,33 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		if ( strcmp( ComandoTeste , OBTER_PECA_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+			numLidos = LER_LerParametros( "iscsi" , 
+				&inxTab, coordOrigDado, &corDado, nomeDado, &CondRetEsp );
 
-			if (   ( numLidos != 2 )
+			if (   ( numLidos != 5 )
 				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			//CondRet = TAB_ObterPeca( &vtTabuleiros[inxTab] );
+			CondRet = TAB_ObterPeca( &vtTabuleiros[inxTab], coordOrigDado, &pCor, &pNome );
 
-			return TST_CompararInt( CondRetEsp , CondRet ,
-					"Condicao de retorno errada ao obter peca." ) ;
+			CondRet = TST_CompararInt( CondRetEsp , CondRet , "Condicao de retorno errada ao obter peca." );
+			if(    CondRet    != TST_CondOK 
+				|| CondRetEsp == TAB_CondRetNaoExiste
+				|| CondRetEsp == TAB_CondRetCasaVazia
+				|| CondRetEsp == TAB_CondRetCasaInexistente )
+			{
+				return CondRet;
+			}
+
+			CondRet = TST_CompararChar( corDado, pCor, "Cor da peca diferente da esperada." );
+			if( CondRet != TST_CondOK	)
+			{
+				return CondRet;
+			}
+
+			return TST_CompararString( nomeDado, pNome, "Tipo de peca diferente do esperado." );
 
 		} /* fim ativa: TAB  &Obter peca */
 
