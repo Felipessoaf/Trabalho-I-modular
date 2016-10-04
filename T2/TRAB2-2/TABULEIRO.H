@@ -57,8 +57,8 @@ typedef enum {
 	TAB_CondRetOK,
 	/* Concluiu corretamente */
 
-	TAB_CondRetNaoAchou,
-	/* Não encontrou o valor procurado */
+	TAB_CondRetEntradaInvalida,
+	/* Erro ao abrir o arquivo de entrada */
 
 	TAB_CondRetNaoExiste,
 	/* O tabuleiro não existe */

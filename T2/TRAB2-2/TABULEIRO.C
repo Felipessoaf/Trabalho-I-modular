@@ -134,9 +134,11 @@ typedef struct TAB_tagTabuleiro
 
 	static void DestruirValorCasa(void * pValor);
 
-	static tpCasa * CriarCasa(); 
+	static tpCasa * CriarCasa();
 
-	static LIS_tppLista LerArquivoPecas();
+	static TAB_tpCondRet CriarPeca( tpPeca ** Peca );
+
+	static TAB_tpCondRet LerArquivoPecas( LIS_tppLista * pListaPecas );
 
 	static int ValidarCor( char cor );
 
@@ -162,44 +164,50 @@ typedef struct TAB_tagTabuleiro
 	   int i, j;
 
 	   TAB_tppTabuleiro pTabuleiroTemp;
-	   LIS_tpCondRet    CondRet;
+	   TAB_tpCondRet    CondRetTab;
+	   LIS_tpCondRet    CondRetLis;
 
-	   pTabuleiroTemp = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
-	   if (pTabuleiroTemp == NULL)
+	   pTabuleiroTemp = ( TAB_tpTabuleiro * ) malloc( sizeof( TAB_tpTabuleiro ) );
+	   if ( pTabuleiroTemp == NULL )
 	   {
 		   return TAB_CondRetFaltouMemoria;
 	   } /* if */
 
-	   pTabuleiroTemp->pPecas = LerArquivoPecas();
-	   CondRet = LIS_CriarLista("matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz);
-	   if (CondRet != TAB_CondRetOK)
+	   CondRetTab = LerArquivoPecas( &pTabuleiroTemp->pPecas );
+	   if( CondRetTab != TAB_CondRetOK )
+	   {
+		   return CondRetTab;
+	   } /* if */
+	   
+	   CondRetLis = LIS_CriarLista( "matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz );
+	   if ( CondRetLis != LIS_CondRetOK )
 	   {
 		   return TAB_CondRetFaltouMemoria;
 	   } /* if */
 
-	   for (i = 0; i < 8; i++)
+	   for ( i = 0; i < 8; i++ )
 	   {
 		   LIS_tppLista pListaColunaTemp;
 
-		   char id = (i + '0');
+		   char id = ( i + '0' );
 
-		   CondRet = LIS_CriarLista( &id, DestruirValorCasa, &pListaColunaTemp );
-		   if (CondRet != TAB_CondRetOK)
+		   CondRetLis = LIS_CriarLista( &id, DestruirValorCasa, &pListaColunaTemp );
+		   if ( CondRetLis != TAB_CondRetOK )
 		   {
 			   return TAB_CondRetFaltouMemoria;
 		   } /* if */
 
-		   for (j = 0; j < 8; j++)
+		   for ( j = 0; j < 8; j++ )
 		   {
-			   CondRet = LIS_InserirElemento(pListaColunaTemp, CriarCasa());
-			   if (CondRet != TAB_CondRetOK)
+			   CondRetLis = LIS_InserirElemento(pListaColunaTemp, CriarCasa());
+			   if ( CondRetLis != TAB_CondRetOK )
 			   {
 				   return TAB_CondRetFaltouMemoria;
 			   } /* if */
 		   }
 
-		   CondRet = LIS_InserirElemento(pTabuleiroTemp->pMatriz, pListaColunaTemp);
-		   if (CondRet != TAB_CondRetOK)
+		   CondRetLis = LIS_InserirElemento(pTabuleiroTemp->pMatriz, pListaColunaTemp);
+		   if ( CondRetLis != TAB_CondRetOK )
 		   {
 			   return TAB_CondRetFaltouMemoria;
 		   } /* if */
@@ -539,107 +547,177 @@ typedef struct TAB_tagTabuleiro
 
 /***********************************************************************
 *
+*  $FC Função: TLIS -Criar peça
+*
+***********************************************************************/
+
+	TAB_tpCondRet CriarPeca( tpPeca ** pPeca )
+	{
+		tpPeca * novaPeca;
+
+		LIS_tpCondRet CondRetLista;
+
+		novaPeca = ( tpPeca * ) malloc( sizeof( tpPeca ) );
+		if( novaPeca == NULL )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
+
+		novaPeca->cor = 'u';
+
+		CondRetLista = LIS_CriarLista( "a", DestruirValorGenerico, &novaPeca->pAndar );
+		if( CondRetLista != LIS_CondRetOK )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
+
+		CondRetLista = LIS_CriarLista( "c", DestruirValorGenerico, &novaPeca->pComer );
+		if( CondRetLista != LIS_CondRetOK )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
+
+		*pPeca = novaPeca;
+
+		return TAB_CondRetOK;
+
+	} /* Fim função: TAB -Criar peca*/
+
+/***********************************************************************
+*
 *  $FC Função: TAB  -Ler Arquivo de peças
 *
 ***********************************************************************/
 
-	LIS_tppLista LerArquivoPecas()
+	TAB_tpCondRet LerArquivoPecas( LIS_tppLista * pListaPecas )
 	{
-		LIS_tppLista lisPecas;
-		//LIS_tppLista lisTemp;
+		LIS_tpCondRet CondRetLista;
+		TAB_tpCondRet CondRetTab;
 
 		tpPeca* pecaTemp;
 		tpMovimentoPeca* movPeca;
 
-		FILE * pFile = fopen(pathArquivo, "r");
 		char line[50];
+		FILE * pFile = fopen(pathArquivo, "r");
+		if ( pFile == NULL )
+		{
+			printf( "\nErro, nao foi possivel abrir o arquivo de entrada.\n" );
+			return TAB_CondRetEntradaInvalida;
+		}
 
-		LIS_CriarLista("p", DestruirValorPeca, &lisPecas);
+		CondRetLista = LIS_CriarLista("p", DestruirValorPeca, pListaPecas );
+		if( CondRetLista != LIS_CondRetOK )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
 
-		if (pFile == NULL)
-			printf("Erro, nao foi possivel abrir o arquivo\n");
-		else
-			while (fgets(line, sizeof(line), pFile) != NULL)
+		while ( fgets (line, sizeof( line ), pFile ) != NULL )
+		{
+			if ( strncmp( line, ">>>>>>>>>>", 10 ) == 0 )
 			{
-				if (strncmp(line, ">>>>>>>>>>", 10) == 0)
+				CondRetTab = CriarPeca( &pecaTemp );
+				if( CondRetTab != TAB_CondRetOK )
 				{
-
-					pecaTemp = ( tpPeca * ) malloc( sizeof( tpPeca ) );
-				
-					pecaTemp->cor = 'u';
-
-					LIS_CriarLista( "a", DestruirValorGenerico, &pecaTemp->pAndar );
-
-					LIS_CriarLista( "c", DestruirValorGenerico, &pecaTemp->pComer );
-
-				}
-				else if (strncmp(line, "Nome", 4) == 0)
-				{
-					int i;
-					strncpy(pecaTemp->nome, &line[5], 4);
-
-					for (i = 0; i < 4; i++)
-					{
-						if (pecaTemp->nome[i] == '\n')
-						{
-							pecaTemp->nome[i] = '\0';
-						}
-					}
-
-					printf("%s\n", pecaTemp->nome);
-				}
-				else if ((strncmp(line, "--Andar", 7) == 0) || (strncmp(line, "--Comer", 7) == 0))
-				{
-					movPeca = ( tpMovimentoPeca * ) malloc( sizeof( tpMovimentoPeca ) );
-				}
-				else if (strncmp(line, "Oeste", 5) == 0)
-				{
-					movPeca->coordenadas[0] = (int)line[6] - '0';
-				}
-				else if (strncmp(line, "Norte", 5) == 0)
-				{
-					movPeca->coordenadas[1] = (int)line[6] - '0';
-				}
-				else if (strncmp(line, "Leste", 5) == 0)
-				{
-					movPeca->coordenadas[2] = (int)line[6] - '0';
-				}
-				else if (strncmp(line, "Sul", 3) == 0)
-				{
-					movPeca->coordenadas[3] = (int)line[4] - '0';
-				}
-				else if (strncmp(line, "Max", 3) == 0)
-				{
-					movPeca->max = (int)line[4] - '0';
-				}
-				else if (strncmp(line, "Min", 3) == 0)
-				{
-					movPeca->min = (int)line[4] - '0';
-				}
-				else if (strncmp(line, "Primeiro", 8) == 0)
-				{
-					movPeca->primeiroMov = (int)line[9] - '0';
-				}
-				else if (strncmp(line, "--FimAndar", 10) == 0)
-				{	
-					printf("---------\nAndar\ncoord = %d %d %d %d\nmax = %d\nmin = %d\nprim = %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3], movPeca->max, movPeca->min, movPeca->primeiroMov);
-					LIS_InserirElemento(pecaTemp->pAndar, movPeca);
-				}
-				else if (strncmp(line, "--FimComer", 10) == 0)
-				{
-					printf("---------\nComer\ncoord = %d %d %d %d\nmax = %d\nmin = %d\nprim = %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3], movPeca->max, movPeca->min, movPeca->primeiroMov);
-					LIS_InserirElemento(pecaTemp->pComer, movPeca);
-				}
-				else if (strncmp(line, "<<<<<<<<<<", 10) == 0)
-				{
-					printf("----------\n");
-					printf("Nome = %s\nCor = %c\n>>>>>>>>>>>>>>>\n", pecaTemp->nome, pecaTemp->cor);
-					LIS_InserirElemento(lisPecas, pecaTemp);
+					return TAB_CondRetFaltouMemoria;
 				}
 			}
+			else if ( strncmp( line, "Nome", 4 ) == 0 )
+			{
+				int i;
+				strncpy( pecaTemp->nome, &line[5], 4 );
+
+				for ( i = 0; i < 4; i++ )
+				{
+					if ( pecaTemp->nome[i] == '\n' )
+					{
+						pecaTemp->nome[i] = '\0';
+					}
+				}
+
+				printf( "\n%s\n", pecaTemp->nome );
+			}
+			else if ( ( strncmp( line, "--Andar", 7 ) == 0 ) || ( strncmp( line, "--Comer", 7 ) == 0) )
+			{
+				movPeca = ( tpMovimentoPeca * ) malloc( sizeof( tpMovimentoPeca ) );
+				if( movPeca == NULL )
+				{
+					return TAB_CondRetFaltouMemoria;
+				}
+			}
+			else if ( strncmp( line, "Oeste", 5 ) == 0 )
+			{
+				movPeca->coordenadas[0] = line[6] - '0';
+			}
+			else if ( strncmp( line, "Norte", 5 ) == 0 )
+			{
+				movPeca->coordenadas[1] = line[6] - '0';
+			}
+			else if ( strncmp( line, "Leste", 5 ) == 0 )
+			{
+				movPeca->coordenadas[2] = line[6] - '0';
+			}
+			else if ( strncmp( line, "Sul", 3 ) == 0 )
+			{
+				movPeca->coordenadas[3] = line[4] - '0';
+			}
+			else if ( strncmp( line, "Max", 3 ) == 0 ) 
+			{
+				movPeca->max = line[4] - '0';
+			}
+			else if ( strncmp( line, "Min", 3 ) == 0 )
+			{
+				movPeca->min = line[4] - '0';
+			}
+			else if ( strncmp( line, "Primeiro", 8 ) == 0 )
+			{
+				movPeca->primeiroMov = line[9] - '0';
+			}
+			else if ( strncmp( line, "--FimAndar", 10 ) == 0 )
+			{	
+				printf( "---------\n" );
+				printf( "Andar\n" );
+				printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
+				printf( "max   = %d\n", movPeca->max );
+				printf( "min   = %d\n", movPeca->min );
+				printf( "prim  = %d\n", movPeca->primeiroMov );
+
+				CondRetLista = LIS_InserirElemento(pecaTemp->pAndar, movPeca);
+				if( CondRetLista != LIS_CondRetOK )
+				{
+					return TAB_CondRetFaltouMemoria;
+				}
+			}
+			else if (strncmp(line, "--FimComer", 10) == 0)
+			{
+				printf( "---------\n" );
+				printf( "Comer\n" );
+				printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
+				printf( "max   = %d\n", movPeca->max );
+				printf( "min   = %d\n", movPeca->min );
+				printf( "prim  = %d\n", movPeca->primeiroMov );
+
+				CondRetLista = LIS_InserirElemento(pecaTemp->pComer, movPeca);
+				if( CondRetLista != LIS_CondRetOK )
+				{
+					return TAB_CondRetFaltouMemoria;
+				}
+			}
+			else if ( strncmp( line, "<<<<<<<<<<", 10 ) == 0 )
+			{
+				printf("----------\n");
+				printf( "Nome = %s\n", pecaTemp->nome );
+				printf( "Cor  = %c\n", pecaTemp->cor  );
+				printf( "\n>>>>>>>>>>>>>>>\n" );
+
+				CondRetLista = LIS_InserirElemento( *pListaPecas, pecaTemp);
+				if( CondRetLista != LIS_CondRetOK )
+				{
+					return TAB_CondRetFaltouMemoria;
+				}
+			}
+		}
 
 		fclose(pFile);
-		return lisPecas;
 	}
 
 /***********************************************************************
@@ -702,12 +780,14 @@ typedef struct TAB_tagTabuleiro
 		}
 
 		LIS_ObterElemento(pLista, (void**) &pListaCasa);
+
+		LIS_AndarInicio( pListaCasa );
 		for (i = 0; i < linha; i++)
 		{
 			LIS_IrProxElemento(pListaCasa);
 		}
 
-		LIS_ObterElemento( pListaCasa, (void**) &pCasa);
+		LIS_ObterElemento( pListaCasa, (void**) &pCasa );
 
 		return pCasa;
 
