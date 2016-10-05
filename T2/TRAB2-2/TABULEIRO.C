@@ -13,8 +13,9 @@
 *			fpf - Felipe Pessoa de Freitas	
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       pf   25/set/2016 início da implementação das peças
+*     Versão  Autor     Data       Observações
+*     *       mmq    04/out/2016  correcao de bugs
+*     1       pf     25/set/2016  início da implementação das peças
 *
 ***************************************************************************/
 
@@ -135,7 +136,7 @@ typedef struct TAB_tagTabuleiro
 
 	static void DestruirValorCasa(void * pValor);
 
-	static tpCasa * CriarCasa();
+	static TAB_tpCondRet CriarCasa( tpCasa ** pCasa );
 
 	static TAB_tpCondRet CriarPeca( tpPeca ** Peca );
 
@@ -205,7 +206,15 @@ typedef struct TAB_tagTabuleiro
 		   for ( j = 0; j < 8; j++ )
 		   {
 			   /* Inseres os elementos na coluna da matriz */
-			   CondRetLis = LIS_InserirElemento( pListaColunasTemp, CriarCasa( ) );
+			   tpCasa * pCasa;
+
+			   CondRetTab = CriarCasa( &pCasa );
+			   if( CondRetTab != TAB_CondRetOK )
+			   {
+				   return TAB_CondRetFaltouMemoria;
+			   }
+
+			   CondRetLis = LIS_InserirElemento( pListaColunasTemp, pCasa );
 			   if ( CondRetLis != TAB_CondRetOK )
 			   {
 				   return TAB_CondRetFaltouMemoria;
@@ -549,18 +558,35 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	tpCasa * CriarCasa()
+	TAB_tpCondRet CriarCasa( tpCasa ** pCasa )
 	{
-		tpCasa * pCasa;
-		pCasa = ( tpCasa * ) malloc( sizeof( tpCasa ) );
-		pCasa->primeiroMov = 0;
-		pCasa->cor = COR_CASA_VAZIA;
-		strcpy( pCasa->nome, PECA_CASA_VAZIA );
+		LIS_tpCondRet CondRet;
 
-		LIS_CriarLista( "amdo", DestruirValorGenerico, &pCasa->pAmeacados  );
-		LIS_CriarLista( "amte", DestruirValorGenerico, &pCasa->pAmeacantes );
+		tpCasa * pCasaTemp = ( tpCasa * ) malloc( sizeof( tpCasa ) );
+		if( pCasaTemp == NULL )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
 
-		return pCasa;
+		pCasaTemp->primeiroMov = 0;
+		pCasaTemp->cor = COR_CASA_VAZIA;
+		strcpy( pCasaTemp->nome, PECA_CASA_VAZIA );
+
+		CondRet = LIS_CriarLista( "amdo", DestruirValorGenerico, &pCasaTemp->pAmeacados  );
+		if( CondRet != LIS_CondRetOK )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
+
+		CondRet = LIS_CriarLista( "amte", DestruirValorGenerico, &pCasaTemp->pAmeacantes );
+		if( CondRet != LIS_CondRetOK )
+		{
+			return TAB_CondRetFaltouMemoria;
+		}
+
+		*pCasa = pCasaTemp;
+
+		return TAB_CondRetOK;
 
 	} /* Fim função: TAB -Criar casa*/
 
@@ -803,7 +829,7 @@ typedef struct TAB_tagTabuleiro
 
 /***********************************************************************
 *
-*  $FC Função: TAB  -Mover corrente
+*  $FC Função: TAB  -Obter Casa
 *
 ***********************************************************************/
 
