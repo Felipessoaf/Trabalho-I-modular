@@ -147,7 +147,7 @@ typedef struct TAB_tagTabuleiro
 
 	static int ValidarCoordenada( char * pCoordenada );
 
-	static tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada);
+	static tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada);
 
 	static int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
 
@@ -260,7 +260,7 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 		
-	   pCasa = MoverCorrente( pTabTemp->pMatriz, pCoordenada );
+	   pCasa = ObterCasa( pTabTemp->pMatriz, pCoordenada );
 	   pCasa->cor = cor;
 	   strcpy( pCasa->nome, pNome );
 	   pCasa->primeiroMov = 1;
@@ -277,7 +277,7 @@ typedef struct TAB_tagTabuleiro
    TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino)
    {
 	   int i, j;
-	   char alcance[2];
+	   char alcance[3];
 	   tpCasa * pCasaOrigem;
 	   tpCasa * pCasaDestino;
 
@@ -295,30 +295,35 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   }
 
+	   pCasaDestino = ObterCasa(pTabTemp->pMatriz, destino);
+	   pCasaOrigem = ObterCasa(pTabTemp->pMatriz, origem);
+	   if( pCasaOrigem->cor == COR_CASA_VAZIA )
+	   {
+		   return TAB_CondRetCasaVazia;
+	   }
+
 	   if ( ! ValidarMovimento( pTabTemp, origem, destino ) )
 	   {
 		   return TAB_CondRetMovimentoInvalido;
 	   }
 
-	   pCasaDestino = MoverCorrente(pTabTemp->pMatriz, destino);
-	   pCasaOrigem = MoverCorrente(pTabTemp->pMatriz, origem);
-
 	   pCasaDestino->cor = pCasaOrigem->cor;
-	   strcpy(pCasaDestino->nome, pCasaOrigem->nome);
+	   strcpy( pCasaDestino->nome, pCasaOrigem->nome);
 
 	   pCasaOrigem->cor = COR_CASA_VAZIA;
-	   strcpy(pCasaOrigem->nome, PECA_CASA_VAZIA );
+	   strcpy( pCasaOrigem->nome, PECA_CASA_VAZIA );
 
-	   pCasaOrigem->primeiroMov = 0;
+	   pCasaOrigem->primeiroMov  = 0;
 	   pCasaDestino->primeiroMov = 0;
 	   	
 	   for (i = 0; i < 8; i++)
 	   {
-		   alcance[0] = 'A' + i;
 		   for (j = 0; j < 8; j++)
 		   {
+			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
-			   AtualizaListas(pTabTemp, alcance);
+			   alcance[2] = '\0';
+			   //AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -349,7 +354,7 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   pCasa = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
 	   pCasa->cor = COR_CASA_VAZIA;
 	   strcpy(pCasa->nome, PECA_CASA_VAZIA);
 
@@ -381,7 +386,7 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   pCasa  = MoverCorrente( pTabTemp->pMatriz, pCoordenada );
+	   pCasa  = ObterCasa( pTabTemp->pMatriz, pCoordenada );
 
 	   if( pCasa->cor == COR_CASA_VAZIA )
 	   {
@@ -419,7 +424,7 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   pCasa   = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa   = ObterCasa(pTabTemp->pMatriz, pCoordenada);
 	   *pLista = pCasa->pAmeacantes;
 
 	   return TAB_CondRetOK;
@@ -449,7 +454,7 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaInexistente;
 	   } /* if */
 
-	   pCasa   = MoverCorrente(pTabTemp->pMatriz, pCoordenada);
+	   pCasa   = ObterCasa(pTabTemp->pMatriz, pCoordenada);
 	   *pLista = pCasa->pAmeacados;
 
 	   return TAB_CondRetOK;
@@ -802,7 +807,7 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	tpCasa * MoverCorrente(LIS_tppLista pLista, char * pCoordenada)
+	tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada)
 	{
 		int linha, coluna, i;
 		tpCasa * pCasa;
@@ -839,13 +844,13 @@ typedef struct TAB_tagTabuleiro
 
 	int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
 	{
-		char nomePeca[4];
-		char cor;
-		char pAlcance[2];
+		int i;
 
-		int comer, i, colidiu, foraTab, branco;
+		char pAlcance[3];
 
-		LIS_tppLista pMovimento;
+		int comer, branco;
+
+		LIS_tppLista  pMovimento;
 		LIS_tpCondRet CondRet = LIS_CondRetOK;
 
 		tpPeca * pPeca;
@@ -855,105 +860,95 @@ typedef struct TAB_tagTabuleiro
 		tpCasa * pCasaDestino;
 		tpCasa * pCasaTemp;
 
-		if (!strcmp(origem, destino))
+		if( strcmp( origem, destino ) == 0 )
 		{
-			return 0;
+			return FALSE;
 		}
 
-		pCasaOrigem = MoverCorrente(pTabuleiro->pMatriz, origem);
-		pCasaDestino = MoverCorrente(pTabuleiro->pMatriz, destino);
+		pCasaOrigem  = ObterCasa( pTabuleiro->pMatriz, origem );
+		pCasaDestino = ObterCasa( pTabuleiro->pMatriz, destino );
 
-		comer = strcmp(pCasaDestino->nome, "xxxx") ? 1 : 0;
-		branco = (pCasaDestino->cor != 'b' || pCasaDestino->cor != 'B') ? -1 : 1;
-
-		strcpy(nomePeca, pCasaOrigem->nome);
-
-		cor = pCasaOrigem->cor;
-
-		for (LIS_AndarInicio(pTabuleiro->pPecas); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pTabuleiro->pPecas))
+		if( pCasaOrigem->cor == pCasaDestino->cor )
 		{
-			LIS_ObterElemento(pTabuleiro->pPecas, &pPeca);
-			if (strcmp(nomePeca, pPeca->nome) == 0)
+			return FALSE;
+		}
+
+		comer  = strcmp( pCasaDestino->nome, PECA_CASA_VAZIA ) ? TRUE : FALSE;
+		branco = ( pCasaDestino->cor != 'b' || pCasaDestino->cor != 'B' ) ? -1 : 1;
+
+		for ( LIS_AndarInicio( pTabuleiro->pPecas ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pTabuleiro->pPecas ) )
+		{
+			LIS_ObterElemento( pTabuleiro->pPecas, ( void ** ) &pPeca );
+
+			if ( strcmp( pCasaOrigem->nome, pPeca->nome ) == 0 )
 			{
-				pMovimento = comer ? pPeca->pComer : pPeca->pAndar;
+				/* Verifica se a peça vai andar ou comer */
+				comer ? ( pMovimento = pPeca->pComer ) : ( pMovimento = pPeca->pAndar );
 				break;
 			}
 		}
 
-		for (LIS_AndarInicio(pMovimento); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pMovimento))
+		for ( LIS_AndarInicio( pMovimento ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pMovimento ) )
 		{
-			LIS_ObterElemento(pMovimento, &pMov);
+			LIS_ObterElemento( pMovimento, ( void ** ) &pMov );
 
-			// confere primeiro movimento
-			if (pMov->primeiroMov && !MoverCorrente(pTabuleiro->pMatriz, pAlcance)->primeiroMov)
+			if ( pMov->primeiroMov && ! pCasaOrigem->primeiroMov )
 			{
+				/*
+				 * Verifica se é o primeiro movimento da peça
+				 * Se sim permite a utização de movimentos
+				 * autorizados somente no primeiro movimento.
+				 */
 				continue;
 			}
 
-			pAlcance[0] = origem[0] + branco*(pMov->coordenadas[1] - 48) - branco*(pMov->coordenadas[3] - 48);
-			pAlcance[1] = origem[0] + branco*(pMov->coordenadas[0] - 48) - branco*(pMov->coordenadas[2] - 48);
+			pAlcance[0] = origem[0];
+			pAlcance[1] = origem[1];
 
-			foraTab = 0;
-			colidiu = 0;
+			for ( i = 1; i <= pMov->max; i++ )
+			{
+				pAlcance[0] = pAlcance[0] + branco * ( pMov->coordenadas[1] ) - branco * ( pMov->coordenadas[3] );
+				pAlcance[1] = pAlcance[1] + branco * ( pMov->coordenadas[0] ) - branco * ( pMov->coordenadas[2] );
+				pAlcance[2] = '\0';
 
-			// primeiro passo
-			if (!ValidarCoordenada(pAlcance))
-			{
-				continue;
-			}
-			pCasaTemp = MoverCorrente(pTabuleiro->pMatriz, pAlcance);
-			if (strcmp(pCasaTemp->nome, "xxxx") && !comer)
-			{
-				continue;
-			}
-
-			// min
-			for (i = 1; i < pMov->min; i++)
-			{
-				pAlcance[0] = pAlcance[0] + branco*(pMov->coordenadas[1] - 48) - branco*(pMov->coordenadas[3] - 48);
-				pAlcance[1] = pAlcance[0] + branco*(pMov->coordenadas[0] - 48) - branco*(pMov->coordenadas[2] - 48);
-				if (!ValidarCoordenada(pAlcance))
+				if ( ! ValidarCoordenada ( pAlcance ) )
 				{
-					foraTab = 1;
-					continue;
+					/*
+					* Movimento já está fora do tabuleiro!
+					* Peça não precisa mover mais do que isso.
+					*/
+					break;
 				}
-				pCasaTemp = MoverCorrente(pTabuleiro->pMatriz, pAlcance);
-				if (strcmp(pCasaTemp->nome, "xxxx"))
+
+				pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
+				if( strcmp( pCasaTemp->nome, PECA_CASA_VAZIA ) != 0 )
 				{
-					if (strcmp(pAlcance, destino))
+					/* Ops! Ocorreu uma colisão */
+					break;
+				}
+
+				if ( strcmp( pAlcance, destino ) == 0 )
+				{
+					/* Movimento para a casa destino existe! */
+					pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
+					if( strcmp( pCasaTemp->nome, PECA_CASA_VAZIA ) != 0 )
 					{
-						colidiu = 1;
+						/* Ops! A casa destino está ocupada! */
+						if( ! comer )
+						{
+							/*
+							* Peça não pode se mover para casa já ocupada!
+							* Peça não precisa mover mais do que isso.
+							*/
+							break;
+						}
 					}
-				}
-			}
 
-			if (foraTab || colidiu)
-			{
-				continue;
-			}
-			if (!strcmp(pAlcance, destino))
-			{
-				return TRUE;
-			}
-
-			//max
-			for (i = pMov->min; i < pMov->max; i++)
-			{
-				pAlcance[0] = pAlcance[0] + branco*(pMov->coordenadas[1] - 48) - branco*(pMov->coordenadas[3] - 48);
-				pAlcance[1] = pAlcance[0] + branco*(pMov->coordenadas[0] - 48) - branco*(pMov->coordenadas[2] - 48);
-				if (!strcmp(pAlcance, destino) && !colidiu)
-				{
-					return TRUE;
-				}
-				if (!ValidarCoordenada(pAlcance))
-				{
-					foraTab = 1;
-					continue;
-				}
-				pCasaTemp = MoverCorrente(pTabuleiro->pMatriz, pAlcance);
-				if (strcmp(pCasaTemp->nome, "xxxx"))
-				{
-					colidiu = 1;
+					if( i >= pMov->min )
+					{
+						/* Peça já andou o mínimo necessário */
+						return TRUE;
+					}
 				}
 			}
 		}
@@ -967,11 +962,11 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * coordenada)
+	static void AtualizaListas( TAB_tppTabuleiro pTabuleiro, char * coordenada)
 	{
 		int i, j;
 		int ameaca, ameacado;
-		char alcance[2];
+		char alcance[3];
 		LIS_tppLista pAmeacados, pAmeacantes;
 		tpCasa * pCasa;
 
@@ -980,10 +975,12 @@ typedef struct TAB_tagTabuleiro
 
 		for ( i = 0; i < 8; i++ )
 		{
-			alcance[0] = 'A' + i;
 			for ( j = 0; j < 8; j++ )
 			{
+				alcance[0] = 'A' + i;
 				alcance[1] = '1' + j;
+				alcance[2] = '\0';
+
 				ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance );
 				ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada );
 				if ( ameaca )
@@ -997,12 +994,11 @@ typedef struct TAB_tagTabuleiro
 			}
 		}
 
-		pCasa = MoverCorrente( pTabuleiro->pMatriz, coordenada );
+		pCasa = ObterCasa( pTabuleiro->pMatriz, coordenada );
 
 		LIS_DestruirLista( pCasa->pAmeacados  );
 		LIS_DestruirLista( pCasa->pAmeacantes );
 
 		pCasa->pAmeacados  = pAmeacados;
 		pCasa->pAmeacantes = pAmeacantes;
-
 	}

@@ -90,3 +90,43 @@
 
 == Destruir tabuleiro
 =destruirTab  tab0  OK
+
+== Criar tabuleiro
+=criarTab      tab1  OK
+
+== Inserir diversas peças
+=inserirPeca  tab1  torre  preto  "H1"   OK
+=obterPeca    tab1  "H1"   preto  torre  OK
+=inserirPeca  tab1  torre  preto  "H8"   OK
+=obterPeca    tab1  "H8"   preto  torre  OK
+=inserirPeca  tab1  peao   preto  "G1"   OK
+=obterPeca    tab1  "G1"   preto  peao   OK
+=inserirPeca  tab1  peao   preto  "G2"   OK
+=obterPeca    tab1  "G2"   preto  peao   OK
+
+== Mover Peca - Destino: peça de mesma cor
+=moverPeca    tab1  "H1"   "G1"          MovimentoInvalido
+=obterPeca    tab1  "H1"   preto  torre  OK
+
+== Mover Peca - Destino: através de peça da mesma cor
+=moverPeca    tab1  "H1"   "A1"          MovimentoInvalido
+=obterPeca    tab1  "H1"   preto  torre  OK
+
+== Mover Peca - Destino: Mesma Casa
+=moverPeca    tab1  "H1"   "H1"   MovimentoInvalido
+=obterPeca    tab1  "H1"   preto  torre  OK
+
+== Mover Peca - Destino: Movimento Mínimo
+=moverPeca    tab1  "H1"   "H2"          OK
+=obterPeca    tab1  "H2"   preto  torre  OK
+
+== Mover Peca - Destino: Movimento Intermediário
+=moverPeca    tab1  "H8"   "H4"          OK
+=obterPeca    tab1  "H4"   preto  torre  OK
+
+== Mover Peca - Primeiro Movimento
+=moverPeca    tab1  "G1"   "E1"          OK
+=obterPeca    tab1  "E1"   preto  peao   OK
+
+== Destruir tabuleiro
+=destruirTab  tab1  OK
