@@ -245,6 +245,7 @@ typedef enum {
 *
 *  $FV Valor retornado
 *     TAB_CondRetOK - Executou corretamente.
+*	  TAB_CondRetNaoExiste       - Tabuleiro não existe
 *
 ***********************************************************************/
 

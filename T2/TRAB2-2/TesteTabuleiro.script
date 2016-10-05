@@ -72,6 +72,21 @@
 ==Retirar peca
 =retirarPeca   tab0   "H8"   OK
 
+==Obter Lista Ameacados
+=obterLisAmdo   tab0   "A7"   OK
+
+==Obter Lista Ameacados - casa inexistente
+=obterLisAmdo   tab0   "R7"   CasaNaoExiste
+
+==Obter Lista Ameacantes
+=obterLisAmte   tab0   "A7"   OK
+
+==Obter Lista Ameacantes - casa inexistente
+=obterLisAmte   tab0   "R7"   CasaNaoExiste
+
+==Obter Lista Ameacantes - casa inexistente
+=obterLisAmte   tab0   "R7"   OK
+=recuperar
 
 == Destruir tabuleiro
 =destruirTab  tab0  OK

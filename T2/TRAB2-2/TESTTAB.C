@@ -76,8 +76,8 @@ static int  ValidarInxTab( int inxTab , int Modo ) ;
 *     =moverPeca		inxTabuleiro	orig	dest			CondRetEsp
 *     =retirarPeca		inxTabuleiro	coord					CondRetEsp
 *     =obterPeca		inxTabuleiro	coord	NomeEsp	CorEsp	CondRetEsp
-*     =obterLisAmdo		inxTabuleiro							CondRetEsp
-*     =obterLisAmte		inxTabuleiro							CondRetEsp
+*     =obterLisAmdo		inxTabuleiro	coord					CondRetEsp
+*     =obterLisAmte		inxTabuleiro	coord					CondRetEsp
 *     =destruirTab		inxTabuleiro							CondRetEsp
 *
 ***********************************************************************/
@@ -89,11 +89,14 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		CondRetEsp = -1  ;
 
 	TST_tpCondRet CondRet = TST_CondRetOK;
+	TST_tpCondRet CondRetAux = TST_CondRetOK;
 
 	char corDado;
 	char nomeDado[4];
 	char coordOrigDado[3];
 	char coordDestDado[3];
+
+	LIS_tppLista listaAux;
 
 	char   pCor;
 	char * pNome;
@@ -224,15 +227,22 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		if ( strcmp( ComandoTeste , OBTER_LIS_AMTE_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+			numLidos = LER_LerParametros("isi", &inxTab, coordOrigDado, &CondRetEsp);
 
-			if (   ( numLidos != 2 )
+			if (   ( numLidos != 3 )
 				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			//CondRet = TAB_ObterListaAmeacantes(&vtTabuleiros[inxTab]);
+			CondRet = TAB_ObterListaAmeacantes(&vtTabuleiros[inxTab], coordOrigDado, &listaAux);
+
+			CondRetAux = TST_CompararPonteiroNulo(NAO_NULO, listaAux, "Ponteiro para lista nulo.");
+			
+			if (CondRetAux != TST_CondOK)
+			{
+				return CondRetAux;
+			}
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao obter lista ameacantes." ) ;
@@ -245,15 +255,22 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		if ( strcmp( ComandoTeste , OBTER_LIS_AMDO_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+			numLidos = LER_LerParametros("isi", &inxTab, coordOrigDado, &CondRetEsp);
 
-			if (   ( numLidos != 2 )
+			if (   ( numLidos != 3 )
 				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			//CondRet = TAB_ObterListaAmeacados(&vtTabuleiros[inxTab]);
+			CondRet = TAB_ObterListaAmeacados(&vtTabuleiros[inxTab], coordOrigDado, &listaAux);
+
+			CondRetAux = TST_CompararPonteiroNulo(NAO_NULO, listaAux, "Ponteiro para lista nulo.");
+
+			if (CondRetAux != TST_CondOK)
+			{
+				return CondRetAux;
+			}
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao obter lista ameacados." ) ;
