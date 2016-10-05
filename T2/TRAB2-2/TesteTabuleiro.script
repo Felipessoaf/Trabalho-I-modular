@@ -66,5 +66,12 @@
 == Obter peca - casa vazia
 =obterPeca    tab0  "H7"  branco  torre  CasaVazia
 
+== Retirar peca - casa inexistente
+=retirarPeca   tab0   "J8"   CasaNaoExiste
+
+==Retirar peca
+=retirarPeca   tab0   "H8"   OK
+
+
 == Destruir tabuleiro
 =destruirTab  tab0  OK

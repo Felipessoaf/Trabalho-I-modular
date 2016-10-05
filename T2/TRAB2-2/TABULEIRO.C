@@ -731,8 +731,8 @@ typedef struct TAB_tagTabuleiro
 				return TAB_CondRetEntradaInvalida;
 			}
 		}
-
 		fclose(pFile);
+		return TAB_CondRetOK;
 	}
 
 /***********************************************************************

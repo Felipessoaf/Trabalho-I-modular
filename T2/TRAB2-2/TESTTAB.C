@@ -74,7 +74,7 @@ static int  ValidarInxTab( int inxTab , int Modo ) ;
 *     =criarTab			inxTabuleiro							CondRetEsp
 *     =inserirPeca		inxTabuleiro	nome	cor		coord	CondRetEsp 
 *     =moverPeca		inxTabuleiro	orig	dest			CondRetEsp
-*     =retirarPeca		inxTabuleiro							CondRetEsp
+*     =retirarPeca		inxTabuleiro	coord					CondRetEsp
 *     =obterPeca		inxTabuleiro	coord	NomeEsp	CorEsp	CondRetEsp
 *     =obterLisAmdo		inxTabuleiro							CondRetEsp
 *     =obterLisAmte		inxTabuleiro							CondRetEsp
@@ -89,7 +89,6 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		CondRetEsp = -1  ;
 
 	TST_tpCondRet CondRet = TST_CondRetOK;
-	TST_tpCondRet CondRetAux;
 
 	char corDado;
 	char nomeDado[4];
@@ -168,15 +167,15 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		if ( strcmp( ComandoTeste , RETIRAR_PECA_CMD ) == 0 )
 		{
 
-			numLidos = LER_LerParametros( "ii" , &inxTab, &CondRetEsp );
+			numLidos = LER_LerParametros("isi", &inxTab, coordOrigDado, &CondRetEsp);
 
-			if (   ( numLidos != 2 )
+			if (   ( numLidos != 3 )
 				|| ( ! ValidarInxTab( inxTab , NAO_VAZIO ) ) )
 			{
 				return TST_CondRetParm ;
 			} /* if */
 
-			//CondRet = TAB_RetirarPeca( &vtTabuleiros[inxTab] );
+			CondRet = TAB_RetirarPeca( &vtTabuleiros[inxTab], coordOrigDado );
 
 			return TST_CompararInt( CondRetEsp , CondRet ,
 					"Condicao de retorno errada ao retirar peca." ) ;
