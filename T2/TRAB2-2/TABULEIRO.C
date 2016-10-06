@@ -33,7 +33,7 @@
 #include "TABULEIRO.h"
 #undef TABULEIRO_OWN
 
-#define pathArquivo "C:/Users/pedro/Documents/Trab1 Modular/trunk/T2/TRAB2-2/PecasXadrez.txt"
+#define pathArquivo "PecasXadrez.txt"
 
 #define FALSE 0
 #define TRUE  1
