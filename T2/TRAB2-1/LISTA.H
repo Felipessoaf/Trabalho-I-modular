@@ -109,6 +109,19 @@ typedef enum {
 *
 *  $FC Função: LIS  &Criar lista
 *
+*  $AE Assertivas de entrada
+*	  - id tem que ser uma string de tamanho menor ou igual a quatro
+*	  - excluir valor tem que tratar da liberação de memoria do valor
+*		contido no elemento
+*	  - pLista não pode ter memoria alocada
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - pLista tem que estar apontada para um lista duplamente encadeada 
+*		com cabeça
+*	  
 *  $ED Descrição da função
 *     Cria uma lista genérica duplamente encadeada.
 *     Os possíveis tipos são desconhecidos a priori.
@@ -137,11 +150,21 @@ LIS_tpCondRet LIS_CriarLista(char * id,
 *
 *  $FC Função: LIS  &Obter referência para o identificador da lista
 *
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada 
+*		com cabeça
+*	  - pId tem que estar preenchido com a identificação de pLista
+*
 *  $ED Descrição da função
 *     Obtem a referência para o valor identificador da lista
 *
 *  $EP Parâmetros
 *     pLista - ponteiro para a lista de onde se quer o valor
+*	  pId	 - ponteiro para char a ser preenchido
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK - se o elemento corrente existe
@@ -153,6 +176,15 @@ LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char ** pId);
 /***********************************************************************
 *
 *  $FC Função: LIS  &Inserir elemento
+*
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada 
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada 
+*		com cabeça
+*	  - pLista possui novo elemento com valor sendo pValor
 *
 *  $ED Descrição da função
 *     Insere novo elemento apás o elemento corrente.
@@ -178,6 +210,16 @@ LIS_tpCondRet LIS_InserirElemento( LIS_tppLista pLista ,
 *
 *  $FC Função: LIS  &Obter referência para o valor contido no elemento
 *
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada 
+*		com cabeça
+*	  - pValor tem que estar preenchido com o valor do elemento 
+*		corrente de pLista
+*
 *  $ED Descrição da função
 *     Obtem a referência para o valor contido no elemento corrente da lista
 *
@@ -198,6 +240,16 @@ LIS_tpCondRet LIS_ObterElemento(LIS_tppLista pLista,
 /***********************************************************************
 *
 *  $FC Função: LIS  &Excluir elemento
+*
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada 
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - elemento corrente de pLista tem de ter sido excluido 
+*		e o corrente aponta para o elemento anterior ou proximo
 *
 *  $ED Descrição da função
 *     Exclui o elemento corrente da lista dada.
@@ -220,6 +272,15 @@ LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
 *
 *  $FC Função: LIS  &Ir para o proximo elemento
 *
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - elemento corrente de pLista aponta para o proximo elemento
+*
 *  $ED Descrição da função
 *     Avança o no corrente.
 *
@@ -238,6 +299,15 @@ LIS_tpCondRet LIS_IrProxElemento( LIS_tppLista pLista ) ;
 /***********************************************************************
 *
 *  $FC Função: LIS  &Ir para o nó anterior
+*
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - elemento corrente de pLista aponta para o elemento anterior
 *
 *  $ED Descrição da função
 *     Retrocede o no corrente.
@@ -258,6 +328,15 @@ LIS_tpCondRet LIS_IrAntElemento( LIS_tppLista pLista ) ;
 *
 *  $FC Função: LIS  &Andar para o nó inicial
 *
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - elemento corrente de pLista aponta para o primeiro elemento
+*
 *  $ED Descrição da função
 *     Retrocede o no corrente para o inicial.
 *
@@ -274,6 +353,15 @@ LIS_tpCondRet LIS_AndarInicio(LIS_tppLista pLista);
 /***********************************************************************
 *
 *  $FC Função: LIS  &Alterar o valor contido no elemento
+*
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - valor do elemento corrente de pLista aponta para pValor
 *
 *  $ED Descrição da função
 *     Altera o valor contido no elemento corrente da lista
@@ -294,6 +382,15 @@ LIS_tpCondRet LIS_AlterarElemento(LIS_tppLista pLista,
 /***********************************************************************
 *
 *  $FC Função: LIS  &Destruir lista
+*
+*  $AE Assertivas de entrada
+*	  - pLista não pode ser null
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*  $AS Assertivas de saida
+*	  - valem as assertivas estruturais da lista duplamente encadeada
+*		com cabeça
+*	  - pLista tem de ter sido desalocada na memoria
 *
 *  $ED Descrição da função
 *     Destrói a lista fornecida.
