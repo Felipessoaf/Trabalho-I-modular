@@ -3,8 +3,8 @@
 
 - Seu arquivo não deve pular linhas como mostrado a seguir:
 >>>>>>>>>> |
-           |  ERRADO
-Nome p     |
+           |  
+Nome p     |  ERRADO
 ...        |
 <<<<<<<<<< |
 
@@ -22,7 +22,7 @@ Nome p
 
 - o proximo campo a ser preenchido será o de andar, que poderá ter quantas diferentes formas de andar que você quiser, e segue a seguinte sintaxe: 
  + Inicia o bloco com o nome "--Andar";
- + É seguido pelos campos "Oeste", "Norte", "Leste" e "Sul", cada um em uma única linha seguidos de um espaço em branco e um número indicado o quanto essa peça anda naquele movimento naquela coordenada, seu movimento final será considerado como o resultado das coordenadas (um movimento na diagonal seria por exemplo Norte 1 e Leste 1, e um movimento do cavalo Norte 1 e Leste 2), não podendo superar 8 em uma única direção;
+ + É seguido pelos campos "Oeste", "Norte", "Leste" e "Sul", cada um em uma única linha seguidos de um espaço em branco e um número indicado o quanto essa peça anda naquele movimento naquela coordenada, seu movimento final será considerado como o resultado das coordenadas (um movimento na diagonal seria por exemplo Norte 1 e Leste 1, e um movimento do cavalo Norte 1 e Leste 2), não podendo superar 8 em uma única direção caso o seu tabuleiro seja 8x8;
  + Em seguida devará possuir "Max" e "Min" seguindo o mesmo padrão do espaço e valor, eles representam o número mínimo e número máximo de vezes que aquele movimento poderá ser repetido em uma jogada;
  + O ultimo campo é o "Primeiro" que será seguido de um '1' caso esse movimento seja possível apenas na primeira jogada da peça(ex: o Peão pode andar 2 casa na primeira jogada);
  + Finaliza o bloco com "--FimAndar".
