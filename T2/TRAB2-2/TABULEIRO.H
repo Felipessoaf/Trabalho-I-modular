@@ -90,6 +90,12 @@ typedef enum {
 *
 *  $FC Função: TAB  &Criar tabuleiro
 *
+*  $AE Assertivas de entrada
+*  - pTabuleiro não deve ter memoria alocada
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*
 *  $ED Descrição da função
 *     Cria um tabuleiro de xadrez
 *    
@@ -107,6 +113,17 @@ typedef enum {
 /***********************************************************************
 *
 *  $FC Função: TAB  &Inserir peca
+*
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pNome não deve estar NULL e deve possuir no máximo 4 caracteres
+*  - cor deverá ser o char 'p', 'P', 'b' ou 'B'
+*  - pCoordenada tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  com um novo elemento na casa referente a coordenada
 *
 *  $ED Descrição da função
 *     Insere peça em um tabuleiro de xadrez
@@ -130,10 +147,21 @@ typedef enum {
 
 /***********************************************************************
 *
-*  $FC Função: TAB  &Inserir peca
+*  $FC Função: TAB  &Mover peca
+*
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pOrigem tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*  - pDestino tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  com o elemento da casa referente a origem na casa destino
 *
 *  $ED Descrição da função
-*     Insere peça em um tabuleiro de xadrez
+*     move uma peça em um tabuleiro de xadrez
 *    
 *  $EP Parâmetros
 *	 pTabuleiro		- ponteiro para o tabuleiro a ser inserido
@@ -154,6 +182,15 @@ typedef enum {
 *
 *  $FC Função: TAB  &Retirar peca
 *
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pCoordenada tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  com o elemento da casa referente a coordenada retirado
+*
 *  $ED Descrição da função
 *     Retira peça de um tabuleiro de xadrez
 *
@@ -173,6 +210,17 @@ typedef enum {
 /***********************************************************************
 *
 *  $FC Função: TAB  &Obter peca
+*
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pCoordenada tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*  - cor deverá ser o char 'p', 'P', 'b' ou 'B'
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pNome tem que estar preenchido com o nome da peça da casa 
+*  referenciada por pCoordenada
 *
 *  $ED Descrição da função
 *     Obter peça de um tabuleiro de xadrez
@@ -197,6 +245,16 @@ typedef enum {
 *
 *  $FC Função: TAB  &Obter lista ameaçantes
 *
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pCoordenada tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pLista tem que estar preenchido com a lista ameacantes da casa  
+*  referenciada por pCoordenada
+*
 *  $ED Descrição da função
 *     Obter lista ameaçantes de uma peça de um tabuleiro de xadrez
 *
@@ -218,6 +276,16 @@ typedef enum {
 *
 *  $FC Função: TAB  &Obter lista ameaçados
 *
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pCoordenada tem apenas 2 caracteres e são referentes a uma casa
+*  do tabuleiro
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*  - pLista tem que estar preenchido com a lista ameacados da casa 
+*  referenciada por pCoordenada
+*
 *  $ED Descrição da função
 *     Obter lista ameaçados de uma peça de um tabuleiro de xadrez
 *
@@ -238,6 +306,12 @@ typedef enum {
 /***********************************************************************
 *
 *  $FC Função: TAB  &Destruir tabuleiro
+*
+*  $AE Assertivas de entrada
+*  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
+*
+*  $AS Assertiva de saida
+*  - pTabuleiro não pode estar apontando para uma cabeça de tabuleiro
 *
 *  $ED Descrição da função
 *     Destroi o tabuleiro

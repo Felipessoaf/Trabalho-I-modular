@@ -7,4 +7,5 @@ Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
 01/10   9                   Implementar         Implementação de quase todas as funções do tabuleiro.     
 02/10   4                   Implementar         Implementação de mais funções do tabuleiro.     
 05/10   1                   Projetar            Escrito manual de peças.
-05/10   1                   Revisar codigo      Revisão do codigo do tabuleiro.
+05/10   1                   Revisar codigo      Revisão do codigo do tabuleiro.c.
+05/10   1                   Revisar codigo      Rever descrições referente a tabuleiro.h
