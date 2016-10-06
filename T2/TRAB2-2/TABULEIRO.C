@@ -14,7 +14,11 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor     Data       Observações
-*     *       mmq    04/out/2016  correcao de bugs
+*     6       mmq    05/out/2016  revisao modulo e correções
+*     5       mmq    04/out/2016  correcao de bugs
+*     4       fpf    02/out/2016  desenvolvimento de funções
+*     3       pf     02/out/2016  desenvolvimento de funções
+*     2       fpf	 01/out/2016  implementação da estrutura do tabuleiro e funções
 *     1       pf     25/set/2016  início da implementação das peças
 *
 ***************************************************************************/

@@ -18,6 +18,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     3       mmq   04/out/2016 revisao e correções
+*     2       fpf   02/out/2016 incluindo definição de funções implementadas
 *     1       fpf   01/out/2016 início desenvolvimento
 *
 *  $ED Descrição do módulo

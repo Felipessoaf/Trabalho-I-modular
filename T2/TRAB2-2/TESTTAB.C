@@ -14,8 +14,9 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor      Data     Observações
-*     3        fpf   04/out/2016  
-*     2        mmq   04/out/2016  desenvolvimento de testes
+*     4        fpf   04/out/2016  desenvolvimento de testes
+*     3        mmq   04/out/2016  desenvolvimento de testes
+*     2        fpf   02/out/2016  implementação do esqueleto
 *     1        mmq   02/out/2016  início do desenvolvimento
 *
 ***************************************************************************/
