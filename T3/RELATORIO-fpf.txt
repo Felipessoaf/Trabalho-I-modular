@@ -1,0 +1,2 @@
+Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
+21/10	1h					codificar			Início da implementação dos módulos jogo e testjogo
