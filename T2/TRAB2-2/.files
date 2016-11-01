@@ -7,6 +7,8 @@ PecasXadrez.txt
 
 TABULEIRO.C
 TABULEIRO.H
+..\TRAB2-1\LISTA.C
+..\TRAB2-1\LISTA.H
 
 TestaTabuleiro.bat
 TestaTudo.bat
