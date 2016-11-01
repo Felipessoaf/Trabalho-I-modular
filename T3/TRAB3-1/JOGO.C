@@ -87,6 +87,31 @@
 			pCoordenada[1] = i + 48;
 			TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 		}
+
+		cor = 'p';
+		pCoordenada[0] = 'G';
+
+		for (i = 1; i <= 8; i++)
+		{
+			pCoordenada[1] = i + 48;
+			TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		}
+
+		cor = 'b';
+		nome[0] = 't';
+		pCoordenada[0] = 'A';
+		pCoordenada[1] = 1 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		pCoordenada[1] = 8 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'p';
+		pCoordenada[0] = 'H';
+		pCoordenada[1] = 1 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		pCoordenada[1] = 8 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		
 				
 		JOGO_MostrarTabuleiro(pTabuleiro);
 	}
