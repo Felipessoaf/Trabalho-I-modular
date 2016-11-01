@@ -30,6 +30,7 @@
 *
 ***************************************************************************/
 
+#include "TABULEIRO.H"
 
 #if defined( JOGO_OWN )
 #define JOGO_EXT
@@ -55,10 +56,29 @@ typedef enum {
 	JOGO_CondRetFaltouMemoria,
 	/* Faltou memória ao tentar criar um elemento do jogo */
 
+	JOGO_CondRetTabuleiroInexistente
+	/* Tabuleiro não existe */
+
 } JOGO_tpCondRet;
 
 
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Mostrar tabuleiro
+*
+*  $ED Descrição da função
+*     Mostra um tabuleiro de xadrez
+*
+*  $EP Parâmetros
+*	 pTabuleiro - referencia para o tabuleiro a ser criado
+*
+*  $FV Valor retornado
+*     JOGO_CondRetOK				   - Executou corretamente
+*	  JOGO_CondRetTabuleiroInexistente - Tabuleiro não existe
+*
+***********************************************************************/
 
+	JOGO_tpCondRet JOGO_MostrarTabuleiro(TAB_tppTabuleiro pTabuleiro);
 
 #undef TABULEIRO_EXT
 

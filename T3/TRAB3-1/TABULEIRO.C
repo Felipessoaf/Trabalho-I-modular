@@ -401,14 +401,14 @@ typedef struct TAB_tagTabuleiro
 
 	   pCasa  = ObterCasa( pTabTemp->pMatriz, pCoordenada );
 
-	   if( pCasa->cor == COR_CASA_VAZIA )
-	   {
-		   return TAB_CondRetCasaVazia;
-	   }
-
 	   *pCor  = pCasa->cor;
 	   *pNome = ( char * ) malloc( strlen( pCasa->nome ) + 1 * sizeof( char ) );
 	   strcpy( *pNome, pCasa->nome );
+
+	   if (pCasa->cor == COR_CASA_VAZIA)
+	   {
+		   return TAB_CondRetCasaVazia;
+	   }
 
 	   return TAB_CondRetOK;
 
@@ -880,7 +880,7 @@ typedef struct TAB_tagTabuleiro
 
 		int comer, branco;
 
-		LIS_tppLista  pMovimento;
+		LIS_tppLista  pMovimento = NULL;
 		LIS_tpCondRet CondRet = LIS_CondRetOK;
 
 		tpPeca * pPeca;
@@ -1032,5 +1032,3 @@ typedef struct TAB_tagTabuleiro
 		pCasa->pAmeacados  = pAmeacados;
 		pCasa->pAmeacantes = pAmeacantes;
 	}
-
-/********** Fim do módulo de implementação: TAB  Tabuleiro do Xadrez **********/
