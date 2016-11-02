@@ -46,13 +46,14 @@
 		}
 		
 		printf("\n\n");
+		printf("  A   B   C   D   E   F   G   H\n");
 		printf("---------------------------------\n");
-		for (i = 0; i < 8; i++)
+		for (i = 8; i > 0; i--)
 		{
-			pCoordenada[0] = i + 65;
-			for (j = 1; j <= 8; j++)
+			pCoordenada[1] = i + 48;
+			for (j = 0; j < 8; j++)
 			{
-				pCoordenada[1] = j + 48;
+				pCoordenada[0] = j + 65;				
 				TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
 				if (strcmp(pNome, "xxx"))
 				{
@@ -63,7 +64,7 @@
 					printf("|   ");
 				}
 			}
-			printf("|\n---------------------------------\n");
+			printf("| %d\n---------------------------------\n",i);
 		}
 		printf("\n\n");
 
@@ -77,91 +78,97 @@
 		int i;
 		char cor = 'b';
 		char nome[4] = {'p','\0',' ','\0'};
-		char pCoordenada[3] = {'B','1','\0'};
+		char pCoordenada[3] = {'A','2','\0'};
 		TAB_tppTabuleiro pTabuleiro = NULL;
 
 		TAB_CriarTabuleiro(&pTabuleiro);
 
-		for (i = 1; i <= 8; i++)
+		/* Peão */
+		for (i = 0; i < 8; i++)
 		{
-			pCoordenada[1] = i + 48;
+			pCoordenada[0] = i + 65;
 			TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 		}
 
 		cor = 'p';
-		pCoordenada[0] = 'G';
+		pCoordenada[1] = '7';
 
-		for (i = 1; i <= 8; i++)
+		for (i = 0; i < 8; i++)
 		{
-			pCoordenada[1] = i + 48;
+			pCoordenada[0] = i + 65;
 			TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 		}
 
+		/* Torre */
 		cor = 'b';
 		nome[0] = 't';
 		pCoordenada[0] = 'A';
-		pCoordenada[1] = 1 + 48;
+		pCoordenada[1] = '1';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[1] = 8 + 48;
+		pCoordenada[0] = 'H';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
 		cor = 'p';
-		pCoordenada[0] = 'H';
-		pCoordenada[1] = 1 + 48;
+		pCoordenada[0] = 'A';
+		pCoordenada[1] = '8';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[1] = 8 + 48;
+		pCoordenada[0] = 'H';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
+		/* Cavalo */
 		cor = 'b';
 		nome[0] = 'c';
-		pCoordenada[0] = 'A';
-		pCoordenada[1] = 2 + 48;
+		pCoordenada[0] = 'B';
+		pCoordenada[1] = '1';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[1] = 7 + 48;
+		pCoordenada[0] = 'G';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 		
 		cor = 'p';
-		pCoordenada[0] = 'H';
-		pCoordenada[1] = 2 + 48;
+		pCoordenada[0] = 'B';
+		pCoordenada[1] = '8';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[1] = 7 + 48;
+		pCoordenada[0] = 'G';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 				
+		/* Bispo */
 		cor = 'b';
 		nome[0] = 'b';
-		pCoordenada[0] = 'A';
-		pCoordenada[1] = 3 + 48;
+		pCoordenada[0] = 'C';
+		pCoordenada[1] = '1';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[1] = 6 + 48;
+		pCoordenada[0] = 'F';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
 		cor = 'p';
-		pCoordenada[0] = 'H';
-		pCoordenada[1] = 3 + 48;
+		pCoordenada[0] = 'C';
+		pCoordenada[1] = '8';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[1] = 6 + 48;
+		pCoordenada[0] = 'F';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
+		/* Rainha */
 		cor = 'b';
 		nome[0] = 'q';
-		pCoordenada[0] = 'A';
-		pCoordenada[1] = 4 + 48;
+		pCoordenada[0] = 'D';
+		pCoordenada[1] = '1';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
 		cor = 'p';
-		pCoordenada[0] = 'H';
-		pCoordenada[1] = 5 + 48;
+		pCoordenada[0] = 'D';
+		pCoordenada[1] = '8';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
+		/* Rei */
 		cor = 'b';
 		nome[0] = 'k';
-		pCoordenada[0] = 'A';
-		pCoordenada[1] = 5 + 48;
+		pCoordenada[0] = 'E';
+		pCoordenada[1] = '1';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
 		cor = 'p';
-		pCoordenada[0] = 'H';
-		pCoordenada[1] = 4 + 48;
+		pCoordenada[0] = 'E';
+		pCoordenada[1] = '8';
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 
 		JOGO_MostrarTabuleiro(pTabuleiro);
