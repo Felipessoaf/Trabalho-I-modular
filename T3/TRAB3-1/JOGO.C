@@ -111,7 +111,58 @@
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 		pCoordenada[1] = 8 + 48;
 		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'b';
+		nome[0] = 'c';
+		pCoordenada[0] = 'A';
+		pCoordenada[1] = 2 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		pCoordenada[1] = 7 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 		
+		cor = 'p';
+		pCoordenada[0] = 'H';
+		pCoordenada[1] = 2 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		pCoordenada[1] = 7 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
 				
+		cor = 'b';
+		nome[0] = 'b';
+		pCoordenada[0] = 'A';
+		pCoordenada[1] = 3 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		pCoordenada[1] = 6 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'p';
+		pCoordenada[0] = 'H';
+		pCoordenada[1] = 3 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		pCoordenada[1] = 6 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'b';
+		nome[0] = 'q';
+		pCoordenada[0] = 'A';
+		pCoordenada[1] = 4 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'p';
+		pCoordenada[0] = 'H';
+		pCoordenada[1] = 5 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'b';
+		nome[0] = 'k';
+		pCoordenada[0] = 'A';
+		pCoordenada[1] = 5 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
+		cor = 'p';
+		pCoordenada[0] = 'H';
+		pCoordenada[1] = 4 + 48;
+		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+
 		JOGO_MostrarTabuleiro(pTabuleiro);
 	}
