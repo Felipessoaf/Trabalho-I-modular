@@ -247,6 +247,9 @@ typedef struct TAB_tagTabuleiro
 
    TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char * pCoordenada)
    {
+	   int i, j;
+	   char alcance[3];
+
 	   TAB_tppTabuleiro pTabTemp;
 
 	   tpCasa * pCasa;
@@ -277,6 +280,17 @@ typedef struct TAB_tagTabuleiro
 	   pCasa->cor = cor;
 	   strcpy( pCasa->nome, pNome );
 	   pCasa->primeiroMov = 1;
+
+	   for (i = 0; i < 8; i++)
+	   {
+		   for (j = 0; j < 8; j++)
+		   {
+			   alcance[0] = 'A' + i;
+			   alcance[1] = '1' + j;
+			   alcance[2] = '\0';
+			   AtualizaListas(pTabTemp, alcance);
+		   }
+	   }
 
 	   return TAB_CondRetOK;
 
@@ -336,7 +350,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
+			   AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -351,7 +365,9 @@ typedef struct TAB_tagTabuleiro
 *  ****/
 
    TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada)
-   {
+   {	
+	   int i, j;
+	   char alcance[3];
 	   tpCasa * pCasa;
 	   TAB_tppTabuleiro pTabTemp;
 
@@ -370,6 +386,17 @@ typedef struct TAB_tagTabuleiro
 	   pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
 	   pCasa->cor = COR_CASA_VAZIA;
 	   strcpy(pCasa->nome, PECA_CASA_VAZIA);
+	   
+	   for (i = 0; i < 8; i++)
+	   {
+		   for (j = 0; j < 8; j++)
+		   {
+			   alcance[0] = 'A' + i;
+			   alcance[1] = '1' + j;
+			   alcance[2] = '\0';
+			   AtualizaListas(pTabTemp, alcance);
+		   }
+	   }
 
 	   return TAB_CondRetOK;
 
@@ -681,7 +708,7 @@ typedef struct TAB_tagTabuleiro
 					}
 				}
 
-				printf( "\n%s\n", pecaTemp->nome );
+				//printf( "\n%s\n", pecaTemp->nome );
 			}
 			else if ( ( strncmp( line, "--Andar", 7 ) == 0 ) || ( strncmp( line, "--Comer", 7 ) == 0) )
 			{
@@ -721,12 +748,12 @@ typedef struct TAB_tagTabuleiro
 			}
 			else if ( strncmp( line, "--FimAndar", 10 ) == 0 )
 			{	
-				printf( "---------\n" );
-				printf( "Andar\n" );
-				printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
-				printf( "max   = %d\n", movPeca->max );
-				printf( "min   = %d\n", movPeca->min );
-				printf( "prim  = %d\n", movPeca->primeiroMov );
+				//printf( "---------\n" );
+				//printf( "Andar\n" );
+				//printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
+				//printf( "max   = %d\n", movPeca->max );
+				//printf( "min   = %d\n", movPeca->min );
+				//printf( "prim  = %d\n", movPeca->primeiroMov );
 
 				CondRetLista = LIS_InserirElemento(pecaTemp->pAndar, movPeca);
 				if( CondRetLista != LIS_CondRetOK )
@@ -736,12 +763,12 @@ typedef struct TAB_tagTabuleiro
 			}
 			else if (strncmp(line, "--FimComer", 10) == 0)
 			{
-				printf( "---------\n" );
-				printf( "Comer\n" );
-				printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
-				printf( "max   = %d\n", movPeca->max );
-				printf( "min   = %d\n", movPeca->min );
-				printf( "prim  = %d\n", movPeca->primeiroMov );
+				//printf( "---------\n" );
+				//printf( "Comer\n" );
+				//printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
+				//printf( "max   = %d\n", movPeca->max );
+				//printf( "min   = %d\n", movPeca->min );
+				//printf( "prim  = %d\n", movPeca->primeiroMov );
 
 				CondRetLista = LIS_InserirElemento(pecaTemp->pComer, movPeca);
 				if( CondRetLista != LIS_CondRetOK )
@@ -751,9 +778,9 @@ typedef struct TAB_tagTabuleiro
 			}
 			else if ( strncmp( line, "<<<<<<<<<<", 10 ) == 0 )
 			{
-				printf("----------\n");
-				printf( "Nome = %s\n", pecaTemp->nome );
-				printf( "\n>>>>>>>>>>>>>>>\n" );
+				//printf("----------\n");
+				//printf( "Nome = %s\n", pecaTemp->nome );
+				//printf( "\n>>>>>>>>>>>>>>>\n" );
 
 				CondRetLista = LIS_InserirElemento( *pListaPecas, pecaTemp);
 				if( CondRetLista != LIS_CondRetOK )
@@ -899,6 +926,11 @@ typedef struct TAB_tagTabuleiro
 		pCasaDestino = ObterCasa( pTabuleiro->pMatriz, destino );
 
 		if( pCasaOrigem->cor == pCasaDestino->cor )
+		{
+			return FALSE;
+		}
+
+		if (!strcmp(pCasaOrigem->nome, PECA_CASA_VAZIA))
 		{
 			return FALSE;
 		}
