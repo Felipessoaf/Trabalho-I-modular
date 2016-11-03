@@ -6,5 +6,8 @@
 == Inicializar valores
 =declararparm   OK                 int  0
 
+== Montar tabuleiro
+=montaTab	OK
+
 == Mostrar tabuleiro
 =mostraTab	OK

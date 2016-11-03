@@ -29,7 +29,8 @@
 
 #include    "JOGO.H"
 
-static const char MOSTRAR_TABULEIRO_CMD            [ ] = "=mostraTab"	;
+static const char MOSTRA_TABULEIRO_CMD            [ ] = "=mostraTab"	;
+static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
 
 
 TAB_tppTabuleiro pTabuleiro;
@@ -46,7 +47,8 @@ TAB_tppTabuleiro pTabuleiro;
 *
 *     Comandos disponíveis:
 *
-*     =mostraTab	inxTabuleiro	CondRetEsp
+*     =mostraTab	CondRetEsp
+*     =montaTab		CondRetEsp
 *
 *
 ***********************************************************************/
@@ -64,9 +66,9 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 	JOGO_MontaTabuleiro(pTabuleiro);
 	
-	/* JOGO  &Mostrar tabuleiro */
+	/* JOGO  &Mostra tabuleiro */
 
-		if (strcmp(ComandoTeste, MOSTRAR_TABULEIRO_CMD) == 0)
+		if (strcmp(ComandoTeste, MOSTRA_TABULEIRO_CMD) == 0)
 		{
 			numLidos = LER_LerParametros("i", &CondRetEsp);
 
@@ -75,12 +77,30 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				return TST_CondRetParm;
 			} /* if */
 
-			CondRet = JOGO_MostrarTabuleiro(pTabuleiro);
+			CondRet = JOGO_MostraTabuleiro(pTabuleiro);
 
 			return TST_CompararInt(CondRetEsp, CondRet,
 				"Condicao de retorno errada ao mostrar tabuleiro.");
 
-		} /* fim ativa: TAB  &Criar tabuleiro */
+		} /* fim ativa: JOGO  &Mostrar tabuleiro */
+
+	/* JOGO  &Monta tabuleiro */
+
+		if (strcmp(ComandoTeste, MONTA_TABULEIRO_CMD) == 0)
+		{
+			numLidos = LER_LerParametros("i", &CondRetEsp);
+
+			if (numLidos != 1)
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = JOGO_MontaTabuleiro(pTabuleiro);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao montar tabuleiro.");
+
+		} /* fim ativa: JOGO  &Monta tabuleiro */
 
 	return TST_CondRetNaoConhec ;
 } /* Fim função: TLIS &Testar lista */

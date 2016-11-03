@@ -35,7 +35,7 @@
 *  Função: JOGO  &Mostrar tabuleiro
 *  ****/
 
-	JOGO_tpCondRet JOGO_MostrarTabuleiro(TAB_tppTabuleiro pTabuleiro)
+	JOGO_tpCondRet JOGO_MostraTabuleiro(TAB_tppTabuleiro pTabuleiro)
 	{
 		int i, j;
 		char pCoordenada[3] = { 'A', '1', '\0' };
@@ -202,5 +202,5 @@
 
 		JOGO_MontaTabuleiro(pTabuleiro);
 
-		JOGO_MostrarTabuleiro(pTabuleiro);
+		JOGO_MostraTabuleiro(pTabuleiro);
 	}

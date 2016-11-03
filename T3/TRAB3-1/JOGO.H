@@ -76,13 +76,13 @@ typedef enum {
 
 /***********************************************************************
 *
-*  $FC Função: JOGO  &Mostrar tabuleiro
+*  $FC Função: JOGO  &Mostra tabuleiro
 *
 *  $ED Descrição da função
 *     Mostra um tabuleiro de xadrez
 *
 *  $EP Parâmetros
-*	 pTabuleiro - referencia para o tabuleiro a ser criado
+*	 pTabuleiro - referencia para o tabuleiro a ser exibido
 *
 *  $FV Valor retornado
 *     JOGO_CondRetOK				   - Executou corretamente
@@ -90,7 +90,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_MostrarTabuleiro(TAB_tppTabuleiro pTabuleiro);
+	JOGO_tpCondRet JOGO_MostraTabuleiro(TAB_tppTabuleiro pTabuleiro);
 
 /***********************************************************************
 *
