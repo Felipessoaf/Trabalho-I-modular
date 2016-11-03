@@ -3,3 +3,6 @@ Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
 28/10	2h					codificar			Início da implementação da interface gráfica do jogo
 31/10	1h					codificar			Implementação da interface gráfica do jogo
 02/11	1h					revisar código		Corrigindo interface gráfica
+02/11	1h					codificar			Implementação de teste
+02/11	2h					revisar código		Revisão de código para consertar bug
+02/11	1h					codificar			Implementação de função no modulo jogo

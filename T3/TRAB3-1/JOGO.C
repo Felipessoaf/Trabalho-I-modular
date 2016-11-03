@@ -21,10 +21,12 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
 
 #define JOGO_OWN
 #include "JOGO.h"
 #undef JOGO_OWN
+
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -44,7 +46,15 @@
 		{
 			return JOGO_CondRetTabuleiroInexistente;
 		}
-		
+
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+		WORD saved_attributes;
+
+		/* Save current attributes */
+		GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+		saved_attributes = consoleInfo.wAttributes;
+
 		printf("\n\n");
 		printf("  A   B   C   D   E   F   G   H\n");
 		printf("---------------------------------\n");
@@ -57,7 +67,18 @@
 				TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
 				if (strcmp(pNome, "xxx"))
 				{
-					printf("|%s%c ", pNome, pCor);
+					printf("|");
+					if (pCor == 'b')
+					{
+						SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+					}
+					else
+					{
+						SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+					}
+					printf("%s%c ", pNome, pCor);
+
+					SetConsoleTextAttribute(hConsole, saved_attributes);
 				}
 				else
 				{
@@ -71,105 +92,115 @@
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Mostrar tabuleiro */
 
+/***************************************************************************
+*
+*  Função: JOGO  &Recebe jogada
+*  ****/
+
+	JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
+	{
+		
+
+		return JOGO_CondRetOK;
+	} /* Fim função: JOGO  &Recebe jogada */
+
+/***************************************************************************
+*
+*  Função: JOGO  &Monta tabuleiro
+*  ****/
+
+	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro)
+	{
+		FILE * pFile;
+
+		int i;
+
+		char cor = 'u';
+		char nome[4];
+		char pCoordenada[3];
+
+		char line[50];
+
+		if (pTabuleiro == NULL)
+		{
+			return JOGO_CondRetTabuleiroInexistente;
+		}
+
+		pFile = fopen("PecasTabuleiro.txt", "r");
+
+
+		if (pFile == NULL)
+		{
+			printf("\nErro, nao foi possivel abrir o arquivo de pecas do tabuleiro.\n");
+			return JOGO_CondRetArquivoPecasNaoExiste;
+		}
+
+		while (fgets(line, sizeof(line), pFile) != NULL)
+		{
+			if (strncmp(line, ">>>>>>>>>>", 10) == 0)
+			{
+				/* Nome */
+				if (fgets(line, sizeof(line), pFile) == NULL)
+				{
+					return JOGO_CondRetArquivoPecasForaPadrao;
+				}
+				strncpy(nome, line, 4);
+				for (i = 0; i < 4; i++)
+				{
+					if (nome[i] == '\n')
+					{
+						nome[i] = '\0';
+					}
+				}
+
+				/* Cor */
+				if (fgets(line, sizeof(line), pFile) == NULL)
+				{
+					return JOGO_CondRetArquivoPecasForaPadrao;
+				}
+				cor = line[0];
+
+				/* Coordenada */
+				if (fgets(line, sizeof(line), pFile) == NULL)
+				{
+					return JOGO_CondRetArquivoPecasForaPadrao;
+				}
+				pCoordenada[0] = line[0];
+				if (fgets(line, sizeof(line), pFile) == NULL)
+				{
+					return JOGO_CondRetArquivoPecasForaPadrao;
+				}
+				pCoordenada[1] = line[0];
+				pCoordenada[2] = '\0';
+
+			}
+			else if (strncmp(line, "<<<<<<<<<<", 10) == 0)
+			{
+				if (cor == 'b' || cor == 'p' || cor == 'B' || cor == 'P')
+				{
+					TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+					cor = 'u';
+				}
+				else
+				{
+					return JOGO_CondRetArquivoPecasForaPadrao;
+				}
+			}
+		}
+		fclose(pFile);
+
+		return JOGO_CondRetOK;
+	} /* Fim função: JOGO  &Monta tabuleiro */
+
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
 
 	int main()
 	{
-		int i;
-		char cor = 'b';
-		char nome[4] = {'p','\0',' ','\0'};
-		char pCoordenada[3] = {'A','2','\0'};
 		TAB_tppTabuleiro pTabuleiro = NULL;
 
 		TAB_CriarTabuleiro(&pTabuleiro);
 
-		/* Peão */
-		for (i = 0; i < 8; i++)
-		{
-			pCoordenada[0] = i + 65;
-			TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		}
-
-		cor = 'p';
-		pCoordenada[1] = '7';
-
-		for (i = 0; i < 8; i++)
-		{
-			pCoordenada[0] = i + 65;
-			TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		}
-
-		/* Torre */
-		cor = 'b';
-		nome[0] = 't';
-		pCoordenada[0] = 'A';
-		pCoordenada[1] = '1';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[0] = 'H';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		cor = 'p';
-		pCoordenada[0] = 'A';
-		pCoordenada[1] = '8';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[0] = 'H';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		/* Cavalo */
-		cor = 'b';
-		nome[0] = 'c';
-		pCoordenada[0] = 'B';
-		pCoordenada[1] = '1';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[0] = 'G';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		
-		cor = 'p';
-		pCoordenada[0] = 'B';
-		pCoordenada[1] = '8';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[0] = 'G';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-				
-		/* Bispo */
-		cor = 'b';
-		nome[0] = 'b';
-		pCoordenada[0] = 'C';
-		pCoordenada[1] = '1';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[0] = 'F';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		cor = 'p';
-		pCoordenada[0] = 'C';
-		pCoordenada[1] = '8';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-		pCoordenada[0] = 'F';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		/* Rainha */
-		cor = 'b';
-		nome[0] = 'q';
-		pCoordenada[0] = 'D';
-		pCoordenada[1] = '1';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		cor = 'p';
-		pCoordenada[0] = 'D';
-		pCoordenada[1] = '8';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		/* Rei */
-		cor = 'b';
-		nome[0] = 'k';
-		pCoordenada[0] = 'E';
-		pCoordenada[1] = '1';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-
-		cor = 'p';
-		pCoordenada[0] = 'E';
-		pCoordenada[1] = '8';
-		TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+		JOGO_MontaTabuleiro(pTabuleiro);
 
 		JOGO_MostrarTabuleiro(pTabuleiro);
 	}

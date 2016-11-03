@@ -288,7 +288,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   AtualizaListas(pTabTemp, alcance);
+			   //AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -350,7 +350,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   AtualizaListas(pTabTemp, alcance);
+			   //AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -394,7 +394,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   AtualizaListas(pTabTemp, alcance);
+			   //AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -708,7 +708,6 @@ typedef struct TAB_tagTabuleiro
 					}
 				}
 
-				//printf( "\n%s\n", pecaTemp->nome );
 			}
 			else if ( ( strncmp( line, "--Andar", 7 ) == 0 ) || ( strncmp( line, "--Comer", 7 ) == 0) )
 			{
@@ -748,13 +747,6 @@ typedef struct TAB_tagTabuleiro
 			}
 			else if ( strncmp( line, "--FimAndar", 10 ) == 0 )
 			{	
-				//printf( "---------\n" );
-				//printf( "Andar\n" );
-				//printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
-				//printf( "max   = %d\n", movPeca->max );
-				//printf( "min   = %d\n", movPeca->min );
-				//printf( "prim  = %d\n", movPeca->primeiroMov );
-
 				CondRetLista = LIS_InserirElemento(pecaTemp->pAndar, movPeca);
 				if( CondRetLista != LIS_CondRetOK )
 				{
@@ -763,13 +755,6 @@ typedef struct TAB_tagTabuleiro
 			}
 			else if (strncmp(line, "--FimComer", 10) == 0)
 			{
-				//printf( "---------\n" );
-				//printf( "Comer\n" );
-				//printf( "coord = %d %d %d %d\n", movPeca->coordenadas[0], movPeca->coordenadas[1], movPeca->coordenadas[2], movPeca->coordenadas[3] );
-				//printf( "max   = %d\n", movPeca->max );
-				//printf( "min   = %d\n", movPeca->min );
-				//printf( "prim  = %d\n", movPeca->primeiroMov );
-
 				CondRetLista = LIS_InserirElemento(pecaTemp->pComer, movPeca);
 				if( CondRetLista != LIS_CondRetOK )
 				{
@@ -778,10 +763,6 @@ typedef struct TAB_tagTabuleiro
 			}
 			else if ( strncmp( line, "<<<<<<<<<<", 10 ) == 0 )
 			{
-				//printf("----------\n");
-				//printf( "Nome = %s\n", pecaTemp->nome );
-				//printf( "\n>>>>>>>>>>>>>>>\n" );
-
 				CondRetLista = LIS_InserirElemento( *pListaPecas, pecaTemp);
 				if( CondRetLista != LIS_CondRetOK )
 				{

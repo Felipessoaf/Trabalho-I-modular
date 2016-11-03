@@ -222,7 +222,7 @@
 
       if ( pLista->pElemCorr == NULL )
       {
-        pValor = NULL ;
+        *pValor = NULL ;
 		return LIS_CondRetListaVazia;
       } /* if */
 

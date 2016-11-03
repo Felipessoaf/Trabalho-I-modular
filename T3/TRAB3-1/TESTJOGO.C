@@ -20,6 +20,8 @@
 
 #include    <stdio.h>
 
+#include <string.h>
+
 #include    "TST_Espc.h"
 
 #include    "Generico.h"
@@ -27,6 +29,10 @@
 
 #include    "JOGO.H"
 
+static const char MOSTRAR_TABULEIRO_CMD            [ ] = "=mostraTab"	;
+
+
+TAB_tppTabuleiro pTabuleiro;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -40,6 +46,8 @@
 *
 *     Comandos disponíveis:
 *
+*     =mostraTab	inxTabuleiro	CondRetEsp
+*
 *
 ***********************************************************************/
 
@@ -50,8 +58,29 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 	TST_tpCondRet CondRet = TST_CondRetOK;
 
+	TAB_tppTabuleiro pTabuleiro = NULL;
+
+	TAB_CriarTabuleiro(&pTabuleiro); 
+
+	JOGO_MontaTabuleiro(pTabuleiro);
 	
-		
+	/* JOGO  &Mostrar tabuleiro */
+
+		if (strcmp(ComandoTeste, MOSTRAR_TABULEIRO_CMD) == 0)
+		{
+			numLidos = LER_LerParametros("i", &CondRetEsp);
+
+			if (numLidos != 1)
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = JOGO_MostrarTabuleiro(pTabuleiro);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao mostrar tabuleiro.");
+
+		} /* fim ativa: TAB  &Criar tabuleiro */
 
 	return TST_CondRetNaoConhec ;
 } /* Fim função: TLIS &Testar lista */

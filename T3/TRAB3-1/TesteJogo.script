@@ -1,0 +1,10 @@
+// Script:    TesteJogo.script
+// Autor:     Pedro Ferreira, Felipe Pessoa, Matheus de Mello
+// Data:      02/nov/2016
+// Propósito: Testar o módulo jogo de xadrez
+
+== Inicializar valores
+=declararparm   OK                 int  0
+
+== Mostrar tabuleiro
+=mostraTab	OK

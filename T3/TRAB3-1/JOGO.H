@@ -38,6 +38,12 @@
 #define JOGO_EXT extern
 #endif
 
+/***** Declarações exportadas pelo módulo *****/
+
+/* Inteiro que indica se o jogo está rodando */
+
+int jogoRodando;
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: JOGO Condições de retorno
@@ -56,8 +62,14 @@ typedef enum {
 	JOGO_CondRetFaltouMemoria,
 	/* Faltou memória ao tentar criar um elemento do jogo */
 
-	JOGO_CondRetTabuleiroInexistente
+	JOGO_CondRetTabuleiroInexistente,
 	/* Tabuleiro não existe */
+
+	JOGO_CondRetArquivoPecasNaoExiste,
+	/* Arquivo de peças do tabuleiro não existe */
+
+	JOGO_CondRetArquivoPecasForaPadrao
+	/* Arquivo de peças do tabuleiro não está no padrão */
 
 } JOGO_tpCondRet;
 
@@ -79,6 +91,26 @@ typedef enum {
 ***********************************************************************/
 
 	JOGO_tpCondRet JOGO_MostrarTabuleiro(TAB_tppTabuleiro pTabuleiro);
+
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Monta tabuleiro
+*
+*  $ED Descrição da função
+*     Monta um tabuleiro de xadrez a partir de arquivo
+*
+*  $EP Parâmetros
+*	 pTabuleiro - referencia para o tabuleiro a ser montado
+*
+*  $FV Valor retornado
+*     JOGO_CondRetOK					 - Executou corretamente
+*	  JOGO_CondRetTabuleiroInexistente	 - Tabuleiro não existe
+*	  JOGO_CondRetArquivoPecasNaoExiste	 - Arquivo de pecas inexistente
+*	  JOGO_CondRetArquivoPecasForaPadrao - Arquivo de pecas fora do padrao
+*
+***********************************************************************/
+
+	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro);
 
 #undef TABULEIRO_EXT
 
