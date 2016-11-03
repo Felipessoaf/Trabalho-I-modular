@@ -42,6 +42,11 @@
 		char   pCor;
 		char * pNome;
 
+		if (!jogoRodando)
+		{
+			return JOGO_CondRetJogoParado;
+		}
+
 		if (pTabuleiro == NULL)
 		{
 			return JOGO_CondRetTabuleiroInexistente;
@@ -99,10 +104,46 @@
 
 	JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
 	{
-		
+		if (pTabuleiro == NULL)
+		{
+			return JOGO_CondRetTabuleiroInexistente;
+		}
 
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Recebe jogada */
+
+/***************************************************************************
+*
+*  Função: JOGO  &Recebe jogadores
+*  ****/
+
+	JOGO_tpCondRet JOGO_RecebeJogadores(char * jog1, char * jog2)
+	{
+		if (jogoRodando)
+		{
+			return JOGO_CondRetJogoEmAndamento;
+		}
+
+		jogador1 = (char*)malloc((strlen(jog1) + 1) * sizeof(char));
+
+		if (jogador1 == NULL)
+		{
+			return JOGO_CondRetFaltouMemoria;
+		} /* if */
+
+		strcpy(jogador1, jog1);
+
+		jogador2 = (char*)malloc((strlen(jog2) + 1) * sizeof(char));
+
+		if (jogador2 == NULL)
+		{
+			return JOGO_CondRetFaltouMemoria;
+		} /* if */
+
+		strcpy(jogador2, jog2);
+
+		return JOGO_CondRetOK;
+	} /* Fim função: JOGO  &Recebe jogadores */
 
 /***************************************************************************
 *
@@ -120,6 +161,11 @@
 		char pCoordenada[3];
 
 		char line[50];
+
+		if (jogoRodando)
+		{
+			return JOGO_CondRetJogoEmAndamento;
+		}
 
 		if (pTabuleiro == NULL)
 		{
@@ -194,13 +240,13 @@
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
 
-	int main()
-	{
-		TAB_tppTabuleiro pTabuleiro = NULL;
+	//int main()
+	//{
+	//	TAB_tppTabuleiro pTabuleiro = NULL;
 
-		TAB_CriarTabuleiro(&pTabuleiro);
+	//	TAB_CriarTabuleiro(&pTabuleiro);
 
-		JOGO_MontaTabuleiro(pTabuleiro);
+	//	JOGO_MontaTabuleiro(pTabuleiro);
 
-		JOGO_MostraTabuleiro(pTabuleiro);
-	}
+	//	JOGO_MostraTabuleiro(pTabuleiro);
+	//}

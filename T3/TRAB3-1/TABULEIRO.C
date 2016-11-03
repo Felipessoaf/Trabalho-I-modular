@@ -429,7 +429,7 @@ typedef struct TAB_tagTabuleiro
 	   pCasa  = ObterCasa( pTabTemp->pMatriz, pCoordenada );
 
 	   *pCor  = pCasa->cor;
-	   *pNome = ( char * ) malloc( strlen( pCasa->nome ) + 1 * sizeof( char ) );
+	   *pNome = ( char * ) malloc( (strlen( pCasa->nome ) + 1) * sizeof( char ) );
 	   strcpy( *pNome, pCasa->nome );
 
 	   if (pCasa->cor == COR_CASA_VAZIA)

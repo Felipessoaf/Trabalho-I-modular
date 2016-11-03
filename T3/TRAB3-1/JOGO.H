@@ -44,6 +44,15 @@
 
 int jogoRodando;
 
+/* String com o nome do jogador 1 */
+
+char * jogador1;
+
+/* String com o nome do jogador 2 */
+
+char * jogador2;
+
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: JOGO Condições de retorno
@@ -68,8 +77,14 @@ typedef enum {
 	JOGO_CondRetArquivoPecasNaoExiste,
 	/* Arquivo de peças do tabuleiro não existe */
 
-	JOGO_CondRetArquivoPecasForaPadrao
+	JOGO_CondRetArquivoPecasForaPadrao,
 	/* Arquivo de peças do tabuleiro não está no padrão */
+
+	JOGO_CondRetJogoParado,
+	/* O jogo ja terminou ou nao começou */
+
+	JOGO_CondRetJogoEmAndamento
+	/* O jogo ja esta rodando */
 
 } JOGO_tpCondRet;
 
@@ -87,10 +102,52 @@ typedef enum {
 *  $FV Valor retornado
 *     JOGO_CondRetOK				   - Executou corretamente
 *	  JOGO_CondRetTabuleiroInexistente - Tabuleiro não existe
+*	  JOGO_CondRetJogoParado		   - Jogo esta parado
 *
 ***********************************************************************/
 
 	JOGO_tpCondRet JOGO_MostraTabuleiro(TAB_tppTabuleiro pTabuleiro);
+
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Recebe jogada
+*
+*  $ED Descrição da função
+*     Recebe a jogada de um jogador na partida
+*
+*  $EP Parâmetros
+*	 pTabuleiro - referencia para o tabuleiro do jogo
+*	 origem		- coordenada origem da jogada
+*	 destino	- coordenada destino da jogada
+*
+*  $FV Valor retornado
+*     JOGO_CondRetOK				   - Executou corretamente
+*	  JOGO_CondRetTabuleiroInexistente - Tabuleiro não existe
+*
+***********************************************************************/
+
+	JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
+
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Recebe jogadores
+*
+*  $ED Descrição da função
+*     Recebe os jogadores da partida
+*
+*  $EP Parâmetros
+*	 jog1		- nome do jogador1
+*	 jog2		- nome do jogador2
+*
+*  $FV Valor retornado
+*     JOGO_CondRetOK				   - Executou corretamente
+*	  JOGO_CondRetJogoEmAndamento	   - Jogo em andamento
+*	  JOGO_CondRetFaltouMemoria		   - Faltou memoria
+*
+***********************************************************************/
+
+	JOGO_tpCondRet JOGO_RecebeJogadores(char * jog1, char * jog2);
+
 
 /***********************************************************************
 *

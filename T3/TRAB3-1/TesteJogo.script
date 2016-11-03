@@ -4,10 +4,22 @@
 // Propósito: Testar o módulo jogo de xadrez
 
 == Inicializar valores
-=declararparm   OK                 int  0
+=declararparm   OK   			   int  0
+=declararparm   FaltouMemoria      int  1
+=declararparm   TabNaoExiste       int  2
+=declararparm   ArqPecasNaoExiste  int  3
+=declararparm   ArqPecasForaPadrao int  4
+=declararparm   JogoParado	       int  5
+=declararparm   JogoEmAndamento    int  6
 
-== Montar tabuleiro
+=declararparm   jog1   string  "player1"
+=declararparm   jog2   string  "player2"
+
+== Montar tabuleiro - OK
 =montaTab	OK
 
-== Mostrar tabuleiro
-=mostraTab	OK
+== Mostrar tabuleiro - Jogo parado
+=mostraTab	JogoParado
+
+== Recebe jogadores - OK
+=recebeJog	jog1	jog2	OK

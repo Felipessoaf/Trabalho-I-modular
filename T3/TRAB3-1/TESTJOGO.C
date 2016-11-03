@@ -31,6 +31,7 @@
 
 static const char MOSTRA_TABULEIRO_CMD            [ ] = "=mostraTab"	;
 static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
+static const char RECEBE_JOGADORES_CMD            [ ] = "=recebeJog" 	;
 
 
 TAB_tppTabuleiro pTabuleiro;
@@ -47,8 +48,9 @@ TAB_tppTabuleiro pTabuleiro;
 *
 *     Comandos disponíveis:
 *
-*     =mostraTab	CondRetEsp
-*     =montaTab		CondRetEsp
+*     =mostraTab					CondRetEsp
+*     =montaTab						CondRetEsp
+*     =recebeJog	jog1	jog2	CondRetEsp
 *
 *
 ***********************************************************************/
@@ -58,14 +60,15 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	int numLidos   = -1 ,
 		CondRetEsp = -1  ;
 
+	char jog1[20];
+	char jog2[20];
+
 	TST_tpCondRet CondRet = TST_CondRetOK;
 
 	TAB_tppTabuleiro pTabuleiro = NULL;
 
 	TAB_CriarTabuleiro(&pTabuleiro); 
-
-	JOGO_MontaTabuleiro(pTabuleiro);
-	
+		
 	/* JOGO  &Mostra tabuleiro */
 
 		if (strcmp(ComandoTeste, MOSTRA_TABULEIRO_CMD) == 0)
@@ -82,7 +85,25 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 			return TST_CompararInt(CondRetEsp, CondRet,
 				"Condicao de retorno errada ao mostrar tabuleiro.");
 
-		} /* fim ativa: JOGO  &Mostrar tabuleiro */
+		} /* fim ativa: JOGO  &Mostra tabuleiro */
+
+	/* JOGO  &Recebe jogadores */
+
+		if (strcmp(ComandoTeste, RECEBE_JOGADORES_CMD) == 0)
+		{
+			numLidos = LER_LerParametros("ssi", jog1, jog2, &CondRetEsp);
+
+			if (numLidos != 3)
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = JOGO_RecebeJogadores(jog1,jog2);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao receber jogadores.");
+
+		} /* fim ativa: JOGO  &Recebe jogadores */
 
 	/* JOGO  &Monta tabuleiro */
 
