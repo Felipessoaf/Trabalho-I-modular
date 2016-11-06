@@ -12,3 +12,4 @@ Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
 06/11	1h					codificar			Implementação de função no modulo jogo
 06/11	1h					codificar			Implementação de testes
 06/11	1h					revisar codigo		Revisando alguns metodos e realizando modificações
+06/11	2h					revisar codigo		Consertando teste

@@ -135,6 +135,7 @@
 		condret = TAB_ObterPeca(&pTabuleiro, origem, &pCor, &pNome);
 		if (condret != TAB_CondRetOK)
 		{
+			printf("\nMovimento Invalido\n");
 			return condret;
 		}
 
@@ -336,6 +337,27 @@
 
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Monta tabuleiro */
+
+/***************************************************************************
+*
+*  Função: JOGO  &Inicia jogo
+*  ****/
+
+	JOGO_tpCondRet JOGO_IniciaJogo()
+	{
+		if (jogoRodando)
+		{
+			return JOGO_CondRetJogoEmAndamento;
+		}
+
+		if (jogadorB == NULL || jogadorP == NULL)
+		{
+			return JOGO_CondRetJogoNaoPodeIniciar;
+		}
+
+		jogoRodando = 1;
+		return JOGO_CondRetOK;
+	} /* Fim função: JOGO  &Inicia jogo */
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
 

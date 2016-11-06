@@ -11,6 +11,8 @@
 =declararparm   ArqPecasForaPadrao int  4
 =declararparm   JogoParado	       int  5
 =declararparm   JogoEmAndamento    int  6
+=declararparm   MovimentoInvalido  int  7
+=declararparm   JogoNaoPodeIniciar int  8
 
 =declararparm   jog1   string  "player1"
 =declararparm   jog2   string  "player2"
@@ -23,6 +25,9 @@
 
 == Recebe jogadores - OK
 =recJogador	jog1	jog2	OK
+
+== Inicia jogo
+=iniciaJogo	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK

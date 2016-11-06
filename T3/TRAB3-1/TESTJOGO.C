@@ -33,9 +33,10 @@ static const char MOSTRA_TABULEIRO_CMD            [ ] = "=mostraTab"	;
 static const char RECEBE_JOGADA_CMD			      [ ] = "=recJogada" 	;
 static const char RECEBE_JOGADORES_CMD            [ ] = "=recJogador" 	;
 static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
+static const char INICIA_JOGO_CMD	              [ ] = "=iniciaJogo" 	;
 
 
-TAB_tppTabuleiro pTabuleiro;
+TAB_tppTabuleiro pTabuleiro = NULL;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -53,6 +54,7 @@ TAB_tppTabuleiro pTabuleiro;
 *     =recJogada	orig	dest	CondRetEsp
 *     =recJogador	jog1	jog2	CondRetEsp
 *     =montaTab						CondRetEsp
+*     =iniciaJogo					CondRetEsp
 *
 *
 ***********************************************************************/
@@ -69,10 +71,11 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	char pCoordDestino[3];
 
 	TST_tpCondRet CondRet = TST_CondRetOK;
-
-	TAB_tppTabuleiro pTabuleiro = NULL;
-
-	TAB_CriarTabuleiro(&pTabuleiro); 
+	
+	if (pTabuleiro == NULL)
+	{
+		TAB_CriarTabuleiro(&pTabuleiro);
+	}
 		
 	/* JOGO  &Mostra tabuleiro */
 
@@ -145,6 +148,24 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				"Condicao de retorno errada ao montar tabuleiro.");
 
 		} /* fim ativa: JOGO  &Monta tabuleiro */
+
+	/* JOGO  &Inicia jogo */
+
+		if (strcmp(ComandoTeste, INICIA_JOGO_CMD) == 0)
+		{
+			numLidos = LER_LerParametros("i", &CondRetEsp);
+
+			if (numLidos != 1)
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = JOGO_IniciaJogo();
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao iniciar jogo.");
+
+		} /* fim ativa: JOGO  &Inicia jogo */
 
 	return TST_CondRetNaoConhec ;
 } /* Fim função: TLIS &Testar lista */

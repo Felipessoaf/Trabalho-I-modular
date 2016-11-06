@@ -90,8 +90,11 @@ typedef enum {
 	JOGO_CondRetJogoEmAndamento,
 	/* O jogo ja esta rodando */
 
-	JOGO_CondRetMovimentoInvalido
+	JOGO_CondRetMovimentoInvalido,
 	/* Movimento Inválido */
+
+	JOGO_CondRetJogoNaoPodeIniciar
+	/* Jogo nao pode ser iniciado */
 
 } JOGO_tpCondRet;
 
@@ -178,6 +181,22 @@ typedef enum {
 ***********************************************************************/
 
 	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro);
+
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Inicia jogo
+*
+*  $ED Descrição da função
+*     Inicia o jogo
+*
+*  $FV Valor retornado
+*     JOGO_CondRetOK					 - Executou corretamente
+*	  JOGO_CondRetJogoNaoPodeIniciar	 - Jogo nao pode ser iniciado
+*	  JOGO_CondRetJogoEmAndamento		 - Jogo em andamento
+*
+***********************************************************************/
+
+	JOGO_tpCondRet JOGO_IniciaJogo();
 
 #undef TABULEIRO_EXT
 
