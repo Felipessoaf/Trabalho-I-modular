@@ -42,6 +42,8 @@
 		char   pCor;
 		char * pNome;
 
+		TAB_tpCondRet condret;
+
 		if (!jogoRodando)
 		{
 			return JOGO_CondRetJogoParado;
@@ -69,7 +71,11 @@
 			for (j = 0; j < 8; j++)
 			{
 				pCoordenada[0] = j + 65;				
-				TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
+				condret = TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
+				if (condret != TAB_CondRetOK)
+				{
+					return condret;
+				}
 				if (strcmp(pNome, "xxx"))
 				{
 					printf("|");
@@ -104,9 +110,46 @@
 
 	JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
 	{
+		TAB_tpCondRet condret;
+		char   pCor;
+		char * pNome;
+		
+		if (!jogoRodando)
+		{
+			return JOGO_CondRetJogoParado;
+		}
+
 		if (pTabuleiro == NULL)
 		{
 			return JOGO_CondRetTabuleiroInexistente;
+		}
+
+		condret = TAB_ObterPeca(&pTabuleiro, origem, &pCor, &pNome);
+		if (condret != TAB_CondRetOK)
+		{
+			return condret;
+		}
+
+		if (pCor != jogCorr)
+		{
+			printf("\nMovimento Invalido\n");
+			return JOGO_CondRetMovimentoInvalido;
+		}
+
+		condret = TAB_MoverPeca(&pTabuleiro, origem, destino);
+		if (condret != TAB_CondRetOK)
+		{
+			printf("\nMovimento Invalido\n");
+			return JOGO_CondRetMovimentoInvalido;
+		}
+
+		if (jogCorr == 'B')
+		{
+			jogCorr = 'P';
+		}
+		else
+		{
+			jogCorr = 'B';
 		}
 
 		return JOGO_CondRetOK;
@@ -117,30 +160,42 @@
 *  Função: JOGO  &Recebe jogadores
 *  ****/
 
-	JOGO_tpCondRet JOGO_RecebeJogadores(char * jog1, char * jog2)
+	JOGO_tpCondRet JOGO_RecebeJogadores(char * jogB, char * jogP)
 	{
 		if (jogoRodando)
 		{
 			return JOGO_CondRetJogoEmAndamento;
 		}
 
-		jogador1 = (char*)malloc((strlen(jog1) + 1) * sizeof(char));
+		if (jogadorB != NULL)
+		{
+			free(jogadorB);
+		}
 
-		if (jogador1 == NULL)
+		if (jogadorP != NULL)
+		{
+			free(jogadorP);
+		}
+
+		jogadorB = (char*)malloc((strlen(jogB) + 1) * sizeof(char));
+
+		if (jogadorB == NULL)
 		{
 			return JOGO_CondRetFaltouMemoria;
 		} /* if */
 
-		strcpy(jogador1, jog1);
+		strcpy(jogadorB, jogB);
 
-		jogador2 = (char*)malloc((strlen(jog2) + 1) * sizeof(char));
+		jogadorP = (char*)malloc((strlen(jogP) + 1) * sizeof(char));
 
-		if (jogador2 == NULL)
+		if (jogadorP == NULL)
 		{
 			return JOGO_CondRetFaltouMemoria;
 		} /* if */
 
-		strcpy(jogador2, jog2);
+		strcpy(jogadorP, jogP);
+
+		jogCorr = 'B';
 
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Recebe jogadores */
@@ -152,6 +207,8 @@
 
 	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro)
 	{
+		TAB_tpCondRet condret;
+
 		FILE * pFile;
 
 		int i;
@@ -224,7 +281,11 @@
 			{
 				if (cor == 'b' || cor == 'p' || cor == 'B' || cor == 'P')
 				{
-					TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+					condret = TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
+					if (condret != TAB_CondRetOK)
+					{
+						return condret;
+					}
 					cor = 'u';
 				}
 				else

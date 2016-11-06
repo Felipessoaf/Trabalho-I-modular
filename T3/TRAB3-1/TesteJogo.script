@@ -22,4 +22,4 @@
 =mostraTab	JogoParado
 
 == Recebe jogadores - OK
-=recebeJog	jog1	jog2	OK
+=recJogador	jog1	jog2	OK

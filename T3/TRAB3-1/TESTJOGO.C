@@ -31,7 +31,8 @@
 
 static const char MOSTRA_TABULEIRO_CMD            [ ] = "=mostraTab"	;
 static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
-static const char RECEBE_JOGADORES_CMD            [ ] = "=recebeJog" 	;
+static const char RECEBE_JOGADORES_CMD            [ ] = "=recJogador" 	;
+static const char RECEBE_JOGADA_CMD			      [ ] = "=recJogada" 	;
 
 
 TAB_tppTabuleiro pTabuleiro;
@@ -50,7 +51,8 @@ TAB_tppTabuleiro pTabuleiro;
 *
 *     =mostraTab					CondRetEsp
 *     =montaTab						CondRetEsp
-*     =recebeJog	jog1	jog2	CondRetEsp
+*     =recJogador	jog1	jog2	CondRetEsp
+*     =recJogada	orig	dest	CondRetEsp
 *
 *
 ***********************************************************************/
@@ -62,6 +64,9 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 	char jog1[20];
 	char jog2[20];
+
+	char pCoordOrigem[3];
+	char pCoordDestino[3];
 
 	TST_tpCondRet CondRet = TST_CondRetOK;
 
@@ -86,6 +91,24 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				"Condicao de retorno errada ao mostrar tabuleiro.");
 
 		} /* fim ativa: JOGO  &Mostra tabuleiro */
+
+	/* JOGO  &Recebe jogada */
+
+		if (strcmp(ComandoTeste, RECEBE_JOGADA_CMD) == 0)
+		{
+			numLidos = LER_LerParametros("ssi", pCoordOrigem, pCoordDestino, &CondRetEsp);
+
+			if (numLidos != 3)
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = JOGO_RecebeJogada(pTabuleiro,pCoordOrigem,pCoordDestino);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao receber jogada.");
+
+		} /* fim ativa: JOGO  &Recebe jogada */
 
 	/* JOGO  &Recebe jogadores */
 

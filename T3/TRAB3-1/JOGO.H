@@ -40,17 +40,21 @@
 
 /***** Declarações exportadas pelo módulo *****/
 
-/* Inteiro que indica se o jogo está rodando */
+/* Inteiro que indica se o jogo está rodando. 0 = PARADO; diferente de 0 = RODANDO  */
 
 int jogoRodando;
 
-/* String com o nome do jogador 1 */
+/* string com o nome do jogador das peças brancas */
 
-char * jogador1;
+char * jogadorB;
 
-/* String com o nome do jogador 2 */
+/* string com o nome do jogador das peças pretas */
 
-char * jogador2;
+char * jogadorP;
+
+/* char que indica o jogador corrente */
+
+char jogCorr;
 
 
 /***********************************************************************
@@ -83,8 +87,11 @@ typedef enum {
 	JOGO_CondRetJogoParado,
 	/* O jogo ja terminou ou nao começou */
 
-	JOGO_CondRetJogoEmAndamento
+	JOGO_CondRetJogoEmAndamento,
 	/* O jogo ja esta rodando */
+
+	JOGO_CondRetMovimentoInvalido
+	/* Movimento Inválido */
 
 } JOGO_tpCondRet;
 
@@ -123,6 +130,8 @@ typedef enum {
 *  $FV Valor retornado
 *     JOGO_CondRetOK				   - Executou corretamente
 *	  JOGO_CondRetTabuleiroInexistente - Tabuleiro não existe
+*	  JOGO_CondRetJogoParado		   - Jogo esta parado
+*	  JOGO_CondRetMovimentoInvalido	   - Movimento Inválido
 *
 ***********************************************************************/
 
