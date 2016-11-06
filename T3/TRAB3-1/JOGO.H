@@ -173,6 +173,7 @@ typedef enum {
 *	  JOGO_CondRetTabuleiroInexistente	 - Tabuleiro não existe
 *	  JOGO_CondRetArquivoPecasNaoExiste	 - Arquivo de pecas inexistente
 *	  JOGO_CondRetArquivoPecasForaPadrao - Arquivo de pecas fora do padrao
+*	  JOGO_CondRetJogoEmAndamento		 - Jogo em andamento
 *
 ***********************************************************************/
 

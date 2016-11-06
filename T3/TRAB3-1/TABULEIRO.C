@@ -917,7 +917,7 @@ typedef struct TAB_tagTabuleiro
 		}
 
 		comer  = strcmp( pCasaDestino->nome, PECA_CASA_VAZIA ) ? TRUE : FALSE;
-		branco = ( pCasaDestino->cor != 'b' || pCasaDestino->cor != 'B' ) ? -1 : 1;
+		branco = ( pCasaOrigem->cor == 'b' || pCasaOrigem->cor == 'B' ) ? 1 : -1;
 
 		for ( LIS_AndarInicio( pTabuleiro->pPecas ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pTabuleiro->pPecas ) )
 		{
@@ -950,8 +950,8 @@ typedef struct TAB_tagTabuleiro
 
 			for ( i = 1; i <= pMov->max; i++ )
 			{
-				pAlcance[0] = pAlcance[0] + branco * ( pMov->coordenadas[1] ) - branco * ( pMov->coordenadas[3] );
-				pAlcance[1] = pAlcance[1] + branco * ( pMov->coordenadas[0] ) - branco * ( pMov->coordenadas[2] );
+				pAlcance[0] = pAlcance[0] + branco * ( pMov->coordenadas[2] ) - branco * ( pMov->coordenadas[0] );
+				pAlcance[1] = pAlcance[1] + branco * ( pMov->coordenadas[1] ) - branco * ( pMov->coordenadas[3] );
 				pAlcance[2] = '\0';
 
 				if ( ! ValidarCoordenada ( pAlcance ) )
@@ -964,16 +964,11 @@ typedef struct TAB_tagTabuleiro
 				}
 
 				pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
-				if( strcmp( pCasaTemp->nome, PECA_CASA_VAZIA ) != 0 )
-				{
-					/* Ops! Ocorreu uma colisão */
-					break;
-				}
 
 				if ( strcmp( pAlcance, destino ) == 0 )
 				{
 					/* Movimento para a casa destino existe! */
-					pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
+					//pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
 					if( strcmp( pCasaTemp->nome, PECA_CASA_VAZIA ) != 0 )
 					{
 						/* Ops! A casa destino está ocupada! */
@@ -991,6 +986,14 @@ typedef struct TAB_tagTabuleiro
 					{
 						/* Peça já andou o mínimo necessário */
 						return TRUE;
+					}
+				}
+				else
+				{
+					if (strcmp(pCasaTemp->nome, PECA_CASA_VAZIA) != 0)
+					{
+						/* Ops! Ocorreu uma colisão */
+						break;
 					}
 				}
 			}

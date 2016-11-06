@@ -23,3 +23,21 @@
 
 == Recebe jogadores - OK
 =recJogador	jog1	jog2	OK
+
+== Mostrar tabuleiro - OK
+=mostraTab	OK
+
+== Recebe jogada
+=recJogada	"A2"	"A4"	OK
+
+== Recebe jogada
+=recJogada	"B7"	"B5"	OK
+
+== Recebe jogada
+=recJogada	"A4"	"A5"	OK
+
+== Recebe jogada
+=recJogada	"G8"	"F6"	OK
+
+== Recebe jogada
+=recJogada	"G1"	"H3"	OK

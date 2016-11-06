@@ -30,9 +30,9 @@
 #include    "JOGO.H"
 
 static const char MOSTRA_TABULEIRO_CMD            [ ] = "=mostraTab"	;
-static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
-static const char RECEBE_JOGADORES_CMD            [ ] = "=recJogador" 	;
 static const char RECEBE_JOGADA_CMD			      [ ] = "=recJogada" 	;
+static const char RECEBE_JOGADORES_CMD            [ ] = "=recJogador" 	;
+static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
 
 
 TAB_tppTabuleiro pTabuleiro;
@@ -50,9 +50,9 @@ TAB_tppTabuleiro pTabuleiro;
 *     Comandos disponíveis:
 *
 *     =mostraTab					CondRetEsp
-*     =montaTab						CondRetEsp
-*     =recJogador	jog1	jog2	CondRetEsp
 *     =recJogada	orig	dest	CondRetEsp
+*     =recJogador	jog1	jog2	CondRetEsp
+*     =montaTab						CondRetEsp
 *
 *
 ***********************************************************************/
@@ -65,7 +65,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	char jog1[20];
 	char jog2[20];
 
-	char pCoordOrigem[3];
+	char pCoordOrigem[4];
 	char pCoordDestino[3];
 
 	TST_tpCondRet CondRet = TST_CondRetOK;
