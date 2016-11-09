@@ -180,7 +180,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro);
+	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro, char * nomeArq);
 
 /***********************************************************************
 *

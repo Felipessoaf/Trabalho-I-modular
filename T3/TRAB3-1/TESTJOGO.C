@@ -70,6 +70,8 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	char pCoordOrigem[4];
 	char pCoordDestino[3];
 
+	char nomeArq[50];
+
 	TST_tpCondRet CondRet = TST_CondRetOK;
 	
 	if (pTabuleiro == NULL)
@@ -135,14 +137,14 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 		if (strcmp(ComandoTeste, MONTA_TABULEIRO_CMD) == 0)
 		{
-			numLidos = LER_LerParametros("i", &CondRetEsp);
+			numLidos = LER_LerParametros("si", nomeArq, &CondRetEsp);
 
-			if (numLidos != 1)
+			if (numLidos != 2)
 			{
 				return TST_CondRetParm;
 			} /* if */
 
-			CondRet = JOGO_MontaTabuleiro(pTabuleiro);
+			CondRet = JOGO_MontaTabuleiro(pTabuleiro, nomeArq);
 
 			return TST_CompararInt(CondRetEsp, CondRet,
 				"Condicao de retorno errada ao montar tabuleiro.");
@@ -168,9 +170,9 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		} /* fim ativa: JOGO  &Inicia jogo */
 
 	return TST_CondRetNaoConhec ;
-} /* Fim função: TLIS &Testar lista */
+} /* Fim função: TJOGO &Testar jogo */
 
 
 
-/********** Fim do módulo de implementação: TTAB Teste tabuleiro de xadrez **********/
+/********** Fim do módulo de implementação: TJOGO Teste jogo de xadrez **********/
 

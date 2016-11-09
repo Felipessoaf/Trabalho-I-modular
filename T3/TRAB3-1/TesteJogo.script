@@ -17,8 +17,18 @@
 =declararparm   jog1   string  "player1"
 =declararparm   jog2   string  "player2"
 
+=declararparm	arq1	string	"PecasTabuleiro.txt"
+=declararparm	arq2	string	"PecasTabuleiroErrado.txt"
+=declararparm	arq3	string	"PecasTabuleiroNaoExiste.txt"
+
+== Montar tabuleiro - Nao existe
+=montaTab	arq3	ArqPecasNaoExiste
+
+== Montar tabuleiro - Fora do padrao
+=montaTab	arq2	ArqPecasForaPadrao
+
 == Montar tabuleiro - OK
-=montaTab	OK
+=montaTab	arq1	OK
 
 == Mostrar tabuleiro - Jogo parado
 =mostraTab	JogoParado
@@ -39,7 +49,7 @@
 =recJogador	jog1	jog2	JogoEmAndamento
 
 == Montar tabuleiro - Jogo em andamento
-=montaTab	JogoEmAndamento
+=montaTab	arq1	JogoEmAndamento
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK

@@ -244,7 +244,7 @@
 *  Função: JOGO  &Monta tabuleiro
 *  ****/
 
-	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro)
+	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro, char * nomeArq)
 	{
 		TAB_tpCondRet condret;
 
@@ -268,7 +268,7 @@
 			return JOGO_CondRetTabuleiroInexistente;
 		}
 
-		pFile = fopen("PecasTabuleiro.txt", "r");
+		pFile = fopen(nomeArq, "r");
 
 
 		if (pFile == NULL)
