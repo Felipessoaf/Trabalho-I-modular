@@ -305,14 +305,14 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 		
 
 	return TST_CondRetNaoConhec ;
-} /* Fim função: TLIS &Testar lista */
+} /* Fim função: TTAB &Testar tabuleiro */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
 /***********************************************************************
 *
-*  $FC Função: TLIS -Validar indice do tabuleiro
+*  $FC Função: TTAB -Validar indice do tabuleiro
 *
 ***********************************************************************/
 
@@ -341,7 +341,7 @@ int ValidarInxTab( int inxTab , int Modo )
 
 	return TRUE ;
 
-} /* Fim função: TLIS -Validar indice do tabuleiro */
+} /* Fim função: TTAB -Validar indice do tabuleiro */
 
 /********** Fim do módulo de implementação: TTAB Teste tabuleiro de xadrez **********/
 
