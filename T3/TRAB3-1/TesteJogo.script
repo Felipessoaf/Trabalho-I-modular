@@ -26,23 +26,53 @@
 == Recebe jogadores - OK
 =recJogador	jog1	jog2	OK
 
-== Inicia jogo
+== Recebe jogada - Jogo Parado
+=recJogada	"A2"	"A4"	JogoParado
+
+== Inicia jogo - OK
 =iniciaJogo	OK
+
+== Inicia jogo - Jogo em andamento
+=iniciaJogo	JogoEmAndamento
+
+== Recebe jogadores - Jogo em andamento
+=recJogador	jog1	jog2	JogoEmAndamento
+
+== Montar tabuleiro - Jogo em andamento
+=montaTab	JogoEmAndamento
+
+== Mostrar tabuleiro - OK
+=mostraTab	OK
+
+== Recebe jogada - OK
+=recJogada	"A2"	"A4"	OK
+
+== Recebe jogada - Movimento inválido
+=recJogada	"A2"	"E4"	MovimentoInvalido
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
 == Recebe jogada
-=recJogada	"A2"	"A4"	OK
-
-== Recebe jogada
 =recJogada	"B7"	"B5"	OK
 
+== Mostrar tabuleiro - OK
+=mostraTab	OK
+
 == Recebe jogada
-=recJogada	"A4"	"A5"	OK
+=recJogada	"A4"	"B5"	OK
+
+== Mostrar tabuleiro - OK
+=mostraTab	OK
 
 == Recebe jogada
 =recJogada	"G8"	"F6"	OK
 
+== Mostrar tabuleiro - OK
+=mostraTab	OK
+
 == Recebe jogada
 =recJogada	"G1"	"H3"	OK
+
+== Mostrar tabuleiro - OK
+=mostraTab	OK

@@ -136,7 +136,7 @@
 		if (condret != TAB_CondRetOK)
 		{
 			printf("\nMovimento Invalido\n");
-			return condret;
+			return JOGO_CondRetMovimentoInvalido;
 		}
 
 		if (pCor != jogCorr && pCor != (jogCorr + 32))
