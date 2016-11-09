@@ -13,3 +13,4 @@ Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
 06/11	1h					codificar			Implementação de testes
 06/11	1h					revisar codigo		Revisando alguns metodos e realizando modificações
 06/11	2h					revisar codigo		Consertando teste
+08/11	1h					codificar			Montando segunda parte do trabalho e implementando a main
