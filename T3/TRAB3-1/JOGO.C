@@ -359,6 +359,109 @@
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Inicia jogo */
 
+/***************************************************************************
+*
+*  Função: JOGO  &Cheque mate
+*  ****/
+
+	JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
+	{
+		LIS_tppLista pLista, pListaTemp;
+		LIS_tpCondRet lisCondRet;
+		char   pCor;
+		char * pAmeacante;
+		char * pNome;
+		char pCoordenada[3] = { 'A', '1', '\0' };
+		char pCoorTemp[3];
+		int i, j;
+
+		if (pTabuleiro == NULL)
+		{
+			return JOGO_CondRetTabuleiroInexistente;
+		}
+		for (i = 0; i < 8; i++)
+		{
+			pCoordenada[0] = i + 65;
+
+			for (j = 1; j <= 8; j++)
+			{
+				pCoordenada[1] = j + 48;
+
+				TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
+				if (strncmp(pNome, "k", 1) == 0)
+				{
+					if (pCor == jogCorr || pCor == jogCorr + 32)
+					{
+						i = j = 9;
+					}
+				}
+			}
+		}
+
+		TAB_ObterListaAmeacantes(&pTabuleiro, pCoordenada, &pLista);
+
+		lisCondRet = LIS_IrProxElemento(pLista);
+		if (lisCondRet != LIS_CondRetListaVazia)
+		{
+			for (LIS_AndarInicio(pLista); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento(pLista))
+			{
+				LIS_ObterElemento(pLista, (void**)&pCoorTemp);
+				TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
+
+				if (LIS_IrProxElemento(pLista) != LIS_CondRetListaVazia)
+				{
+					return JOGO_CondRetOK;
+				}
+			}
+			for (i = 0; i < 8;i++)
+			{ 
+				strcpy(pCoorTemp, pCoordenada);
+				switch (i)
+				{
+				case 0:
+					pCoorTemp[0] -= 1;
+					break;
+				case 1:
+					pCoorTemp[0] += 1;
+					break;
+				case 2:
+					pCoorTemp[1] -= 1;
+					break;
+				case 3:
+					pCoorTemp[1] += 1;
+					break;
+				case 4:
+					pCoorTemp[0] -= 1;
+					pCoorTemp[1] += 1;
+					break;
+				case 5:
+					pCoorTemp[0] -= 1;
+					pCoorTemp[1] -= 1;
+					break;
+				case 6:
+					pCoorTemp[0] += 1;
+					pCoorTemp[1] += 1;
+					break;
+				case 7:
+					pCoorTemp[0] += 1;
+					pCoorTemp[1] -= 1;
+					break;
+				}
+
+				if (TAB_ObterPeca(&pTabuleiro, pCoorTemp, &pCor, &pNome) == TAB_CondRetCasaVazia)
+				{
+					TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
+					if (LIS_IrProxElemento(pLista) == LIS_CondRetListaVazia)
+					{
+						return JOGO_CondRetOK;
+					}
+				}
+			}
+			return JOGO_CondRetNaoChequeMate;
+		}
+		return JOGO_CondRetOK;
+	}/* Fim função: JOGO  &Cheque mate */
+
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
 
 	//int main()
@@ -373,7 +476,7 @@
 
 	//	TAB_CriarTabuleiro(&pTabuleiro);
 
-	//	JOGO_MontaTabuleiro(pTabuleiro);
+	//	JOGO_MontaTabuleiro(pTabuleiro, "PecasTabuleiro.txt");
 
 	//	printf("Nome do jogador das pecas brancas:\n");
 	//	scanf("%s", jogBrancas);
@@ -385,14 +488,18 @@
 
 	//	jogoRodando = 1;
 	//	
-	//	while (jogoRodando)
+	//	JOGO_MostraTabuleiro(pTabuleiro);
+	//	JOGO_ChequeMate(pTabuleiro);
+
+	///*	while (jogoRodando)
 	//	{
 	//		JOGO_MostraTabuleiro(pTabuleiro);
 	//		printf("Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM para terminar:\n", (jogCorr=='B')?jogadorB:jogadorP);
 	//		scanf("%s", coordOrigem);
 	//		scanf("%s", coordDestino);
 	//		JOGO_RecebeJogada(pTabuleiro, coordOrigem, coordDestino);
-	//	}
+	//		JOGO_ChequeMate(pTabuleiro);
+	//	}*/
 
 	//	return 0;
 	//}

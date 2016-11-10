@@ -11,11 +11,11 @@ Primeiro 0
 --FimAndar
 --Andar
 Oeste 0
-Norte 2
+Norte 1
 Leste 0
 Sul 0
-Max 1
-Min 1
+Max 2
+Min 2
 Primeiro 1
 --FimAndar
 --Comer

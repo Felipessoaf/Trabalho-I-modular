@@ -93,8 +93,11 @@ typedef enum {
 	JOGO_CondRetMovimentoInvalido,
 	/* Movimento Inválido */
 
-	JOGO_CondRetJogoNaoPodeIniciar
+	JOGO_CondRetJogoNaoPodeIniciar,
 	/* Jogo nao pode ser iniciado */
+
+	JOGO_CondRetNaoChequeMate
+	/* Nao ocorreu cheque mate */
 
 } JOGO_tpCondRet;
 
@@ -197,6 +200,26 @@ typedef enum {
 ***********************************************************************/
 
 	JOGO_tpCondRet JOGO_IniciaJogo();
+	
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Cheque mate
+*
+*  $ED Descrição da função
+*     Confere se ocorreu cheque mate
+*
+*  $EP Parâmetros
+*	 pTabuleiro - referencia para o tabuleiro a ser montado
+*
+*  $FV Valor retornado
+*     JOGO_CondRetOK					 - Ocorreu cheque mate
+*	  JOGO_CondRetNaoChequeMate			 - Não ocorreu cheque mate
+*	  JOGO_CondRetArquivoPecasForaPadrao - A peça rei não existe
+*     JOGO_CondRetTabuleiroInexistente	 - Tabuleiro não existe
+*
+***********************************************************************/
+
+	JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro);
 
 #undef TABULEIRO_EXT
 
