@@ -18,4 +18,5 @@ Data	Horas Trabalhadas	Tipo Tarefa			Descrição da Tarefa Realizada
 09/11	1h					revisar código		Revisando implementações
 10/11	1h					revisar código		Revisando implementações
 10/11	1h					codificar			Implementando testes
-10/11	1h					revisar				Consertando bug
+10/11	1h					revisar	código		Consertando bug
+11/11	1h					revisar código		Revisando implementações

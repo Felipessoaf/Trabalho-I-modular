@@ -1039,22 +1039,24 @@ typedef struct TAB_tagTabuleiro
 
 				if (ameaca && (pCasa->cor != pCasaTemp->cor) && (pCasa->cor != COR_CASA_VAZIA))
 				{
-					pValor = (char*)malloc(sizeof(char) * 3);
+					pValor = (char*)malloc(sizeof(char) * (strlen(alcance)+1));
 					if (pValor == NULL)
 					{
 						exit(1);
 					}
-					strcpy(pValor, alcance);
+					strncpy(pValor, alcance,2);
+					pValor[2] = '\0';
 					LIS_InserirElemento(pAmeacados, pValor);
 				}
 				if (ameacado && (pCasa->cor != pCasaTemp->cor) && (pCasaTemp->cor != COR_CASA_VAZIA))
 				{
-					pValor = (char*)malloc(sizeof(char) * 3);
+					pValor = (char*)malloc(sizeof(char) * (strlen(alcance) + 1));
 					if (pValor == NULL)
 					{
 						exit(1);
 					}
-					strcpy(pValor, alcance);
+					strncpy(pValor, alcance,2);
+					pValor[2] = '\0';
 					LIS_InserirElemento(pAmeacantes, pValor);
 				}
 			}

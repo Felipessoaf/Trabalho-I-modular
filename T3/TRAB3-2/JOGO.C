@@ -386,6 +386,7 @@ JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 	char pCoordenada[3] = { 'A', '1', '\0' };
 	char pCoorTemp[3];
 	int i, j;
+	int achouRei = 0;
 	int naoChequeMate = 1;
 
 	if (!jogoRodando)
@@ -398,11 +399,11 @@ JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 		return JOGO_CondRetTabuleiroInexistente;
 	}
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < 8 && achouRei == 0; i++)
 	{
 		pCoordenada[0] = i + 65;
 
-		for (j = 1; j <= 8; j++)
+		for (j = 1; j <= 8 && achouRei == 0; j++)
 		{
 			pCoordenada[1] = j + 48;
 
@@ -416,13 +417,13 @@ JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 			{
 				if (pCor == jogCorr || pCor == jogCorr + 32)
 				{
-					i = j = 42;
+					achouRei = 1;
 				}
 			}
 		}
 	}
 
-	if (i != 42)
+	if (achouRei == 0)
 	{
 		return JOGO_CondRetNaoExisteRei;
 	}
@@ -456,7 +457,7 @@ JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 		if (naoChequeMate)
 		{
 			printf("\n\nCHEQUE\n\n");
-			return JOGO_CondRetNaoChequeMate;
+			return JOGO_CondRetCheque;
 		}
 
 		for (i = 0; i < 8; i++)
@@ -505,7 +506,7 @@ JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 				if (LIS_IrProxElemento(pLista) == LIS_CondRetListaVazia)
 				{
 					printf("\n\nCHEQUE\n\n");
-					return JOGO_CondRetNaoChequeMate;
+					return JOGO_CondRetCheque;
 				}
 			}
 		}
@@ -513,8 +514,7 @@ JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 		jogoRodando = 0;
 		return JOGO_CondRetChequeMate;
 	}
-	printf("\n\nCHEQUE\n\n");
-	return JOGO_CondRetNaoChequeMate;
+	return JOGO_CondRetOK;
 }/* Fim função: JOGO  &Cheque mate */
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/

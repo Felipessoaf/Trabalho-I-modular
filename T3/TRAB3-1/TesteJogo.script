@@ -13,7 +13,7 @@
 =declararparm   JogoEmAndamento    int  6
 =declararparm   MovimentoInvalido  int  7
 =declararparm   JogoNaoPodeIniciar int  8
-=declararparm   NaoChequeMate      int  9
+=declararparm   Cheque 		       int  9
 =declararparm   ChequeMate  	   int  10
 =declararparm   NaoExisteRei 	   int  11
 
@@ -25,7 +25,7 @@
 =declararparm	arq3	string	"PecasTabuleiroNaoExiste.txt"
 =declararparm	arq4	string	"PecasTabuleiroNaoRei.txt"
 
-== Montar tabuleiro - Nao existe
+== Montar tabuleiro - Arquivo nao existe
 =montaTab	arq3	ArqPecasNaoExiste
 
 == Montar tabuleiro - Fora do padrao
@@ -62,10 +62,10 @@
 =mostraTab	OK
 
 == Recebe jogada - OK
-=recJogada	"A2"	"A4"	OK
+=recJogada	"E2"	"E4"	OK
 
-== Cheque Mate - Nao Cheque Mate
-=chequeMate	NaoChequeMate
+== Cheque Mate - OK
+=chequeMate	OK
 
 == Recebe jogada - Movimento inválido
 =recJogada	"A2"	"E4"	MovimentoInvalido
@@ -74,46 +74,52 @@
 =mostraTab	OK
 
 == Recebe jogada - OK
-=recJogada	"B7"	"B5"	OK
+=recJogada	"A7"	"A6"	OK
 
-== Cheque Mate - Nao Cheque Mate
-=chequeMate	NaoChequeMate
-
-== Mostrar tabuleiro - OK
-=mostraTab	OK
-
-== Recebe jogada - OK
-=recJogada	"A4"	"B5"	OK
-
-== Cheque Mate - Nao Cheque Mate
-=chequeMate	NaoChequeMate
+== Cheque Mate - OK
+=chequeMate	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
 == Recebe jogada - OK
-=recJogada	"G8"	"F6"	OK
+=recJogada	"F1"	"C4"	OK
 
-== Cheque Mate - Nao Cheque Mate
-=chequeMate	NaoChequeMate
+== Cheque Mate - OK
+=chequeMate	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
 == Recebe jogada - OK
-=recJogada	"G1"	"H3"	OK
+=recJogada	"A6"	"A5"	OK
 
-== Cheque Mate - Nao Cheque Mate
-=chequeMate	NaoChequeMate
+== Cheque Mate - OK
+=chequeMate	OK
+
+== Mostrar tabuleiro - OK
+=mostraTab	OK
+
+== Recebe jogada - OK
+=recJogada	"D1"	"H5"	OK
+
+== Cheque Mate - OK
+=chequeMate	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
 == Recebe jogada
-=recJogada	"A7"	"A6"	OK
+=recJogada	"A5"	"A4"	OK
 
-== Cheque Mate - Nao Cheque Mate
-=chequeMate	NaoChequeMate
+== Cheque Mate - OK
+=chequeMate	OK
+
+== Recebe jogada
+=recJogada	"C4"	"F7"	OK
+
+== Cheque Mate - Cheque Mate
+=chequeMate	ChequeMate
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK

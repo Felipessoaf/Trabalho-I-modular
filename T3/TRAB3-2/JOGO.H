@@ -96,8 +96,8 @@ typedef enum {
 	JOGO_CondRetJogoNaoPodeIniciar,
 	/* Jogo nao pode ser iniciado */
 
-	JOGO_CondRetNaoChequeMate,
-	/* Nao ocorreu cheque mate */
+	JOGO_CondRetCheque,
+	/* Ocorreu cheque */
 
 	JOGO_CondRetChequeMate,
 	/* Ocorreu cheque mate */
@@ -218,8 +218,9 @@ JOGO_tpCondRet JOGO_IniciaJogo();
 *	 pTabuleiro - referencia para o tabuleiro do jogo
 *
 *  $FV Valor retornado
+*     JOGO_CondRetOK					 - Não ocorreu cheque nem cheque mate
 *     JOGO_CondRetChequeMate			 - Ocorreu cheque mate
-*	  JOGO_CondRetNaoChequeMate			 - Não ocorreu cheque mate
+*	  JOGO_CondRetCheque				 - Ocorreu cheque
 *	  JOGO_CondRetNaoExisteRei			 - A peça rei não existe
 *     JOGO_CondRetTabuleiroInexistente	 - Tabuleiro não existe
 *	  JOGO_CondRetJogoParado			 - Jogo esta parado
