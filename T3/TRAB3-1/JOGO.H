@@ -96,8 +96,14 @@ typedef enum {
 	JOGO_CondRetJogoNaoPodeIniciar,
 	/* Jogo nao pode ser iniciado */
 
-	JOGO_CondRetNaoChequeMate
+	JOGO_CondRetNaoChequeMate,
 	/* Nao ocorreu cheque mate */
+
+	JOGO_CondRetChequeMate,
+	/* Ocorreu cheque mate */
+
+	JOGO_CondRetNaoExisteRei
+	/* Peca rei nao existe */
 
 } JOGO_tpCondRet;
 
@@ -209,13 +215,14 @@ typedef enum {
 *     Confere se ocorreu cheque mate
 *
 *  $EP Parâmetros
-*	 pTabuleiro - referencia para o tabuleiro a ser montado
+*	 pTabuleiro - referencia para o tabuleiro do jogo
 *
 *  $FV Valor retornado
-*     JOGO_CondRetOK					 - Ocorreu cheque mate
+*     JOGO_CondRetChequeMate			 - Ocorreu cheque mate
 *	  JOGO_CondRetNaoChequeMate			 - Não ocorreu cheque mate
-*	  JOGO_CondRetArquivoPecasForaPadrao - A peça rei não existe
+*	  JOGO_CondRetNaoExisteRei			 - A peça rei não existe
 *     JOGO_CondRetTabuleiroInexistente	 - Tabuleiro não existe
+*	  JOGO_CondRetJogoParado			 - Jogo esta parado
 *
 ***********************************************************************/
 

@@ -34,6 +34,7 @@ static const char RECEBE_JOGADA_CMD			      [ ] = "=recJogada" 	;
 static const char RECEBE_JOGADORES_CMD            [ ] = "=recJogador" 	;
 static const char MONTA_TABULEIRO_CMD             [ ] = "=montaTab" 	;
 static const char INICIA_JOGO_CMD	              [ ] = "=iniciaJogo" 	;
+static const char CHEQUE_MATE_CMD	              [ ] = "=chequeMate" 	;
 
 
 TAB_tppTabuleiro pTabuleiro = NULL;
@@ -55,6 +56,7 @@ TAB_tppTabuleiro pTabuleiro = NULL;
 *     =recJogador	jog1	jog2	CondRetEsp
 *     =montaTab						CondRetEsp
 *     =iniciaJogo					CondRetEsp
+*     =chequeMate					CondRetEsp
 *
 *
 ***********************************************************************/
@@ -68,7 +70,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	char jog2[20];
 
 	char pCoordOrigem[4];
-	char pCoordDestino[3];
+	char pCoordDestino[4];
 
 	char nomeArq[50];
 
@@ -168,6 +170,24 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 				"Condicao de retorno errada ao iniciar jogo.");
 
 		} /* fim ativa: JOGO  &Inicia jogo */
+
+	/* JOGO  &Cheque mate*/
+
+		if (strcmp(ComandoTeste, CHEQUE_MATE_CMD) == 0)
+		{
+			numLidos = LER_LerParametros("i", &CondRetEsp);
+
+			if (numLidos != 1)
+			{
+				return TST_CondRetParm;
+			} /* if */
+
+			CondRet = JOGO_ChequeMate(pTabuleiro);
+
+			return TST_CompararInt(CondRetEsp, CondRet,
+				"Condicao de retorno errada ao testar cheque mate.");
+
+		} /* fim ativa: JOGO  &Cheque mate */
 
 	return TST_CondRetNaoConhec ;
 } /* Fim função: TJOGO &Testar jogo */

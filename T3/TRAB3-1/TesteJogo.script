@@ -13,6 +13,9 @@
 =declararparm   JogoEmAndamento    int  6
 =declararparm   MovimentoInvalido  int  7
 =declararparm   JogoNaoPodeIniciar int  8
+=declararparm   NaoChequeMate      int  9
+=declararparm   ChequeMate  	   int  10
+=declararparm   NaoExisteRei 	   int  11
 
 =declararparm   jog1   string  "player1"
 =declararparm   jog2   string  "player2"
@@ -20,6 +23,7 @@
 =declararparm	arq1	string	"PecasTabuleiro.txt"
 =declararparm	arq2	string	"PecasTabuleiroErrado.txt"
 =declararparm	arq3	string	"PecasTabuleiroNaoExiste.txt"
+=declararparm	arq4	string	"PecasTabuleiroNaoRei.txt"
 
 == Montar tabuleiro - Nao existe
 =montaTab	arq3	ArqPecasNaoExiste
@@ -32,6 +36,9 @@
 
 == Mostrar tabuleiro - Jogo parado
 =mostraTab	JogoParado
+
+== Cheque Mate - Jogo parado
+=chequeMate	JogoParado
 
 == Recebe jogadores - OK
 =recJogador	jog1	jog2	OK
@@ -63,26 +70,38 @@
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
-== Recebe jogada
+== Recebe jogada - OK
 =recJogada	"B7"	"B5"	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
-== Recebe jogada
+== Recebe jogada - OK
 =recJogada	"A4"	"B5"	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
-== Recebe jogada
+== Recebe jogada - OK
 =recJogada	"G8"	"F6"	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
 
-== Recebe jogada
+== Recebe jogada - OK
 =recJogada	"G1"	"H3"	OK
 
 == Mostrar tabuleiro - OK
 =mostraTab	OK
+
+== Recebe jogada
+=recJogada	"FIM"	"FIM"	OK
+
+== Montar tabuleiro - OK
+=montaTab arq4	OK
+
+== Inicia jogo - OK
+=iniciaJogo	OK
+
+== Cheque Mate - Nao existe rei
+=chequeMate	NaoExisteRei

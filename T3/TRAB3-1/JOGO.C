@@ -162,14 +162,20 @@
 		}
 
 		/* Ameaçados */
-		TAB_ObterListaAmeacados(&pTabuleiro, destino, &pLista);
+		condret = TAB_ObterListaAmeacados(&pTabuleiro, destino, &pLista);
 
+		if (condret != TAB_CondRetOK)
+		{
+			return condret;
+		}
+		
 		LIS_tpCondRet lisCondRet;
 
 		printf("\nCasas ameacadas pela peca:\n");
 		lisCondRet = LIS_IrProxElemento(pLista);
 		if (lisCondRet != LIS_CondRetListaVazia)
 		{
+			lisCondRet = LIS_CondRetOK;
 			for (LIS_AndarInicio(pLista); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento(pLista))
 			{
 				LIS_ObterElemento(pLista, (void**)&pValor);
@@ -178,12 +184,18 @@
 		}
 
 		/* Ameaçantes */
-		TAB_ObterListaAmeacantes(&pTabuleiro, destino, &pLista);
+		condret = TAB_ObterListaAmeacantes(&pTabuleiro, destino, &pLista);
+
+		if (condret != TAB_CondRetOK)
+		{
+			return condret;
+		}
 		
 		printf("\nCasas que ameacam a peca:\n");
 		lisCondRet = LIS_IrProxElemento(pLista);
 		if (lisCondRet != LIS_CondRetListaVazia)
 		{
+			lisCondRet = LIS_CondRetOK;
 			for (LIS_AndarInicio(pLista); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento(pLista))
 			{
 				LIS_ObterElemento(pLista, (void**)&pValor);
@@ -366,19 +378,26 @@
 
 	JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 	{
+		TAB_tpCondRet tabCondret;
 		LIS_tppLista pLista, pListaTemp;
 		LIS_tpCondRet lisCondRet;
 		char   pCor;
-		char * pAmeacante;
 		char * pNome;
 		char pCoordenada[3] = { 'A', '1', '\0' };
 		char pCoorTemp[3];
 		int i, j;
+		int naoChequeMate = 1;
+
+		if (!jogoRodando)
+		{
+			return JOGO_CondRetJogoParado;
+		}
 
 		if (pTabuleiro == NULL)
 		{
 			return JOGO_CondRetTabuleiroInexistente;
 		}
+
 		for (i = 0; i < 8; i++)
 		{
 			pCoordenada[0] = i + 65;
@@ -387,32 +406,59 @@
 			{
 				pCoordenada[1] = j + 48;
 
-				TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
+				tabCondret = TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
+				if (tabCondret == TAB_CondRetCasaInexistente)
+				{
+					return tabCondret;
+				}
+
 				if (strncmp(pNome, "k", 1) == 0)
 				{
 					if (pCor == jogCorr || pCor == jogCorr + 32)
 					{
-						i = j = 9;
+						i = j = 42;
 					}
 				}
 			}
 		}
 
-		TAB_ObterListaAmeacantes(&pTabuleiro, pCoordenada, &pLista);
+		if (i != 42)
+		{
+			return JOGO_CondRetNaoExisteRei;
+		}
+
+		tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoordenada, &pLista);
+		if (tabCondret != TAB_CondRetOK)
+		{
+			return tabCondret;
+		}
+
 
 		lisCondRet = LIS_IrProxElemento(pLista);
 		if (lisCondRet != LIS_CondRetListaVazia)
 		{
+			lisCondRet = LIS_CondRetOK;
 			for (LIS_AndarInicio(pLista); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento(pLista))
 			{
 				LIS_ObterElemento(pLista, (void**)&pCoorTemp);
-				TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
-
-				if (LIS_IrProxElemento(pLista) != LIS_CondRetListaVazia)
+				tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
+				if (tabCondret != TAB_CondRetOK)
 				{
-					return JOGO_CondRetOK;
+					return tabCondret;
+				}
+
+				if (LIS_IrProxElemento(pListaTemp) == LIS_CondRetListaVazia)
+				{
+					naoChequeMate = 0;
 				}
 			}
+
+			if (naoChequeMate)
+			{
+				printf("\n\nCHEQUE\n\n");
+				return JOGO_CondRetNaoChequeMate;
+			}
+
 			for (i = 0; i < 8;i++)
 			{ 
 				strcpy(pCoorTemp, pCoordenada);
@@ -450,16 +496,25 @@
 
 				if (TAB_ObterPeca(&pTabuleiro, pCoorTemp, &pCor, &pNome) == TAB_CondRetCasaVazia)
 				{
-					TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
+					tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
+					if (tabCondret != TAB_CondRetOK)
+					{
+						return tabCondret;
+					}
+
 					if (LIS_IrProxElemento(pLista) == LIS_CondRetListaVazia)
 					{
-						return JOGO_CondRetOK;
+						printf("\n\nCHEQUE\n\n");
+						return JOGO_CondRetNaoChequeMate;
 					}
 				}
 			}
-			return JOGO_CondRetNaoChequeMate;
+			printf("\n\nCHEQUE MATE\n\n");
+			jogoRodando = 0;
+			return JOGO_CondRetChequeMate;
 		}
-		return JOGO_CondRetOK;
+		printf("\n\nCHEQUE\n\n");
+		return JOGO_CondRetNaoChequeMate;
 	}/* Fim função: JOGO  &Cheque mate */
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
