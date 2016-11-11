@@ -14,7 +14,7 @@
 *  Autores: fpf - Felipe Pessoa de Freitas
 *			mmq - Matheus de Mello Queiroz
 *			pf  - Pedro Ferreira
-*			
+*
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -98,7 +98,7 @@ typedef enum {
 *
 *  $ED Descrição da função
 *     Cria um tabuleiro de xadrez
-*    
+*
 *  $EP Parâmetros
 *	 pTabuleiro - referencia para o tabuleiro a ser criado
 *
@@ -108,7 +108,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro);
+TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro);
 
 /***********************************************************************
 *
@@ -127,7 +127,7 @@ typedef enum {
 *
 *  $ED Descrição da função
 *     Insere peça em um tabuleiro de xadrez
-*    
+*
 *  $EP Parâmetros
 *	 pTabuleiro		- ponteiro para o tabuleiro a ser inserido
 *	 pNome			- ponteiro para o nome da peça
@@ -143,7 +143,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada);
+TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char* pCoordenada);
 
 /***********************************************************************
 *
@@ -162,7 +162,7 @@ typedef enum {
 *
 *  $ED Descrição da função
 *     move uma peça em um tabuleiro de xadrez
-*    
+*
 *  $EP Parâmetros
 *	 pTabuleiro		- ponteiro para o tabuleiro a ser inserido
 *	 origem			- coordenada de origem
@@ -176,7 +176,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino);
+TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino);
 
 /***********************************************************************
 *
@@ -205,7 +205,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char* pCoordenada);
+TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char* pCoordenada);
 
 /***********************************************************************
 *
@@ -219,7 +219,7 @@ typedef enum {
 *
 *  $AS Assertiva de saida
 *  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
-*  - pNome tem que estar preenchido com o nome da peça da casa 
+*  - pNome tem que estar preenchido com o nome da peça da casa
 *  referenciada por pCoordenada
 *
 *  $ED Descrição da função
@@ -239,7 +239,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome );
+TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome);
 
 /***********************************************************************
 *
@@ -252,7 +252,7 @@ typedef enum {
 *
 *  $AS Assertiva de saida
 *  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
-*  - pLista tem que estar preenchido com a lista ameacantes da casa  
+*  - pLista tem que estar preenchido com a lista ameacantes da casa
 *  referenciada por pCoordenada
 *
 *  $ED Descrição da função
@@ -270,7 +270,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
+TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
 
 /***********************************************************************
 *
@@ -283,7 +283,7 @@ typedef enum {
 *
 *  $AS Assertiva de saida
 *  - pTabuleiro tem que estar apontando para uma cabeça de tabuleiro
-*  - pLista tem que estar preenchido com a lista ameacados da casa 
+*  - pLista tem que estar preenchido com a lista ameacados da casa
 *  referenciada por pCoordenada
 *
 *  $ED Descrição da função
@@ -301,7 +301,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_ObterListaAmeacados(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
+TAB_tpCondRet TAB_ObterListaAmeacados(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista);
 
 /***********************************************************************
 *
@@ -325,7 +325,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro);
+TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro);
 
 #undef TABULEIRO_EXT
 

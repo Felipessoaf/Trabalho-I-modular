@@ -10,7 +10,7 @@
 *  -------------------------------------------Gestor:  LES/DI/PUC-Rio
 *  Autores: pf - Pedro Ferreira
 *           mmq - Matheus de Mello Queiroz
-*			fpf - Felipe Pessoa de Freitas	
+*			fpf - Felipe Pessoa de Freitas
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor     Data       Observações
@@ -52,10 +52,10 @@
 typedef struct TAB_tagTabuleiro
 {
 	LIS_tppLista pPecas;
-		   /* Cabeça da lista com as peças disponiveis */
+	/* Cabeça da lista com as peças disponiveis */
 
 	LIS_tppLista pMatriz;
-		   /* Cabeça da matriz */
+	/* Cabeça da matriz */
 
 } TAB_tpTabuleiro;
 
@@ -67,18 +67,18 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	typedef struct tagPeca{
-		
-		char nome[4];
-				/* Nome da peça */
+typedef struct tagPeca{
 
-		LIS_tppLista pAndar;
-				/* Ponteiro da Lista contendo os movimentos da peça de andar */
+	char nome[4];
+	/* Nome da peça */
 
-		LIS_tppLista pComer;
-				/* Ponteiro da Lista contendo os movimentos da peça de comer */
+	LIS_tppLista pAndar;
+	/* Ponteiro da Lista contendo os movimentos da peça de andar */
 
-	} tpPeca;
+	LIS_tppLista pComer;
+	/* Ponteiro da Lista contendo os movimentos da peça de comer */
+
+} tpPeca;
 
 /***********************************************************************
 *
@@ -87,22 +87,22 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	typedef struct tagMovimentoPeca{
+typedef struct tagMovimentoPeca{
 
-		int coordenadas[4];
-			/* Vetor de inteiros que representa as coordenadas Oeste = 0, 
-			Norte = 1, Leste =2 e Sul = 3 */
+	int coordenadas[4];
+	/* Vetor de inteiros que representa as coordenadas Oeste = 0,
+	Norte = 1, Leste =2 e Sul = 3 */
 
-		int max;
-			/* Numero maximo de vezes que esse movimento pode ser repetido em uma jogada */
+	int max;
+	/* Numero maximo de vezes que esse movimento pode ser repetido em uma jogada */
 
-		int min;
-			/* Numero minimo de vezes que esse movimento pode ser repetido em uma jogada */
+	int min;
+	/* Numero minimo de vezes que esse movimento pode ser repetido em uma jogada */
 
-		int primeiroMov;
-			/* Movimento que so pode ser executado na primeira jogada daquela peça */
+	int primeiroMov;
+	/* Movimento que so pode ser executado na primeira jogada daquela peça */
 
-	} tpMovimentoPeca;
+} tpMovimentoPeca;
 
 /***********************************************************************
 *
@@ -111,52 +111,52 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	typedef struct tagCasa{
-		
-		char nome[4];
-				/* Nome da peça na casa */
+typedef struct tagCasa{
 
-		char cor;
-				/* Cor da peça na casa */
+	char nome[4];
+	/* Nome da peça na casa */
 
-		int primeiroMov;
-				/* Movimento que so pode ser executado na primeira jogada daquela peça */
+	char cor;
+	/* Cor da peça na casa */
 
-		LIS_tppLista pAmeacantes;
-				/* Ponteiro da Lista contendo as casas que contém peças que legalmente ameaçam a presente casa */
+	int primeiroMov;
+	/* Movimento que so pode ser executado na primeira jogada daquela peça */
 
-		LIS_tppLista pAmeacados;
-				/* Ponteiro da Lista contendo as casas legalmente ameaçadas pela peça na presente casa */
+	LIS_tppLista pAmeacantes;
+	/* Ponteiro da Lista contendo as casas que contém peças que legalmente ameaçam a presente casa */
 
-	} tpCasa;
+	LIS_tppLista pAmeacados;
+	/* Ponteiro da Lista contendo as casas legalmente ameaçadas pela peça na presente casa */
+
+} tpCasa;
 
 /***** Protótipos das funções encapsuladas no módulo *****/
 
-	static void DestruirValorPeca(void * pValor);
+static void DestruirValorPeca(void * pValor);
 
-	static void DestruirValorGenerico(void * pValor);
+static void DestruirValorGenerico(void * pValor);
 
-	static void DestruirValorMatriz(void * pValor); 
+static void DestruirValorMatriz(void * pValor);
 
-	static void DestruirValorCasa(void * pValor);
+static void DestruirValorCasa(void * pValor);
 
-	static TAB_tpCondRet CriarCasa( tpCasa ** pCasa );
+static TAB_tpCondRet CriarCasa(tpCasa ** pCasa);
 
-	static TAB_tpCondRet CriarPeca( tpPeca ** Peca );
+static TAB_tpCondRet CriarPeca(tpPeca ** Peca);
 
-	static TAB_tpCondRet LerArquivoPecas( LIS_tppLista * pListaPecas );
+static TAB_tpCondRet LerArquivoPecas(LIS_tppLista * pListaPecas);
 
-	static int ValidarTipoPeca(LIS_tppLista pLista, char * nome);
+static int ValidarTipoPeca(LIS_tppLista pLista, char * nome);
 
-	static int ValidarCorPeca( char cor );
+static int ValidarCorPeca(char cor);
 
-	static int ValidarCoordenada( char * pCoordenada );
+static int ValidarCoordenada(char * pCoordenada);
 
-	static tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada);
+static tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada);
 
-	static int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
+static int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
 
-	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * pCoordenada);
+static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * pCoordenada);
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -165,79 +165,79 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Criar tabuleiro
 *  ****/
 
-   TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro)
-   {
-	   int i, j;
+TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro * pTabuleiro)
+{
+	int i, j;
 
-	   TAB_tppTabuleiro pTabuleiroTemp;
-	   TAB_tpCondRet    CondRetTab;
-	   LIS_tpCondRet    CondRetLis;
+	TAB_tppTabuleiro pTabuleiroTemp;
+	TAB_tpCondRet    CondRetTab;
+	LIS_tpCondRet    CondRetLis;
 
-	   /* Cria o tabuleiro */
-	   pTabuleiroTemp = ( TAB_tpTabuleiro * ) malloc( sizeof( TAB_tpTabuleiro ) );
-	   if ( pTabuleiroTemp == NULL )
-	   {
-		   return TAB_CondRetFaltouMemoria;
-	   } /* if */
+	/* Cria o tabuleiro */
+	pTabuleiroTemp = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
+	if (pTabuleiroTemp == NULL)
+	{
+		return TAB_CondRetFaltouMemoria;
+	} /* if */
 
-	   /* Preenche a lista com os tipos de peça existentes */
-	   CondRetTab = LerArquivoPecas( &pTabuleiroTemp->pPecas );
-	   if( CondRetTab != TAB_CondRetOK )
-	   {
-		   return CondRetTab;
-	   } /* if */
-	   
-	   /* Cria a matriz do tabuleiro */
-	   CondRetLis = LIS_CriarLista( "matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz );
-	   if ( CondRetLis != LIS_CondRetOK )
-	   {
-		   return TAB_CondRetFaltouMemoria;
-	   } /* if */
+	/* Preenche a lista com os tipos de peça existentes */
+	CondRetTab = LerArquivoPecas(&pTabuleiroTemp->pPecas);
+	if (CondRetTab != TAB_CondRetOK)
+	{
+		return CondRetTab;
+	} /* if */
 
-	   for ( i = 0; i < 8; i++ )
-	   {
-		   LIS_tppLista pListaColunasTemp;
+	/* Cria a matriz do tabuleiro */
+	CondRetLis = LIS_CriarLista("matx", DestruirValorMatriz, &pTabuleiroTemp->pMatriz);
+	if (CondRetLis != LIS_CondRetOK)
+	{
+		return TAB_CondRetFaltouMemoria;
+	} /* if */
 
-		   char id = ( i + '0' );
+	for (i = 0; i < 8; i++)
+	{
+		LIS_tppLista pListaColunasTemp;
 
-		   /* Cria as colunas da matriz */
-		   CondRetLis = LIS_CriarLista( &id, DestruirValorCasa, &pListaColunasTemp );
-		   if ( CondRetLis != TAB_CondRetOK )
-		   {
-			   return TAB_CondRetFaltouMemoria;
-		   } /* if */
+		char id = (i + '0');
 
-		   for ( j = 0; j < 8; j++ )
-		   {
-			   /* Inseres os elementos na coluna da matriz */
-			   tpCasa * pCasa;
+		/* Cria as colunas da matriz */
+		CondRetLis = LIS_CriarLista(&id, DestruirValorCasa, &pListaColunasTemp);
+		if (CondRetLis != TAB_CondRetOK)
+		{
+			return TAB_CondRetFaltouMemoria;
+		} /* if */
 
-			   CondRetTab = CriarCasa( &pCasa );
-			   if( CondRetTab != TAB_CondRetOK )
-			   {
-				   return TAB_CondRetFaltouMemoria;
-			   }
+		for (j = 0; j < 8; j++)
+		{
+			/* Inseres os elementos na coluna da matriz */
+			tpCasa * pCasa;
 
-			   CondRetLis = LIS_InserirElemento( pListaColunasTemp, pCasa );
-			   if ( CondRetLis != TAB_CondRetOK )
-			   {
-				   return TAB_CondRetFaltouMemoria;
-			   } /* if */
-		   }
+			CondRetTab = CriarCasa(&pCasa);
+			if (CondRetTab != TAB_CondRetOK)
+			{
+				return TAB_CondRetFaltouMemoria;
+			}
 
-		   /* Insere as colunas na matriz */
-		   CondRetLis = LIS_InserirElemento( pTabuleiroTemp->pMatriz, pListaColunasTemp );
-		   if ( CondRetLis != TAB_CondRetOK )
-		   {
-			   return TAB_CondRetFaltouMemoria;
-		   } /* if */
-	   }
+			CondRetLis = LIS_InserirElemento(pListaColunasTemp, pCasa);
+			if (CondRetLis != TAB_CondRetOK)
+			{
+				return TAB_CondRetFaltouMemoria;
+			} /* if */
+		}
 
-	   *pTabuleiro = pTabuleiroTemp;
+		/* Insere as colunas na matriz */
+		CondRetLis = LIS_InserirElemento(pTabuleiroTemp->pMatriz, pListaColunasTemp);
+		if (CondRetLis != TAB_CondRetOK)
+		{
+			return TAB_CondRetFaltouMemoria;
+		} /* if */
+	}
 
-	   return TAB_CondRetOK;
+	*pTabuleiro = pTabuleiroTemp;
 
-   } /* Fim função: TAB  &Criar tabuleiro */
+	return TAB_CondRetOK;
+
+} /* Fim função: TAB  &Criar tabuleiro */
 
 
 /***************************************************************************
@@ -245,162 +245,162 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Inserir peca
 *  ****/
 
-   TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char * pCoordenada)
-   {
-	   int i, j;
-	   char alcance[3];
+TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char * pCoordenada)
+{
+	int i, j;
+	char alcance[3];
 
-	   TAB_tppTabuleiro pTabTemp;
+	TAB_tppTabuleiro pTabTemp;
 
-	   tpCasa * pCasa;
+	tpCasa * pCasa;
 
-	   if ( pTabuleiro == NULL )
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
-	   
-	   pTabTemp = *pTabuleiro;
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   if ( ! ValidarTipoPeca( pTabTemp->pPecas, pNome ) )
-	   {
-		   return TAB_CondRetPecaInexistente;
-	   } /* if */
+	pTabTemp = *pTabuleiro;
 
-	   if ( ! ValidarCorPeca( cor ) )
-	   {
-		   return TAB_CondRetCorInexistente;
-	   } /* if */
+	if (!ValidarTipoPeca(pTabTemp->pPecas, pNome))
+	{
+		return TAB_CondRetPecaInexistente;
+	} /* if */
 
-	   if ( ! ValidarCoordenada( pCoordenada ) )
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
-		
-	   pCasa = ObterCasa( pTabTemp->pMatriz, pCoordenada );
-	   pCasa->cor = cor;
-	   strcpy( pCasa->nome, pNome );
-	   pCasa->primeiroMov = 1;
+	if (!ValidarCorPeca(cor))
+	{
+		return TAB_CondRetCorInexistente;
+	} /* if */
 
-	   for (i = 0; i < 8; i++)
-	   {
-		   for (j = 0; j < 8; j++)
-		   {
-			   alcance[0] = 'A' + i;
-			   alcance[1] = '1' + j;
-			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
-		   }
-	   }
+	if (!ValidarCoordenada(pCoordenada))
+	{
+		return TAB_CondRetCasaInexistente;
+	} /* if */
 
-	   return TAB_CondRetOK;
+	pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
+	pCasa->cor = cor;
+	strcpy(pCasa->nome, pNome);
+	pCasa->primeiroMov = 1;
 
-   } /* Fim função: TAB  &Inserir peca */
+	for (i = 0; i < 8; i++)
+	{
+		for (j = 0; j < 8; j++)
+		{
+			alcance[0] = 'A' + i;
+			alcance[1] = '1' + j;
+			alcance[2] = '\0';
+			//AtualizaListas(pTabTemp, alcance);
+		}
+	}
+
+	return TAB_CondRetOK;
+
+} /* Fim função: TAB  &Inserir peca */
 
 /***************************************************************************
 *
 *  Função: TAB  &Mover peca
 *  ****/
 
-   TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino)
-   {
-	   int i, j;
-	   char alcance[3];
-	   tpCasa * pCasaOrigem;
-	   tpCasa * pCasaDestino;
+TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino)
+{
+	int i, j;
+	char alcance[3];
+	tpCasa * pCasaOrigem;
+	tpCasa * pCasaDestino;
 
-	   TAB_tppTabuleiro pTabTemp;
+	TAB_tppTabuleiro pTabTemp;
 
-	   if (pTabuleiro == NULL)
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   pTabTemp = *pTabuleiro;
+	pTabTemp = *pTabuleiro;
 
-	   if ( ! ValidarCoordenada( origem ) || ! ValidarCoordenada( destino ) )
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   }
+	if (!ValidarCoordenada(origem) || !ValidarCoordenada(destino))
+	{
+		return TAB_CondRetCasaInexistente;
+	}
 
-	   pCasaDestino = ObterCasa(pTabTemp->pMatriz, destino);
-	   pCasaOrigem = ObterCasa(pTabTemp->pMatriz, origem);
-	   if( pCasaOrigem->cor == COR_CASA_VAZIA )
-	   {
-		   return TAB_CondRetCasaVazia;
-	   }
+	pCasaDestino = ObterCasa(pTabTemp->pMatriz, destino);
+	pCasaOrigem = ObterCasa(pTabTemp->pMatriz, origem);
+	if (pCasaOrigem->cor == COR_CASA_VAZIA)
+	{
+		return TAB_CondRetCasaVazia;
+	}
 
-	   if ( ! ValidarMovimento( pTabTemp, origem, destino ) )
-	   {
-		   return TAB_CondRetMovimentoInvalido;
-	   }
+	if (!ValidarMovimento(pTabTemp, origem, destino))
+	{
+		return TAB_CondRetMovimentoInvalido;
+	}
 
-	   pCasaDestino->cor = pCasaOrigem->cor;
-	   strcpy( pCasaDestino->nome, pCasaOrigem->nome);
+	pCasaDestino->cor = pCasaOrigem->cor;
+	strcpy(pCasaDestino->nome, pCasaOrigem->nome);
 
-	   pCasaOrigem->cor = COR_CASA_VAZIA;
-	   strcpy( pCasaOrigem->nome, PECA_CASA_VAZIA );
+	pCasaOrigem->cor = COR_CASA_VAZIA;
+	strcpy(pCasaOrigem->nome, PECA_CASA_VAZIA);
 
-	   pCasaOrigem->primeiroMov  = 0;
-	   pCasaDestino->primeiroMov = 0;
-	   	
-	   for (i = 0; i < 8; i++)
-	   {
-		   for (j = 0; j < 8; j++)
-		   {
-			   alcance[0] = 'A' + i;
-			   alcance[1] = '1' + j;
-			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
-		   }
-	   }
+	pCasaOrigem->primeiroMov = 0;
+	pCasaDestino->primeiroMov = 0;
 
-	   return TAB_CondRetOK;
+	for (i = 0; i < 8; i++)
+	{
+		for (j = 0; j < 8; j++)
+		{
+			alcance[0] = 'A' + i;
+			alcance[1] = '1' + j;
+			alcance[2] = '\0';
+			//AtualizaListas(pTabTemp, alcance);
+		}
+	}
 
-   } /* Fim função: TAB  &Mover peca */
+	return TAB_CondRetOK;
 
-   
+} /* Fim função: TAB  &Mover peca */
+
+
 /***************************************************************************
 *
 *  Função: TAB  &Retirar peca
 *  ****/
 
-   TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada)
-   {	
-	   int i, j;
-	   char alcance[3];
-	   tpCasa * pCasa;
-	   TAB_tppTabuleiro pTabTemp;
+TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada)
+{
+	int i, j;
+	char alcance[3];
+	tpCasa * pCasa;
+	TAB_tppTabuleiro pTabTemp;
 
-	   if (pTabuleiro == NULL)
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   pTabTemp = *pTabuleiro;
+	pTabTemp = *pTabuleiro;
 
-	   if ( ! ValidarCoordenada( pCoordenada ) )
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
+	if (!ValidarCoordenada(pCoordenada))
+	{
+		return TAB_CondRetCasaInexistente;
+	} /* if */
 
-	   pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
-	   pCasa->cor = COR_CASA_VAZIA;
-	   strcpy(pCasa->nome, PECA_CASA_VAZIA);
-	   
-	   for (i = 0; i < 8; i++)
-	   {
-		   for (j = 0; j < 8; j++)
-		   {
-			   alcance[0] = 'A' + i;
-			   alcance[1] = '1' + j;
-			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
-		   }
-	   }
+	pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
+	pCasa->cor = COR_CASA_VAZIA;
+	strcpy(pCasa->nome, PECA_CASA_VAZIA);
 
-	   return TAB_CondRetOK;
+	for (i = 0; i < 8; i++)
+	{
+		for (j = 0; j < 8; j++)
+		{
+			alcance[0] = 'A' + i;
+			alcance[1] = '1' + j;
+			alcance[2] = '\0';
+			//AtualizaListas(pTabTemp, alcance);
+		}
+	}
 
-   } /* Fim função: TAB  &Retirar peca */
+	return TAB_CondRetOK;
+
+} /* Fim função: TAB  &Retirar peca */
 
 
 /***************************************************************************
@@ -408,38 +408,38 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Obter peca
 *  ****/
 
-   TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome)
-   {
-	   TAB_tppTabuleiro pTabTemp;
+TAB_tpCondRet TAB_ObterPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, char * pCor, char ** pNome)
+{
+	TAB_tppTabuleiro pTabTemp;
 
-	   tpCasa * pCasa;
+	tpCasa * pCasa;
 
-	   if (pTabuleiro == NULL)
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   pTabTemp = *pTabuleiro;
+	pTabTemp = *pTabuleiro;
 
-	   if ( ! ValidarCoordenada( pCoordenada ) )
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
+	if (!ValidarCoordenada(pCoordenada))
+	{
+		return TAB_CondRetCasaInexistente;
+	} /* if */
 
-	   pCasa  = ObterCasa( pTabTemp->pMatriz, pCoordenada );
+	pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
 
-	   *pCor  = pCasa->cor;
-	   *pNome = ( char * ) malloc( (strlen( pCasa->nome ) + 1) * sizeof( char ) );
-	   strcpy( *pNome, pCasa->nome );
+	*pCor = pCasa->cor;
+	*pNome = (char *)malloc((strlen(pCasa->nome) + 1) * sizeof(char));
+	strcpy(*pNome, pCasa->nome);
 
-	   if (pCasa->cor == COR_CASA_VAZIA)
-	   {
-		   return TAB_CondRetCasaVazia;
-	   }
+	if (pCasa->cor == COR_CASA_VAZIA)
+	{
+		return TAB_CondRetCasaVazia;
+	}
 
-	   return TAB_CondRetOK;
+	return TAB_CondRetOK;
 
-   } /* Fim função: TAB  &Obter peca */
+} /* Fim função: TAB  &Obter peca */
 
 
 /***************************************************************************
@@ -447,29 +447,29 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Obter lista ameaçantes
 *  ****/
 
-   TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista)
-   {
-	   tpCasa * pCasa;
-	   TAB_tppTabuleiro pTabTemp;
+TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista)
+{
+	tpCasa * pCasa;
+	TAB_tppTabuleiro pTabTemp;
 
-	   if (pTabuleiro == NULL)
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   pTabTemp = *pTabuleiro;
+	pTabTemp = *pTabuleiro;
 
-	   if (! ValidarCoordenada( pCoordenada ) )
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
+	if (!ValidarCoordenada(pCoordenada))
+	{
+		return TAB_CondRetCasaInexistente;
+	} /* if */
 
-	   pCasa   = ObterCasa(pTabTemp->pMatriz, pCoordenada);
-	   *pLista = pCasa->pAmeacantes;
+	pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
+	*pLista = pCasa->pAmeacantes;
 
-	   return TAB_CondRetOK;
+	return TAB_CondRetOK;
 
-   } /* Fim função: TAB  &Obter lista ameacantes */
+} /* Fim função: TAB  &Obter lista ameacantes */
 
 
 /***************************************************************************
@@ -477,29 +477,29 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Obter lista ameaçados
 *  ****/
 
-   TAB_tpCondRet TAB_ObterListaAmeacados(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista)
-   {
-	   tpCasa * pCasa;
-	   TAB_tppTabuleiro pTabTemp;
+TAB_tpCondRet TAB_ObterListaAmeacados(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada, LIS_tppLista * pLista)
+{
+	tpCasa * pCasa;
+	TAB_tppTabuleiro pTabTemp;
 
-	   if (pTabuleiro == NULL)
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   pTabTemp = *pTabuleiro;
+	pTabTemp = *pTabuleiro;
 
-	   if ( ! ValidarCoordenada( pCoordenada ) )
-	   {
-		   return TAB_CondRetCasaInexistente;
-	   } /* if */
+	if (!ValidarCoordenada(pCoordenada))
+	{
+		return TAB_CondRetCasaInexistente;
+	} /* if */
 
-	   pCasa   = ObterCasa(pTabTemp->pMatriz, pCoordenada);
-	   *pLista = pCasa->pAmeacados;
+	pCasa = ObterCasa(pTabTemp->pMatriz, pCoordenada);
+	*pLista = pCasa->pAmeacados;
 
-	   return TAB_CondRetOK;
+	return TAB_CondRetOK;
 
-   } /* Fim função: TAB  &Obter lista ameacados */
+} /* Fim função: TAB  &Obter lista ameacados */
 
 
 /***************************************************************************
@@ -507,24 +507,24 @@ typedef struct TAB_tagTabuleiro
 *  Função: TAB  &Destruir tabuleiro
 *  ****/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro)
-   {
-	   TAB_tppTabuleiro pTabTemp;
+TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro * pTabuleiro)
+{
+	TAB_tppTabuleiro pTabTemp;
 
-	   if ( pTabuleiro == NULL )
-	   {
-		   return TAB_CondRetNaoExiste;
-	   } /* if */
+	if (pTabuleiro == NULL)
+	{
+		return TAB_CondRetNaoExiste;
+	} /* if */
 
-	   pTabTemp = *pTabuleiro;
+	pTabTemp = *pTabuleiro;
 
-	   LIS_DestruirLista( pTabTemp->pMatriz );
-	   LIS_DestruirLista( pTabTemp->pPecas  );
-	   free( pTabTemp );
+	LIS_DestruirLista(pTabTemp->pMatriz);
+	LIS_DestruirLista(pTabTemp->pPecas);
+	free(pTabTemp);
 
-	   return TAB_CondRetOK;
+	return TAB_CondRetOK;
 
-   } /* Fim função: TAB  &Destruir tabuleiro */
+} /* Fim função: TAB  &Destruir tabuleiro */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
@@ -535,13 +535,13 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	void DestruirValorPeca(void * pValor)
-	{
-		tpPeca * tempPeca = (tpPeca*)pValor;
-		LIS_DestruirLista( tempPeca->pAndar );
-		LIS_DestruirLista( tempPeca->pComer );
-		free(pValor);
-	} /* Fim função: TAB -Destruir valor peca*/
+void DestruirValorPeca(void * pValor)
+{
+	tpPeca * tempPeca = (tpPeca*)pValor;
+	LIS_DestruirLista(tempPeca->pAndar);
+	LIS_DestruirLista(tempPeca->pComer);
+	free(pValor);
+} /* Fim função: TAB -Destruir valor peca*/
 
 
 /***********************************************************************
@@ -550,10 +550,10 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	void DestruirValorGenerico(void * pValor)
-	{
-		free( pValor );
-	} /* Fim função: TAB -Destruir valor generico*/
+void DestruirValorGenerico(void * pValor)
+{
+	free(pValor);
+} /* Fim função: TAB -Destruir valor generico*/
 
 
 /***********************************************************************
@@ -562,10 +562,10 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	void DestruirValorMatriz(void * pValor)
-	{
-		LIS_DestruirLista( (LIS_tppLista) pValor );
-	} /* Fim função: TAB -Destruir valor matriz*/
+void DestruirValorMatriz(void * pValor)
+{
+	LIS_DestruirLista((LIS_tppLista)pValor);
+} /* Fim função: TAB -Destruir valor matriz*/
 
 
 /***********************************************************************
@@ -574,13 +574,13 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	void DestruirValorCasa(void * pValor)
-	{
-		tpCasa * tempCasa = (tpCasa*)pValor;
-		LIS_DestruirLista(tempCasa->pAmeacados);
-		LIS_DestruirLista(tempCasa->pAmeacantes);
-		free(pValor);
-	} /* Fim função: TAB -Destruir valor casa*/
+void DestruirValorCasa(void * pValor)
+{
+	tpCasa * tempCasa = (tpCasa*)pValor;
+	LIS_DestruirLista(tempCasa->pAmeacados);
+	LIS_DestruirLista(tempCasa->pAmeacantes);
+	free(pValor);
+} /* Fim função: TAB -Destruir valor casa*/
 
 
 /***********************************************************************
@@ -589,37 +589,37 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	TAB_tpCondRet CriarCasa( tpCasa ** pCasa )
+TAB_tpCondRet CriarCasa(tpCasa ** pCasa)
+{
+	LIS_tpCondRet CondRet;
+
+	tpCasa * pCasaTemp = (tpCasa *)malloc(sizeof(tpCasa));
+	if (pCasaTemp == NULL)
 	{
-		LIS_tpCondRet CondRet;
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		tpCasa * pCasaTemp = ( tpCasa * ) malloc( sizeof( tpCasa ) );
-		if( pCasaTemp == NULL )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
+	pCasaTemp->primeiroMov = 0;
+	pCasaTemp->cor = COR_CASA_VAZIA;
+	strcpy(pCasaTemp->nome, PECA_CASA_VAZIA);
 
-		pCasaTemp->primeiroMov = 0;
-		pCasaTemp->cor = COR_CASA_VAZIA;
-		strcpy( pCasaTemp->nome, PECA_CASA_VAZIA );
+	CondRet = LIS_CriarLista("amdo", DestruirValorGenerico, &pCasaTemp->pAmeacados);
+	if (CondRet != LIS_CondRetOK)
+	{
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		CondRet = LIS_CriarLista( "amdo", DestruirValorGenerico, &pCasaTemp->pAmeacados  );
-		if( CondRet != LIS_CondRetOK )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
+	CondRet = LIS_CriarLista("amte", DestruirValorGenerico, &pCasaTemp->pAmeacantes);
+	if (CondRet != LIS_CondRetOK)
+	{
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		CondRet = LIS_CriarLista( "amte", DestruirValorGenerico, &pCasaTemp->pAmeacantes );
-		if( CondRet != LIS_CondRetOK )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
+	*pCasa = pCasaTemp;
 
-		*pCasa = pCasaTemp;
+	return TAB_CondRetOK;
 
-		return TAB_CondRetOK;
-
-	} /* Fim função: TAB -Criar casa*/
+} /* Fim função: TAB -Criar casa*/
 
 /***********************************************************************
 *
@@ -627,35 +627,35 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	TAB_tpCondRet CriarPeca( tpPeca ** pPeca )
+TAB_tpCondRet CriarPeca(tpPeca ** pPeca)
+{
+	tpPeca * novaPeca;
+
+	LIS_tpCondRet CondRetLista;
+
+	novaPeca = (tpPeca *)malloc(sizeof(tpPeca));
+	if (novaPeca == NULL)
 	{
-		tpPeca * novaPeca;
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		LIS_tpCondRet CondRetLista;
+	CondRetLista = LIS_CriarLista("a", DestruirValorGenerico, &novaPeca->pAndar);
+	if (CondRetLista != LIS_CondRetOK)
+	{
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		novaPeca = ( tpPeca * ) malloc( sizeof( tpPeca ) );
-		if( novaPeca == NULL )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
+	CondRetLista = LIS_CriarLista("c", DestruirValorGenerico, &novaPeca->pComer);
+	if (CondRetLista != LIS_CondRetOK)
+	{
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		CondRetLista = LIS_CriarLista( "a", DestruirValorGenerico, &novaPeca->pAndar );
-		if( CondRetLista != LIS_CondRetOK )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
+	*pPeca = novaPeca;
 
-		CondRetLista = LIS_CriarLista( "c", DestruirValorGenerico, &novaPeca->pComer );
-		if( CondRetLista != LIS_CondRetOK )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
+	return TAB_CondRetOK;
 
-		*pPeca = novaPeca;
-
-		return TAB_CondRetOK;
-
-	} /* Fim função: TAB -Criar peca*/
+} /* Fim função: TAB -Criar peca*/
 
 /***********************************************************************
 *
@@ -663,120 +663,120 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	TAB_tpCondRet LerArquivoPecas( LIS_tppLista * pListaPecas )
+TAB_tpCondRet LerArquivoPecas(LIS_tppLista * pListaPecas)
+{
+	LIS_tpCondRet CondRetLista;
+	TAB_tpCondRet CondRetTab;
+
+	tpPeca* pecaTemp;
+	tpMovimentoPeca* movPeca;
+
+	char line[50];
+	FILE * pFile = fopen(pathArquivo, "r");
+	if (pFile == NULL)
 	{
-		LIS_tpCondRet CondRetLista;
-		TAB_tpCondRet CondRetTab;
+		printf("\nErro, nao foi possivel abrir o arquivo de entrada.\n");
+		return TAB_CondRetEntradaInvalida;
+	}
 
-		tpPeca* pecaTemp;
-		tpMovimentoPeca* movPeca;
+	CondRetLista = LIS_CriarLista("p", DestruirValorPeca, pListaPecas);
+	if (CondRetLista != LIS_CondRetOK)
+	{
+		return TAB_CondRetFaltouMemoria;
+	}
 
-		char line[50];
-		FILE * pFile = fopen(pathArquivo, "r");
-		if ( pFile == NULL )
+	while (fgets(line, sizeof(line), pFile) != NULL)
+	{
+		if (strncmp(line, ">>>>>>>>>>", 10) == 0)
 		{
-			printf( "\nErro, nao foi possivel abrir o arquivo de entrada.\n" );
+			CondRetTab = CriarPeca(&pecaTemp);
+			if (CondRetTab != TAB_CondRetOK)
+			{
+				return TAB_CondRetFaltouMemoria;
+			}
+		}
+		else if (strncmp(line, "Nome", 4) == 0)
+		{
+			int i;
+			strncpy(pecaTemp->nome, &line[5], 4);
+
+			for (i = 0; i < 4; i++)
+			{
+				if (pecaTemp->nome[i] == '\n')
+				{
+					pecaTemp->nome[i] = '\0';
+				}
+			}
+
+		}
+		else if ((strncmp(line, "--Andar", 7) == 0) || (strncmp(line, "--Comer", 7) == 0))
+		{
+			movPeca = (tpMovimentoPeca *)malloc(sizeof(tpMovimentoPeca));
+			if (movPeca == NULL)
+			{
+				return TAB_CondRetFaltouMemoria;
+			}
+		}
+		else if (strncmp(line, "Oeste", 5) == 0)
+		{
+			movPeca->coordenadas[0] = line[6] - '0';
+		}
+		else if (strncmp(line, "Norte", 5) == 0)
+		{
+			movPeca->coordenadas[1] = line[6] - '0';
+		}
+		else if (strncmp(line, "Leste", 5) == 0)
+		{
+			movPeca->coordenadas[2] = line[6] - '0';
+		}
+		else if (strncmp(line, "Sul", 3) == 0)
+		{
+			movPeca->coordenadas[3] = line[4] - '0';
+		}
+		else if (strncmp(line, "Max", 3) == 0)
+		{
+			movPeca->max = line[4] - '0';
+		}
+		else if (strncmp(line, "Min", 3) == 0)
+		{
+			movPeca->min = line[4] - '0';
+		}
+		else if (strncmp(line, "Primeiro", 8) == 0)
+		{
+			movPeca->primeiroMov = line[9] - '0';
+		}
+		else if (strncmp(line, "--FimAndar", 10) == 0)
+		{
+			CondRetLista = LIS_InserirElemento(pecaTemp->pAndar, movPeca);
+			if (CondRetLista != LIS_CondRetOK)
+			{
+				return TAB_CondRetFaltouMemoria;
+			}
+		}
+		else if (strncmp(line, "--FimComer", 10) == 0)
+		{
+			CondRetLista = LIS_InserirElemento(pecaTemp->pComer, movPeca);
+			if (CondRetLista != LIS_CondRetOK)
+			{
+				return TAB_CondRetFaltouMemoria;
+			}
+		}
+		else if (strncmp(line, "<<<<<<<<<<", 10) == 0)
+		{
+			CondRetLista = LIS_InserirElemento(*pListaPecas, pecaTemp);
+			if (CondRetLista != LIS_CondRetOK)
+			{
+				return TAB_CondRetFaltouMemoria;
+			}
+		}
+		else
+		{
 			return TAB_CondRetEntradaInvalida;
 		}
-
-		CondRetLista = LIS_CriarLista("p", DestruirValorPeca, pListaPecas );
-		if( CondRetLista != LIS_CondRetOK )
-		{
-			return TAB_CondRetFaltouMemoria;
-		}
-
-		while ( fgets (line, sizeof( line ), pFile ) != NULL )
-		{
-			if ( strncmp( line, ">>>>>>>>>>", 10 ) == 0 )
-			{
-				CondRetTab = CriarPeca( &pecaTemp );
-				if( CondRetTab != TAB_CondRetOK )
-				{
-					return TAB_CondRetFaltouMemoria;
-				}
-			}
-			else if ( strncmp( line, "Nome", 4 ) == 0 )
-			{
-				int i;
-				strncpy( pecaTemp->nome, &line[5], 4 );
-
-				for ( i = 0; i < 4; i++ )
-				{
-					if ( pecaTemp->nome[i] == '\n' )
-					{
-						pecaTemp->nome[i] = '\0';
-					}
-				}
-
-			}
-			else if ( ( strncmp( line, "--Andar", 7 ) == 0 ) || ( strncmp( line, "--Comer", 7 ) == 0) )
-			{
-				movPeca = ( tpMovimentoPeca * ) malloc( sizeof( tpMovimentoPeca ) );
-				if( movPeca == NULL )
-				{
-					return TAB_CondRetFaltouMemoria;
-				}
-			}
-			else if ( strncmp( line, "Oeste", 5 ) == 0 )
-			{
-				movPeca->coordenadas[0] = line[6] - '0';
-			}
-			else if ( strncmp( line, "Norte", 5 ) == 0 )
-			{
-				movPeca->coordenadas[1] = line[6] - '0';
-			}
-			else if ( strncmp( line, "Leste", 5 ) == 0 )
-			{
-				movPeca->coordenadas[2] = line[6] - '0';
-			}
-			else if ( strncmp( line, "Sul", 3 ) == 0 )
-			{
-				movPeca->coordenadas[3] = line[4] - '0';
-			}
-			else if ( strncmp( line, "Max", 3 ) == 0 ) 
-			{
-				movPeca->max = line[4] - '0';
-			}
-			else if ( strncmp( line, "Min", 3 ) == 0 )
-			{
-				movPeca->min = line[4] - '0';
-			}
-			else if ( strncmp( line, "Primeiro", 8 ) == 0 )
-			{
-				movPeca->primeiroMov = line[9] - '0';
-			}
-			else if ( strncmp( line, "--FimAndar", 10 ) == 0 )
-			{	
-				CondRetLista = LIS_InserirElemento(pecaTemp->pAndar, movPeca);
-				if( CondRetLista != LIS_CondRetOK )
-				{
-					return TAB_CondRetFaltouMemoria;
-				}
-			}
-			else if (strncmp(line, "--FimComer", 10) == 0)
-			{
-				CondRetLista = LIS_InserirElemento(pecaTemp->pComer, movPeca);
-				if( CondRetLista != LIS_CondRetOK )
-				{
-					return TAB_CondRetFaltouMemoria;
-				}
-			}
-			else if ( strncmp( line, "<<<<<<<<<<", 10 ) == 0 )
-			{
-				CondRetLista = LIS_InserirElemento( *pListaPecas, pecaTemp);
-				if( CondRetLista != LIS_CondRetOK )
-				{
-					return TAB_CondRetFaltouMemoria;
-				}
-			}
-			else
-			{
-				return TAB_CondRetEntradaInvalida;
-			}
-		}
-		fclose(pFile);
-		return TAB_CondRetOK;
 	}
+	fclose(pFile);
+	return TAB_CondRetOK;
+}
 
 /***********************************************************************
 *
@@ -784,22 +784,22 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	int ValidarTipoPeca( LIS_tppLista pLista, char * nome )
+int ValidarTipoPeca(LIS_tppLista pLista, char * nome)
+{
+	tpPeca * pPeca;
+
+	LIS_tpCondRet CondRet = LIS_CondRetOK;
+	for (LIS_AndarInicio(pLista); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pLista))
 	{
-		tpPeca * pPeca;
-
-		LIS_tpCondRet CondRet = LIS_CondRetOK;
-		for( LIS_AndarInicio( pLista ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pLista ) )
+		LIS_ObterElemento(pLista, (void **)&pPeca);
+		if (strcmp(nome, pPeca->nome) == 0)
 		{
-			LIS_ObterElemento( pLista, ( void ** ) &pPeca );
-			if ( strcmp( nome, pPeca->nome ) == 0 )
-			{
-				return TRUE;
-			}
+			return TRUE;
 		}
-
-		return FALSE;
 	}
+
+	return FALSE;
+}
 
 /***********************************************************************
 *
@@ -807,15 +807,15 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	int ValidarCorPeca( char cor )
+int ValidarCorPeca(char cor)
+{
+	if (cor != 'p' && cor != 'b' && cor != 'P' && cor != 'B')
 	{
-		if (cor != 'p' && cor != 'b' && cor != 'P' && cor != 'B')
-		{
-			return FALSE;
-		} /* if */
+		return FALSE;
+	} /* if */
 
-		return TRUE;
-	}
+	return TRUE;
+}
 
 /***********************************************************************
 *
@@ -823,21 +823,21 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	int ValidarCoordenada( char * pCoordenada )
+int ValidarCoordenada(char * pCoordenada)
+{
+	if (!(pCoordenada[0] >= 'A' && pCoordenada[0] <= 'H') &&
+		!(pCoordenada[0] <= 'a' && pCoordenada[0] >= 'h'))
 	{
-		if ( ! ( pCoordenada[0] >= 'A' && pCoordenada[0] <= 'H' ) &&
-		     ! ( pCoordenada[0] <= 'a' && pCoordenada[0] >= 'h' ) )
-		{
-			return FALSE;
-		} /* if */
+		return FALSE;
+	} /* if */
 
-		if ( ! ( pCoordenada[1] >= '1' && pCoordenada[1] <= '8' ) )
-		{
-			return FALSE;
-		} /* if */
+	if (!(pCoordenada[1] >= '1' && pCoordenada[1] <= '8'))
+	{
+		return FALSE;
+	} /* if */
 
-		return TRUE;
-	}
+	return TRUE;
+}
 
 /***********************************************************************
 *
@@ -845,34 +845,34 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada)
+tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada)
+{
+	int linha, coluna, i;
+	tpCasa * pCasa;
+	LIS_tppLista pListaCasa;
+
+	coluna = (pCoordenada[0] < 'a') ? pCoordenada[0] - 'A' : pCoordenada[0] - 'a';
+	linha = pCoordenada[1] - '1';
+
+	LIS_AndarInicio(pLista);
+	for (i = 0; i < coluna; i++)
 	{
-		int linha, coluna, i;
-		tpCasa * pCasa;
-		LIS_tppLista pListaCasa;
-
-		coluna = ( pCoordenada[0] < 'a' ) ? pCoordenada[0] - 'A' : pCoordenada[0] - 'a';
-		linha  =   pCoordenada[1] - '1';
-
-		LIS_AndarInicio(pLista);
-		for ( i = 0; i < coluna; i ++ )
-		{
-			LIS_IrProxElemento(pLista);
-		}
-
-		LIS_ObterElemento(pLista, (void**) &pListaCasa);
-
-		LIS_AndarInicio( pListaCasa );
-		for ( i = 0; i < linha; i++ )
-		{
-			LIS_IrProxElemento(pListaCasa);
-		}
-
-		LIS_ObterElemento( pListaCasa, (void**) &pCasa );
-
-		return pCasa;
-
+		LIS_IrProxElemento(pLista);
 	}
+
+	LIS_ObterElemento(pLista, (void**)&pListaCasa);
+
+	LIS_AndarInicio(pListaCasa);
+	for (i = 0; i < linha; i++)
+	{
+		LIS_IrProxElemento(pListaCasa);
+	}
+
+	LIS_ObterElemento(pListaCasa, (void**)&pCasa);
+
+	return pCasa;
+
+}
 
 /***********************************************************************
 *
@@ -880,127 +880,127 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
+int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
+{
+	int i;
+
+	char pAlcance[3];
+
+	int comer, branco;
+
+	LIS_tppLista  pMovimento = NULL;
+	LIS_tpCondRet CondRet = LIS_CondRetOK;
+
+	tpPeca * pPeca;
+	tpMovimentoPeca * pMov;
+
+	tpCasa * pCasaOrigem;
+	tpCasa * pCasaDestino;
+	tpCasa * pCasaTemp;
+
+	if (strcmp(origem, destino) == 0)
 	{
-		int i;
+		return FALSE;
+	}
 
-		char pAlcance[3];
+	pCasaOrigem = ObterCasa(pTabuleiro->pMatriz, origem);
+	pCasaDestino = ObterCasa(pTabuleiro->pMatriz, destino);
 
-		int comer, branco;
+	if (pCasaOrigem->cor == pCasaDestino->cor)
+	{
+		return FALSE;
+	}
 
-		LIS_tppLista  pMovimento = NULL;
-		LIS_tpCondRet CondRet = LIS_CondRetOK;
+	if (!strcmp(pCasaOrigem->nome, PECA_CASA_VAZIA))
+	{
+		return FALSE;
+	}
 
-		tpPeca * pPeca;
-		tpMovimentoPeca * pMov;
+	comer = strcmp(pCasaDestino->nome, PECA_CASA_VAZIA) ? TRUE : FALSE;
+	branco = (pCasaOrigem->cor == 'b' || pCasaOrigem->cor == 'B') ? 1 : -1;
 
-		tpCasa * pCasaOrigem;
-		tpCasa * pCasaDestino;
-		tpCasa * pCasaTemp;
+	for (LIS_AndarInicio(pTabuleiro->pPecas); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pTabuleiro->pPecas))
+	{
+		LIS_ObterElemento(pTabuleiro->pPecas, (void **)&pPeca);
 
-		if( strcmp( origem, destino ) == 0 )
+		if (strcmp(pCasaOrigem->nome, pPeca->nome) == 0)
 		{
-			return FALSE;
+			/* Verifica se a peça vai andar ou comer */
+			comer ? (pMovimento = pPeca->pComer) : (pMovimento = pPeca->pAndar);
+			break;
+		}
+	}
+
+	for (LIS_AndarInicio(pMovimento); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento(pMovimento))
+	{
+		LIS_ObterElemento(pMovimento, (void **)&pMov);
+
+		if (pMov->primeiroMov && !pCasaOrigem->primeiroMov)
+		{
+			/*
+			* Verifica se é o primeiro movimento da peça
+			* Se sim permite a utização de movimentos
+			* autorizados somente no primeiro movimento.
+			*/
+			continue;
 		}
 
-		pCasaOrigem  = ObterCasa( pTabuleiro->pMatriz, origem );
-		pCasaDestino = ObterCasa( pTabuleiro->pMatriz, destino );
+		pAlcance[0] = origem[0];
+		pAlcance[1] = origem[1];
 
-		if( pCasaOrigem->cor == pCasaDestino->cor )
+		for (i = 1; i <= pMov->max; i++)
 		{
-			return FALSE;
-		}
+			pAlcance[0] = pAlcance[0] + branco * (pMov->coordenadas[2]) - branco * (pMov->coordenadas[0]);
+			pAlcance[1] = pAlcance[1] + branco * (pMov->coordenadas[1]) - branco * (pMov->coordenadas[3]);
+			pAlcance[2] = '\0';
 
-		if (!strcmp(pCasaOrigem->nome, PECA_CASA_VAZIA))
-		{
-			return FALSE;
-		}
-
-		comer  = strcmp( pCasaDestino->nome, PECA_CASA_VAZIA ) ? TRUE : FALSE;
-		branco = ( pCasaOrigem->cor == 'b' || pCasaOrigem->cor == 'B' ) ? 1 : -1;
-
-		for ( LIS_AndarInicio( pTabuleiro->pPecas ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pTabuleiro->pPecas ) )
-		{
-			LIS_ObterElemento( pTabuleiro->pPecas, ( void ** ) &pPeca );
-
-			if ( strcmp( pCasaOrigem->nome, pPeca->nome ) == 0 )
-			{
-				/* Verifica se a peça vai andar ou comer */
-				comer ? ( pMovimento = pPeca->pComer ) : ( pMovimento = pPeca->pAndar );
-				break;
-			}
-		}
-
-		for ( LIS_AndarInicio( pMovimento ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pMovimento ) )
-		{
-			LIS_ObterElemento( pMovimento, ( void ** ) &pMov );
-
-			if ( pMov->primeiroMov && ! pCasaOrigem->primeiroMov )
+			if (!ValidarCoordenada(pAlcance))
 			{
 				/*
-				 * Verifica se é o primeiro movimento da peça
-				 * Se sim permite a utização de movimentos
-				 * autorizados somente no primeiro movimento.
-				 */
-				continue;
+				* Movimento já está fora do tabuleiro!
+				* Peça não precisa mover mais do que isso.
+				*/
+				break;
 			}
 
-			pAlcance[0] = origem[0];
-			pAlcance[1] = origem[1];
+			pCasaTemp = ObterCasa(pTabuleiro->pMatriz, pAlcance);
 
-			for ( i = 1; i <= pMov->max; i++ )
+			if (strcmp(pAlcance, destino) == 0)
 			{
-				pAlcance[0] = pAlcance[0] + branco * ( pMov->coordenadas[2] ) - branco * ( pMov->coordenadas[0] );
-				pAlcance[1] = pAlcance[1] + branco * ( pMov->coordenadas[1] ) - branco * ( pMov->coordenadas[3] );
-				pAlcance[2] = '\0';
-
-				if ( ! ValidarCoordenada ( pAlcance ) )
+				/* Movimento para a casa destino existe! */
+				//pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
+				if (strcmp(pCasaTemp->nome, PECA_CASA_VAZIA) != 0)
 				{
-					/*
-					* Movimento já está fora do tabuleiro!
-					* Peça não precisa mover mais do que isso.
-					*/
-					break;
-				}
-
-				pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
-
-				if ( strcmp( pAlcance, destino ) == 0 )
-				{
-					/* Movimento para a casa destino existe! */
-					//pCasaTemp = ObterCasa( pTabuleiro->pMatriz, pAlcance );
-					if( strcmp( pCasaTemp->nome, PECA_CASA_VAZIA ) != 0 )
+					/* Ops! A casa destino está ocupada! */
+					if (!comer)
 					{
-						/* Ops! A casa destino está ocupada! */
-						if( ! comer )
-						{
-							/*
-							* Peça não pode se mover para casa já ocupada!
-							* Peça não precisa mover mais do que isso.
-							*/
-							break;
-						}
-					}
-
-					if( i >= pMov->min )
-					{
-						/* Peça já andou o mínimo necessário */
-						return TRUE;
-					}
-				}
-				else
-				{
-					if (strcmp(pCasaTemp->nome, PECA_CASA_VAZIA) != 0)
-					{
-						/* Ops! Ocorreu uma colisão */
+						/*
+						* Peça não pode se mover para casa já ocupada!
+						* Peça não precisa mover mais do que isso.
+						*/
 						break;
 					}
 				}
+
+				if (i >= pMov->min)
+				{
+					/* Peça já andou o mínimo necessário */
+					return TRUE;
+				}
+			}
+			else
+			{
+				if (strcmp(pCasaTemp->nome, PECA_CASA_VAZIA) != 0)
+				{
+					/* Ops! Ocorreu uma colisão */
+					break;
+				}
 			}
 		}
-
-		return FALSE;
 	}
+
+	return FALSE;
+}
 
 /***********************************************************************
 *
@@ -1008,43 +1008,43 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	static void AtualizaListas( TAB_tppTabuleiro pTabuleiro, char * coordenada)
+static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * coordenada)
+{
+	int i, j;
+	int ameaca, ameacado;
+	char alcance[3];
+	LIS_tppLista pAmeacados, pAmeacantes;
+	tpCasa * pCasa;
+
+	LIS_CriarLista("amdo", DestruirValorGenerico, &pAmeacados);
+	LIS_CriarLista("amte", DestruirValorGenerico, &pAmeacantes);
+
+	for (i = 0; i < 8; i++)
 	{
-		int i, j;
-		int ameaca, ameacado;
-		char alcance[3];
-		LIS_tppLista pAmeacados, pAmeacantes;
-		tpCasa * pCasa;
-
-		LIS_CriarLista( "amdo", DestruirValorGenerico, &pAmeacados  );
-		LIS_CriarLista( "amte", DestruirValorGenerico, &pAmeacantes );
-
-		for ( i = 0; i < 8; i++ )
+		for (j = 0; j < 8; j++)
 		{
-			for ( j = 0; j < 8; j++ )
-			{
-				alcance[0] = 'A' + i;
-				alcance[1] = '1' + j;
-				alcance[2] = '\0';
+			alcance[0] = 'A' + i;
+			alcance[1] = '1' + j;
+			alcance[2] = '\0';
 
-				ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance );
-				ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada );
-				if ( ameaca )
-				{
-					LIS_InserirElemento( pAmeacados, alcance );
-				}
-				if ( ameacado )
-				{
-					LIS_InserirElemento( pAmeacantes, alcance );
-				}
+			ameaca = ValidarMovimento(pTabuleiro, coordenada, alcance);
+			ameacado = ValidarMovimento(pTabuleiro, alcance, coordenada);
+			if (ameaca)
+			{
+				LIS_InserirElemento(pAmeacados, alcance);
+			}
+			if (ameacado)
+			{
+				LIS_InserirElemento(pAmeacantes, alcance);
 			}
 		}
-
-		pCasa = ObterCasa( pTabuleiro->pMatriz, coordenada );
-
-		LIS_DestruirLista( pCasa->pAmeacados  );
-		LIS_DestruirLista( pCasa->pAmeacantes );
-
-		pCasa->pAmeacados  = pAmeacados;
-		pCasa->pAmeacantes = pAmeacantes;
 	}
+
+	pCasa = ObterCasa(pTabuleiro->pMatriz, coordenada);
+
+	LIS_DestruirLista(pCasa->pAmeacados);
+	LIS_DestruirLista(pCasa->pAmeacantes);
+
+	pCasa->pAmeacados = pAmeacados;
+	pCasa->pAmeacantes = pAmeacantes;
+}

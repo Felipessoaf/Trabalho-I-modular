@@ -20,10 +20,10 @@
 
 #include "JOGO.H"
 
-int main()
+int main(int argc, char *argv[])
 {
 	char coordOrigem[4];
-	char coordDestino[3];
+	char coordDestino[4];
 
 	char jogBrancas[20];
 	char jogPretas[20];
@@ -32,7 +32,7 @@ int main()
 
 	TAB_CriarTabuleiro(&pTabuleiro);
 
-	JOGO_MontaTabuleiro(pTabuleiro);
+	JOGO_MontaTabuleiro(pTabuleiro, argv[1]);
 
 	printf("Nome do jogador das pecas brancas:\n");
 	scanf("%s", jogBrancas);
@@ -42,7 +42,7 @@ int main()
 
 	JOGO_RecebeJogadores(jogBrancas, jogPretas);
 
-	jogoRodando = 1;
+	JOGO_IniciaJogo();
 	
 	while (jogoRodando)
 	{

@@ -14,7 +14,7 @@
 *  Autores: fpf - Felipe Pessoa de Freitas
 *			mmq - Matheus de Mello Queiroz
 *			pf  - Pedro Ferreira
-*			
+*
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -71,7 +71,7 @@ typedef enum {
 
 	JOGO_CondRetOK,
 	/* Concluiu corretamente */
-	
+
 	JOGO_CondRetFaltouMemoria,
 	/* Faltou memória ao tentar criar um elemento do jogo */
 
@@ -93,8 +93,17 @@ typedef enum {
 	JOGO_CondRetMovimentoInvalido,
 	/* Movimento Inválido */
 
-	JOGO_CondRetJogoNaoPodeIniciar
+	JOGO_CondRetJogoNaoPodeIniciar,
 	/* Jogo nao pode ser iniciado */
+
+	JOGO_CondRetNaoChequeMate,
+	/* Nao ocorreu cheque mate */
+
+	JOGO_CondRetChequeMate,
+	/* Ocorreu cheque mate */
+
+	JOGO_CondRetNaoExisteRei
+	/* Peca rei nao existe */
 
 } JOGO_tpCondRet;
 
@@ -116,7 +125,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_MostraTabuleiro(TAB_tppTabuleiro pTabuleiro);
+JOGO_tpCondRet JOGO_MostraTabuleiro(TAB_tppTabuleiro pTabuleiro);
 
 /***********************************************************************
 *
@@ -138,7 +147,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
+JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
 
 /***********************************************************************
 *
@@ -158,7 +167,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_RecebeJogadores(char * jog1, char * jog2);
+JOGO_tpCondRet JOGO_RecebeJogadores(char * jog1, char * jog2);
 
 
 /***********************************************************************
@@ -180,7 +189,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro);
+JOGO_tpCondRet JOGO_MontaTabuleiro(TAB_tppTabuleiro pTabuleiro, char * nomeArq);
 
 /***********************************************************************
 *
@@ -196,7 +205,28 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_IniciaJogo();
+JOGO_tpCondRet JOGO_IniciaJogo();
+
+/***********************************************************************
+*
+*  $FC Função: JOGO  &Cheque mate
+*
+*  $ED Descrição da função
+*     Confere se ocorreu cheque mate
+*
+*  $EP Parâmetros
+*	 pTabuleiro - referencia para o tabuleiro do jogo
+*
+*  $FV Valor retornado
+*     JOGO_CondRetChequeMate			 - Ocorreu cheque mate
+*	  JOGO_CondRetNaoChequeMate			 - Não ocorreu cheque mate
+*	  JOGO_CondRetNaoExisteRei			 - A peça rei não existe
+*     JOGO_CondRetTabuleiroInexistente	 - Tabuleiro não existe
+*	  JOGO_CondRetJogoParado			 - Jogo esta parado
+*
+***********************************************************************/
+
+JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro);
 
 #undef TABULEIRO_EXT
 
