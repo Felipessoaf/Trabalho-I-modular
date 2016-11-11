@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 		scanf("%s", coordOrigem);
 		scanf("%s", coordDestino);
 		JOGO_RecebeJogada(pTabuleiro, coordOrigem, coordDestino);
+		JOGO_ChequeMate(pTabuleiro);
 	}
 
 	return 0;

@@ -23,6 +23,7 @@
 *
 ***************************************************************************/
 
+#include   <stdlib.h>
 #include   <stdio.h>
 #include   <string.h>
 #include   <memory.h>
@@ -288,7 +289,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
+			   AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -350,7 +351,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
+			   AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -394,7 +395,7 @@ typedef struct TAB_tagTabuleiro
 			   alcance[0] = 'A' + i;
 			   alcance[1] = '1' + j;
 			   alcance[2] = '\0';
-			   //AtualizaListas(pTabTemp, alcance);
+			   AtualizaListas(pTabTemp, alcance);
 		   }
 	   }
 
@@ -1013,11 +1014,15 @@ typedef struct TAB_tagTabuleiro
 		int i, j;
 		int ameaca, ameacado;
 		char alcance[3];
+		char * pValor;
 		LIS_tppLista pAmeacados, pAmeacantes;
 		tpCasa * pCasa;
+		tpCasa * pCasaTemp;
 
 		LIS_CriarLista( "amdo", DestruirValorGenerico, &pAmeacados  );
 		LIS_CriarLista( "amte", DestruirValorGenerico, &pAmeacantes );
+
+		pCasa = ObterCasa(pTabuleiro->pMatriz, coordenada);
 
 		for ( i = 0; i < 8; i++ )
 		{
@@ -1029,19 +1034,32 @@ typedef struct TAB_tagTabuleiro
 
 				ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance );
 				ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada );
-				if ( ameaca )
+
+				pCasaTemp = ObterCasa(pTabuleiro->pMatriz, alcance);
+
+				if (ameaca && (pCasa->cor != pCasaTemp->cor) && (pCasa->cor != COR_CASA_VAZIA))
 				{
-					LIS_InserirElemento( pAmeacados, alcance );
+					pValor = (char*)malloc(sizeof(char) * 3);
+					if (pValor == NULL)
+					{
+						exit(1);
+					}
+					strcpy(pValor, alcance);
+					LIS_InserirElemento(pAmeacados, pValor);
 				}
-				if ( ameacado )
+				if (ameacado && (pCasa->cor != pCasaTemp->cor) && (pCasaTemp->cor != COR_CASA_VAZIA))
 				{
-					LIS_InserirElemento( pAmeacantes, alcance );
+					pValor = (char*)malloc(sizeof(char) * 3);
+					if (pValor == NULL)
+					{
+						exit(1);
+					}
+					strcpy(pValor, alcance);
+					LIS_InserirElemento(pAmeacantes, pValor);
 				}
 			}
 		}
-
-		pCasa = ObterCasa( pTabuleiro->pMatriz, coordenada );
-
+		
 		LIS_DestruirLista( pCasa->pAmeacados  );
 		LIS_DestruirLista( pCasa->pAmeacantes );
 
