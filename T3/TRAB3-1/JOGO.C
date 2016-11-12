@@ -384,7 +384,7 @@
 		char   pCor;
 		char * pNome;
 		char pCoordenada[3] = { 'A', '1', '\0' };
-		char pCoorTemp[3];
+		char *pCoorTemp;
 		int i, j;
 		int achouRei = 0;
 		int naoChequeMate = 1;
@@ -438,13 +438,16 @@
 		lisCondRet = LIS_IrProxElemento(pLista);
 		if (lisCondRet != LIS_CondRetListaVazia)
 		{
+			pCoorTemp = (char*)malloc(sizeof(pCoordenada));
 			lisCondRet = LIS_CondRetOK;
 			for (LIS_AndarInicio(pLista); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento(pLista))
 			{
 				LIS_ObterElemento(pLista, (void**)&pCoorTemp);
+
 				tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
 				if (tabCondret != TAB_CondRetOK)
 				{
+					free(pCoorTemp);
 					return tabCondret;
 				}
 
@@ -457,6 +460,7 @@
 			if (naoChequeMate)
 			{
 				printf("\n\nCHEQUE\n\n");
+				free(pCoorTemp);
 				return JOGO_CondRetCheque;
 			}
 
@@ -500,16 +504,19 @@
 					tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
 					if (tabCondret != TAB_CondRetOK)
 					{
+						free(pCoorTemp);
 						return tabCondret;
 					}
 
 					if (LIS_IrProxElemento(pLista) == LIS_CondRetListaVazia)
 					{
+						free(pCoorTemp);
 						printf("\n\nCHEQUE\n\n");
 						return JOGO_CondRetCheque;
 					}
 				}
 			}
+			free(pCoorTemp);
 			printf("\n\nCHEQUE MATE\n\n");
 			jogoRodando = 0;
 			return JOGO_CondRetChequeMate;
@@ -519,42 +526,42 @@
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
 
-	//int main()
-	//{
-	//	char coordOrigem[4];
-	//	char coordDestino[3];
+	int main()
+	{
+		char coordOrigem[4];
+		char coordDestino[3];
 
-	//	char jogBrancas[20];
-	//	char jogPretas[20];
+		char jogBrancas[20];
+		char jogPretas[20];
 
-	//	TAB_tppTabuleiro pTabuleiro = NULL;
+		TAB_tppTabuleiro pTabuleiro = NULL;
 
-	//	TAB_CriarTabuleiro(&pTabuleiro);
+		TAB_CriarTabuleiro(&pTabuleiro);
 
-	//	JOGO_MontaTabuleiro(pTabuleiro, "PecasTabuleiro.txt");
+		JOGO_MontaTabuleiro(pTabuleiro, "PecasTabuleiro.txt");
 
-	//	printf("Nome do jogador das pecas brancas:\n");
-	//	scanf("%s", jogBrancas);
+		printf("Nome do jogador das pecas brancas:\n");
+		scanf("%s", jogBrancas);
 
-	//	printf("Nome do jogador das pecas pretas:\n");
-	//	scanf("%s", jogPretas);
+		printf("Nome do jogador das pecas pretas:\n");
+		scanf("%s", jogPretas);
 
-	//	JOGO_RecebeJogadores(jogBrancas, jogPretas);
+		JOGO_RecebeJogadores(jogBrancas, jogPretas);
 
-	//	jogoRodando = 1;
-	//	
-	//	JOGO_MostraTabuleiro(pTabuleiro);
-	//	JOGO_ChequeMate(pTabuleiro);
+		jogoRodando = 1;
+		
+		/*JOGO_MostraTabuleiro(pTabuleiro);
+		JOGO_ChequeMate(pTabuleiro);*/
 
-	///*	while (jogoRodando)
-	//	{
-	//		JOGO_MostraTabuleiro(pTabuleiro);
-	//		printf("Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM para terminar:\n", (jogCorr=='B')?jogadorB:jogadorP);
-	//		scanf("%s", coordOrigem);
-	//		scanf("%s", coordDestino);
-	//		JOGO_RecebeJogada(pTabuleiro, coordOrigem, coordDestino);
-	//		JOGO_ChequeMate(pTabuleiro);
-	//	}*/
+		while (jogoRodando)
+		{
+			JOGO_MostraTabuleiro(pTabuleiro);
+			printf("Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM para terminar:\n", (jogCorr=='B')?jogadorB:jogadorP);
+			scanf("%s", coordOrigem);
+			scanf("%s", coordDestino);
+			JOGO_RecebeJogada(pTabuleiro, coordOrigem, coordDestino);
+			JOGO_ChequeMate(pTabuleiro) == JOGO_CondRetChequeMate;
+		}
 
-	//	return 0;
-	//}
+		return 0;
+	}

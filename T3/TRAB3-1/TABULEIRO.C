@@ -155,7 +155,7 @@ typedef struct TAB_tagTabuleiro
 
 	static tpCasa * ObterCasa(LIS_tppLista pLista, char * pCoordenada);
 
-	static int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino);
+	static int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino, int atualizarLista);
 
 	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * pCoordenada);
 
@@ -330,7 +330,7 @@ typedef struct TAB_tagTabuleiro
 		   return TAB_CondRetCasaVazia;
 	   }
 
-	   if ( ! ValidarMovimento( pTabTemp, origem, destino ) )
+	   if ( ! ValidarMovimento( pTabTemp, origem, destino, FALSE ) )
 	   {
 		   return TAB_CondRetMovimentoInvalido;
 	   }
@@ -881,7 +881,7 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
+	int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino, int atualizarLista)
 	{
 		int i;
 
@@ -926,9 +926,17 @@ typedef struct TAB_tagTabuleiro
 
 			if ( strcmp( pCasaOrigem->nome, pPeca->nome ) == 0 )
 			{
-				/* Verifica se a peça vai andar ou comer */
-				comer ? ( pMovimento = pPeca->pComer ) : ( pMovimento = pPeca->pAndar );
+				/* Verifica se a peça vai andar ou comer, menos no caso de atualizar listas ameaçante e ameaçado */
+				if (atualizarLista)
+				{
+					pMovimento = pPeca->pComer;
+				}
+				else
+				{
+					comer ? (pMovimento = pPeca->pComer) : (pMovimento = pPeca->pAndar);
+				}
 				break;
+			
 			}
 		}
 
@@ -1032,31 +1040,31 @@ typedef struct TAB_tagTabuleiro
 				alcance[1] = '1' + j;
 				alcance[2] = '\0';
 
-				ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance );
-				ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada );
+				ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance, TRUE );
+				ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada, TRUE );
 
 				pCasaTemp = ObterCasa(pTabuleiro->pMatriz, alcance);
 
 				if (ameaca && (pCasa->cor != pCasaTemp->cor) && (pCasa->cor != COR_CASA_VAZIA))
 				{
-					pValor = (char*)malloc(sizeof(char) * (strlen(alcance)+1));
+					pValor = (char*)malloc(sizeof(alcance));
 					if (pValor == NULL)
 					{
 						exit(1);
 					}
-					strncpy(pValor, alcance,2);
-					pValor[2] = '\0';
+					strcpy(pValor, alcance);
+					//pValor[2] = '\0';
 					LIS_InserirElemento(pAmeacados, pValor);
 				}
 				if (ameacado && (pCasa->cor != pCasaTemp->cor) && (pCasaTemp->cor != COR_CASA_VAZIA))
 				{
-					pValor = (char*)malloc(sizeof(char) * (strlen(alcance) + 1));
+					pValor = (char*)malloc(sizeof(alcance));
 					if (pValor == NULL)
 					{
 						exit(1);
 					}
-					strncpy(pValor, alcance,2);
-					pValor[2] = '\0';
+					strcpy(pValor, alcance);
+					//pValor[2] = '\0';
 					LIS_InserirElemento(pAmeacantes, pValor);
 				}
 			}
