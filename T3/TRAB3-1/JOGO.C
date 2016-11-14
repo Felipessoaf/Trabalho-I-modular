@@ -23,6 +23,9 @@
 #include <string.h>
 #include <windows.h>
 
+#define TRUE  1
+#define FALSE 0
+
 #define JOGO_OWN
 #include "JOGO.h"
 #undef JOGO_OWN
@@ -37,30 +40,33 @@
 
 	JOGO_tpCondRet JOGO_MostraTabuleiro(TAB_tppTabuleiro pTabuleiro)
 	{
-		int i, j;
-		char pCoordenada[3] = { 'A', '1', '\0' };
-		char   pCor;
-		char * pNome;
+		TAB_tpCondRet tabCondRet;
 
-		TAB_tpCondRet condret;
+		int   i, j;
+		char  pCoordenada[3] = { 'A', '1', '\0' };
+		char  pCor;
+		char* pNome;
 
-		if (!jogoRodando)
+		#ifdef _WIN32 
+			HANDLE hConsole;
+			CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+			WORD saved_attributes;
+
+			/* Save current attributes */
+			hConsole = GetStdHandle( STD_OUTPUT_HANDLE );
+			GetConsoleScreenBufferInfo( hConsole, &consoleInfo );
+			saved_attributes = consoleInfo.wAttributes;
+		#endif
+
+		if( ! jogoRodando )
 		{
 			return JOGO_CondRetJogoParado;
 		}
 
-		if (pTabuleiro == NULL)
+		if( pTabuleiro == NULL )
 		{
 			return JOGO_CondRetTabuleiroInexistente;
 		}
-
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-		WORD saved_attributes;
-
-		/* Save current attributes */
-		GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-		saved_attributes = consoleInfo.wAttributes;
 
 		printf("\n\n");
 		printf("  A   B   C   D   E   F   G   H\n");
@@ -71,25 +77,31 @@
 			for (j = 0; j < 8; j++)
 			{
 				pCoordenada[0] = j + 65;				
-				condret = TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
-				if (condret != TAB_CondRetOK && condret != TAB_CondRetCasaVazia)
+				tabCondRet = TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
+				if( tabCondRet != TAB_CondRetOK && tabCondRet != TAB_CondRetCasaVazia )
 				{
-					return condret;
+					return tabCondRet;
 				}
-				if (strcmp(pNome, "xxx"))
+				if( tabCondRet != TAB_CondRetCasaVazia )
 				{
 					printf("|");
-					if (pCor == 'b')
-					{
-						SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
-					}
-					else
-					{
-						SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
-					}
+
+					#ifdef _WIN32
+						if (pCor == 'b')
+						{
+							SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+						}
+						else
+						{
+							SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+						}
+					#endif
+
 					printf("%s%c ", pNome, pCor);
 
-					SetConsoleTextAttribute(hConsole, saved_attributes);
+					#ifdef _WIN32
+						SetConsoleTextAttribute(hConsole, saved_attributes);
+					#endif
 				}
 				else
 				{
@@ -103,6 +115,7 @@
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Mostra tabuleiro */
 
+
 /***************************************************************************
 *
 *  Função: JOGO  &Recebe jogada
@@ -110,49 +123,63 @@
 
 	JOGO_tpCondRet JOGO_RecebeJogada(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino)
 	{
+		LIS_tpCondRet lisCondRet;
+		TAB_tpCondRet tabCondRet;
+
 		LIS_tppLista pLista;
-		TAB_tpCondRet condret;
+
 		char   pCor;
 		char * pNome;
 		char * pValor;
 		
-		if (!jogoRodando)
+		if( ! jogoRodando )
 		{
 			return JOGO_CondRetJogoParado;
 		}
 
-		if (pTabuleiro == NULL)
+		if( pTabuleiro == NULL )
 		{
 			return JOGO_CondRetTabuleiroInexistente;
 		}
 
-		if (!strcmp(origem, "FIM"))
+		if( ! strcmp( origem, "FIM" ) )
 		{
-			jogoRodando = 0;
+			jogoRodando = FALSE;
 			return JOGO_CondRetOK;
 		}
 
-		condret = TAB_ObterPeca(&pTabuleiro, origem, &pCor, &pNome);
-		if (condret != TAB_CondRetOK)
+		
+		tabCondRet = TAB_ObterPeca( &pTabuleiro, origem, &pCor, &pNome );
+		if( tabCondRet != TAB_CondRetOK )
 		{
-			printf("\nMovimento Invalido\n");
+			/*
+			 * Não existe peça na casa origem.
+			 */
+			printf( "\nMovimento Invalido\n" );
 			return JOGO_CondRetMovimentoInvalido;
 		}
 
-		if (pCor != jogCorr && pCor != (jogCorr + 32))
+		if( pCor != jogCorr && pCor != ( jogCorr + ( 'a' - 'A' ) ) )
 		{
-			printf("\nMovimento Invalido\n");
+			/*
+			 * Peça na casa de origem não pertence ao jogador corrente.
+			 */
+			printf( "\nMovimento Invalido\n" );
 			return JOGO_CondRetMovimentoInvalido;
 		}
 
-		condret = TAB_MoverPeca(&pTabuleiro, origem, destino);
-		if (condret != TAB_CondRetOK)
+		tabCondRet = TAB_MoverPeca( &pTabuleiro, origem, destino );
+		if( tabCondRet != TAB_CondRetOK )
 		{
-			printf("\nMovimento Invalido\n");
+			/* Peça não pode ser movida para a casa destino. */
+			printf( "\nMovimento Invalido\n" );
 			return JOGO_CondRetMovimentoInvalido;
 		}
 
-		if (jogCorr == 'B')
+		/*
+		 * Troca o jogador corrente.
+		 */
+		if( jogCorr == 'B' )
 		{
 			jogCorr = 'P';
 		}
@@ -162,15 +189,13 @@
 		}
 
 		/* Ameaçados */
-		condret = TAB_ObterListaAmeacados(&pTabuleiro, destino, &pLista);
+		tabCondRet = TAB_ObterListaAmeacados(&pTabuleiro, destino, &pLista);
 
-		if (condret != TAB_CondRetOK)
+		if (tabCondRet != TAB_CondRetOK)
 		{
-			return condret;
+			return tabCondRet;
 		}
 		
-		LIS_tpCondRet lisCondRet;
-
 		printf("\nCasas ameacadas pela peca:\n");
 		lisCondRet = LIS_IrProxElemento(pLista);
 		if (lisCondRet != LIS_CondRetListaVazia)
@@ -184,11 +209,11 @@
 		}
 
 		/* Ameaçantes */
-		condret = TAB_ObterListaAmeacantes(&pTabuleiro, destino, &pLista);
+		tabCondRet = TAB_ObterListaAmeacantes(&pTabuleiro, destino, &pLista);
 
-		if (condret != TAB_CondRetOK)
+		if (tabCondRet != TAB_CondRetOK)
 		{
-			return condret;
+			return tabCondRet;
 		}
 		
 		printf("\nCasas que ameacam a peca:\n");
@@ -213,23 +238,18 @@
 
 	JOGO_tpCondRet JOGO_RecebeJogadores(char * jogB, char * jogP)
 	{
-		if (jogoRodando)
+		if( jogoRodando )
 		{
 			return JOGO_CondRetJogoEmAndamento;
 		}
 
-		if (jogadorB != NULL)
+
+		if( jogadorB != NULL )
 		{
-			free(jogadorB);
+			free( jogadorB );
 		}
 
-		if (jogadorP != NULL)
-		{
-			free(jogadorP);
-		}
-
-		jogadorB = (char*)malloc((strlen(jogB) + 1) * sizeof(char));
-
+		jogadorB = ( char* ) malloc( ( strlen( jogB ) + 1 ) * sizeof( char ) );
 		if (jogadorB == NULL)
 		{
 			return JOGO_CondRetFaltouMemoria;
@@ -237,15 +257,25 @@
 
 		strcpy(jogadorB, jogB);
 
-		jogadorP = (char*)malloc((strlen(jogP) + 1) * sizeof(char));
 
-		if (jogadorP == NULL)
+		if( jogadorP != NULL )
+		{
+			free( jogadorP );
+		}
+
+		jogadorP = ( char* )malloc( ( strlen( jogP ) + 1 ) * sizeof( char ) );
+		if( jogadorP == NULL )
 		{
 			return JOGO_CondRetFaltouMemoria;
 		} /* if */
 
-		strcpy(jogadorP, jogP);
+		strcpy( jogadorP, jogP );
 
+
+		/*
+ 		 *  No Xadrez, o jogador com peças branca
+		 *  começa o jogo.
+		 */
 		jogCorr = 'B';
 
 		return JOGO_CondRetOK;
@@ -270,56 +300,56 @@
 
 		char line[50];
 
-		if (jogoRodando)
+		if( jogoRodando )
 		{
 			return JOGO_CondRetJogoEmAndamento;
 		}
 
-		if (pTabuleiro == NULL)
+		if( pTabuleiro == NULL )
 		{
 			return JOGO_CondRetTabuleiroInexistente;
 		}
 
-		pFile = fopen(nomeArq, "r");
-
-
-		if (pFile == NULL)
+		pFile = fopen( nomeArq, "r" );
+		if( pFile == NULL )
 		{
 			printf("\nErro, nao foi possivel abrir o arquivo de pecas do tabuleiro.\n");
 			return JOGO_CondRetArquivoPecasNaoExiste;
 		}
 
-		while (fgets(line, sizeof(line), pFile) != NULL)
+		while( fgets( line, sizeof( line ), pFile ) != NULL )
 		{
-			if (strncmp(line, ">>>>>>>>>>", 10) == 0)
+			if( strncmp( line, ">>>>>>>>>>", 10 ) == 0 )
 			{
 				/* Nome */
-				if (fgets(line, sizeof(line), pFile) == NULL)
+				if( fgets( line, sizeof( line ), pFile ) == NULL )
 				{
 					return JOGO_CondRetArquivoPecasForaPadrao;
 				}
-				strncpy(nome, line, 4);
-				for (i = 0; i < 4; i++)
+				strncpy( nome, line, 4 );
+				for( i = 0; i < 4; i++ )
 				{
-					if (nome[i] == '\n')
+					if( nome[i] == '\n' )
 					{
 						nome[i] = '\0';
 					}
 				}
 
 				/* Cor */
-				if (fgets(line, sizeof(line), pFile) == NULL)
+				if( fgets( line, sizeof( line ), pFile ) == NULL )
 				{
 					return JOGO_CondRetArquivoPecasForaPadrao;
 				}
 				cor = line[0];
 
-				/* Coordenada */
-				if (fgets(line, sizeof(line), pFile) == NULL)
+				/* Coordenada X */
+				if( fgets( line, sizeof( line ), pFile ) == NULL )
 				{
 					return JOGO_CondRetArquivoPecasForaPadrao;
 				}
 				pCoordenada[0] = line[0];
+
+				/* Coordenada Y */
 				if (fgets(line, sizeof(line), pFile) == NULL)
 				{
 					return JOGO_CondRetArquivoPecasForaPadrao;
@@ -328,24 +358,21 @@
 				pCoordenada[2] = '\0';
 
 			}
-			else if (strncmp(line, "<<<<<<<<<<", 10) == 0)
+			else if( strncmp( line, "<<<<<<<<<<", 10 ) == 0 )
 			{
-				if (cor == 'b' || cor == 'p' || cor == 'B' || cor == 'P')
+				condret = TAB_InserirPeca( &pTabuleiro, nome, cor, pCoordenada );
+				if( condret == TAB_CondRetNaoExiste )
 				{
-					condret = TAB_InserirPeca(&pTabuleiro, nome, cor, pCoordenada);
-					if (condret != TAB_CondRetOK)
-					{
-						return condret;
-					}
-					cor = 'u';
+					return ( JOGO_tpCondRet ) condret;
 				}
-				else
+				else if( condret != TAB_CondRetOK )
 				{
 					return JOGO_CondRetArquivoPecasForaPadrao;
 				}
 			}
 		}
-		fclose(pFile);
+
+		fclose( pFile );
 
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Monta tabuleiro */
@@ -357,17 +384,17 @@
 
 	JOGO_tpCondRet JOGO_IniciaJogo()
 	{
-		if (jogoRodando)
+		if( jogoRodando )
 		{
 			return JOGO_CondRetJogoEmAndamento;
 		}
 
-		if (jogadorB == NULL || jogadorP == NULL)
+		if( jogadorB == NULL || jogadorP == NULL )
 		{
 			return JOGO_CondRetJogoNaoPodeIniciar;
 		}
 
-		jogoRodando = 1;
+		jogoRodando = TRUE;
 		return JOGO_CondRetOK;
 	} /* Fim função: JOGO  &Inicia jogo */
 
@@ -378,190 +405,180 @@
 
 	JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
 	{
-		TAB_tpCondRet tabCondret;
-		LIS_tppLista pLista, pListaTemp;
 		LIS_tpCondRet lisCondRet;
-		char   pCor;
-		char * pNome;
-		char pCoordenada[3] = { 'A', '1', '\0' };
-		char *pCoorTemp;
-		int i, j;
-		int achouRei = 0;
-		int naoChequeMate = 1;
+		TAB_tpCondRet tabCondRet;
 
-		if (!jogoRodando)
+		LIS_tppLista pListaAmeacantes, pListaTemp;
+
+		char  pCor;
+		char* pNome;
+		char  pCoordRei[3] = { 'A', '1', '\0' };
+		char* pCoordTemp;
+		int   i, j;
+
+		int achouRei   = FALSE;
+		int chequeMate = FALSE;
+
+		if( ! jogoRodando )
 		{
 			return JOGO_CondRetJogoParado;
 		}
 
-		if (pTabuleiro == NULL)
+		if( pTabuleiro == NULL )
 		{
 			return JOGO_CondRetTabuleiroInexistente;
 		}
 
-		for (i = 0; i < 8 && achouRei == 0; i++)
+		/*
+		 * Busca o Rei do jogador corrente no tabuleiro.
+		 */
+		for( i = 0; i < 8 && ! achouRei; i++ )
 		{
-			pCoordenada[0] = i + 65;
-
-			for (j = 1; j <= 8 && achouRei == 0; j++)
+			for( j = 0; j < 8 && ! achouRei; j++ )
 			{
-				pCoordenada[1] = j + 48;
+				pCoordRei[0] = i + 'A';
+				pCoordRei[1] = j + '1';
+				pCoordRei[2] = '\0';
 
-				tabCondret = TAB_ObterPeca(&pTabuleiro, pCoordenada, &pCor, &pNome);
-				if (tabCondret == TAB_CondRetCasaInexistente)
+				tabCondRet = TAB_ObterPeca( &pTabuleiro, &pCoordRei[0], &pCor, &pNome );
+				if( tabCondRet == TAB_CondRetCasaInexistente )
 				{
-					return tabCondret;
+					return tabCondRet;
 				}
 
-				if (strncmp(pNome, "k", 1) == 0)
+				if( strncmp( pNome, "k", 1 ) == 0 )
 				{
-					if (pCor == jogCorr || pCor == jogCorr + 32)
+					if( pCor == jogCorr || pCor == jogCorr + ( 'a' - 'A' ) )
 					{
-						achouRei = 1;
+						achouRei = TRUE;
 					}
 				}
 			}
 		}
 
-		if (achouRei == 0)
+		if( ! achouRei )
 		{
 			return JOGO_CondRetNaoExisteRei;
 		}
 
-		tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoordenada, &pLista);
-		if (tabCondret != TAB_CondRetOK)
+		/*
+		 * Obtem a lista de peças que ameaçam o rei.
+		 */
+		tabCondRet = TAB_ObterListaAmeacantes( &pTabuleiro, pCoordRei, &pListaAmeacantes );
+		if( tabCondRet != TAB_CondRetOK )
 		{
-			return tabCondret;
+			return tabCondRet;
 		}
 
 
-		lisCondRet = LIS_IrProxElemento(pLista);
-		if (lisCondRet != LIS_CondRetListaVazia)
+		for( lisCondRet = LIS_AndarInicio( pListaAmeacantes ); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento( pListaAmeacantes ) )
 		{
-			pCoorTemp = (char*)malloc(sizeof(pCoordenada));
-			lisCondRet = LIS_CondRetOK;
-			for (LIS_AndarInicio(pLista); lisCondRet == LIS_CondRetOK; lisCondRet = LIS_IrProxElemento(pLista))
+			pCoordTemp = ( char* ) malloc( sizeof( pCoordRei ) );
+			lisCondRet = LIS_ObterElemento( pListaAmeacantes, ( void** ) &pCoordTemp );
+			if( lisCondRet == LIS_CondRetListaVazia )
 			{
-				LIS_ObterElemento(pLista, (void**)&pCoorTemp);
-
-				tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
-				if (tabCondret != TAB_CondRetOK)
-				{
-					free(pCoorTemp);
-					return tabCondret;
-				}
-
-				if (LIS_IrProxElemento(pListaTemp) == LIS_CondRetListaVazia)
-				{
-					naoChequeMate = 0;
-				}
+				/*
+				 * Lista de peças que ameaçam o rei está vazia.
+				 */
+				return JOGO_CondRetOK;
 			}
 
-			if (naoChequeMate)
+			tabCondRet = TAB_ObterListaAmeacantes( &pTabuleiro, pCoordTemp, &pListaTemp );
+			if( tabCondRet != TAB_CondRetOK )
 			{
-				printf("\n\nCHEQUE\n\n");
-				free(pCoorTemp);
-				return JOGO_CondRetCheque;
+				return tabCondRet;
 			}
 
-			for (i = 0; i < 8;i++)
-			{ 
-				strcpy(pCoorTemp, pCoordenada);
-				switch (i)
-				{
-				case 0:
-					pCoorTemp[0] -= 1;
-					break;
-				case 1:
-					pCoorTemp[0] += 1;
-					break;
-				case 2:
-					pCoorTemp[1] -= 1;
-					break;
-				case 3:
-					pCoorTemp[1] += 1;
-					break;
-				case 4:
-					pCoorTemp[0] -= 1;
-					pCoorTemp[1] += 1;
-					break;
-				case 5:
-					pCoorTemp[0] -= 1;
-					pCoorTemp[1] -= 1;
-					break;
-				case 6:
-					pCoorTemp[0] += 1;
-					pCoorTemp[1] += 1;
-					break;
-				case 7:
-					pCoorTemp[0] += 1;
-					pCoorTemp[1] -= 1;
-					break;
-				}
+			if( strcmp( pCoordRei, pCoordTemp ) == 0 )
+			{
 
-				if (TAB_ObterPeca(&pTabuleiro, pCoorTemp, &pCor, &pNome) == TAB_CondRetCasaVazia)
-				{
-					tabCondret = TAB_ObterListaAmeacantes(&pTabuleiro, pCoorTemp, &pListaTemp);
-					if (tabCondret != TAB_CondRetOK)
-					{
-						free(pCoorTemp);
-						return tabCondret;
-					}
-
-					if (LIS_IrProxElemento(pLista) == LIS_CondRetListaVazia)
-					{
-						free(pCoorTemp);
-						printf("\n\nCHEQUE\n\n");
-						return JOGO_CondRetCheque;
-					}
-				}
 			}
-			free(pCoorTemp);
-			printf("\n\nCHEQUE MATE\n\n");
-			jogoRodando = 0;
-			return JOGO_CondRetChequeMate;
+			else if( LIS_IrProxElemento( pListaTemp ) == LIS_CondRetListaVazia )
+			{
+				/*
+				 * Não é possível comer a peça que ameaça o Rei.
+				 * Check Mate.
+				 */
+				chequeMate = TRUE;
+			}
 		}
-		return JOGO_CondRetOK;
+
+		if( ! chequeMate )
+		{
+			/*
+			 * As peças que ameaçam o Rei podem ser comidas.
+			 */
+			printf( "\n\nCHEQUE\n\n" );
+			return JOGO_CondRetCheque;
+		}
+
+		for( i = 0; i < 8; i++ )
+		{ 
+			/*
+			* Testa se o Rei pode se mover e se isso o salvaria do check mate.
+			*/
+			strcpy( pCoordTemp, pCoordRei );
+			switch( i )
+			{
+			case 0:
+				pCoordTemp[0] -= 1;
+				break;
+			case 1:
+				pCoordTemp[0] += 1;
+				break;
+			case 2:
+				pCoordTemp[1] -= 1;
+				break;
+			case 3:
+				pCoordTemp[1] += 1;
+				break;
+			case 4:
+				pCoordTemp[0] -= 1;
+				pCoordTemp[1] += 1;
+				break;
+			case 5:
+				pCoordTemp[0] -= 1;
+				pCoordTemp[1] -= 1;
+				break;
+			case 6:
+				pCoordTemp[0] += 1;
+				pCoordTemp[1] += 1;
+				break;
+			case 7:
+				pCoordTemp[0] += 1;
+				pCoordTemp[1] -= 1;
+				break;
+			default:
+				break;
+			}
+
+			if( TAB_ObterPeca( &pTabuleiro, pCoordTemp, &pCor, &pNome ) == TAB_CondRetCasaVazia )
+			{
+				/*
+				* Possivel destino de movimento é casa vazia!
+				*/
+				tabCondRet = TAB_ObterListaAmeacantes( &pTabuleiro, pCoordTemp, &pListaTemp );
+				if( tabCondRet != TAB_CondRetOK )
+				{
+					return tabCondRet;
+				}
+
+				if( LIS_IrProxElemento( pListaAmeacantes ) == LIS_CondRetListaVazia )
+				{
+					/*
+					* Possivel destino de movimento não possui ameacantes!
+					*/
+					printf("\n\nCHEQUE\n\n");
+
+					return JOGO_CondRetCheque;
+				}
+			}
+		}
+
+		printf("\n\nCHEQUE MATE\n\n");
+		jogoRodando = FALSE;
+
+		return JOGO_CondRetChequeMate;
 	}/* Fim função: JOGO  &Cheque mate */
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/
-
-	int main()
-	{
-		char coordOrigem[4];
-		char coordDestino[3];
-
-		char jogBrancas[20];
-		char jogPretas[20];
-
-		TAB_tppTabuleiro pTabuleiro = NULL;
-
-		TAB_CriarTabuleiro(&pTabuleiro);
-
-		JOGO_MontaTabuleiro(pTabuleiro, "PecasTabuleiro.txt");
-
-		printf("Nome do jogador das pecas brancas:\n");
-		scanf("%s", jogBrancas);
-
-		printf("Nome do jogador das pecas pretas:\n");
-		scanf("%s", jogPretas);
-
-		JOGO_RecebeJogadores(jogBrancas, jogPretas);
-
-		jogoRodando = 1;
-		
-		/*JOGO_MostraTabuleiro(pTabuleiro);
-		JOGO_ChequeMate(pTabuleiro);*/
-
-		while (jogoRodando)
-		{
-			JOGO_MostraTabuleiro(pTabuleiro);
-			printf("Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM para terminar:\n", (jogCorr=='B')?jogadorB:jogadorP);
-			scanf("%s", coordOrigem);
-			scanf("%s", coordDestino);
-			JOGO_RecebeJogada(pTabuleiro, coordOrigem, coordDestino);
-			JOGO_ChequeMate(pTabuleiro) == JOGO_CondRetChequeMate;
-		}
-
-		return 0;
-	}

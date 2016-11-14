@@ -157,7 +157,7 @@ typedef struct TAB_tagTabuleiro
 
 	static int ValidarMovimento(TAB_tppTabuleiro pTabuleiro, char * origem, char * destino, int atualizarLista);
 
-	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro, char * pCoordenada);
+	static void AtualizaListas(TAB_tppTabuleiro pTabuleiro );
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -248,9 +248,6 @@ typedef struct TAB_tagTabuleiro
 
    TAB_tpCondRet TAB_InserirPeca(TAB_tppTabuleiro * pTabuleiro, char * pNome, char cor, char * pCoordenada)
    {
-	   int i, j;
-	   char alcance[3];
-
 	   TAB_tppTabuleiro pTabTemp;
 
 	   tpCasa * pCasa;
@@ -282,16 +279,7 @@ typedef struct TAB_tagTabuleiro
 	   strcpy( pCasa->nome, pNome );
 	   pCasa->primeiroMov = 1;
 
-	   for (i = 0; i < 8; i++)
-	   {
-		   for (j = 0; j < 8; j++)
-		   {
-			   alcance[0] = 'A' + i;
-			   alcance[1] = '1' + j;
-			   alcance[2] = '\0';
-			   AtualizaListas(pTabTemp, alcance);
-		   }
-	   }
+		AtualizaListas( pTabTemp );
 
 	   return TAB_CondRetOK;
 
@@ -304,8 +292,6 @@ typedef struct TAB_tagTabuleiro
 
    TAB_tpCondRet TAB_MoverPeca(TAB_tppTabuleiro * pTabuleiro, char * origem, char * destino)
    {
-	   int i, j;
-	   char alcance[3];
 	   tpCasa * pCasaOrigem;
 	   tpCasa * pCasaDestino;
 
@@ -344,16 +330,7 @@ typedef struct TAB_tagTabuleiro
 	   pCasaOrigem->primeiroMov  = 0;
 	   pCasaDestino->primeiroMov = 0;
 	   	
-	   for (i = 0; i < 8; i++)
-	   {
-		   for (j = 0; j < 8; j++)
-		   {
-			   alcance[0] = 'A' + i;
-			   alcance[1] = '1' + j;
-			   alcance[2] = '\0';
-			   AtualizaListas(pTabTemp, alcance);
-		   }
-	   }
+	   AtualizaListas( pTabTemp );
 
 	   return TAB_CondRetOK;
 
@@ -367,8 +344,6 @@ typedef struct TAB_tagTabuleiro
 
    TAB_tpCondRet TAB_RetirarPeca(TAB_tppTabuleiro * pTabuleiro, char * pCoordenada)
    {	
-	   int i, j;
-	   char alcance[3];
 	   tpCasa * pCasa;
 	   TAB_tppTabuleiro pTabTemp;
 
@@ -388,16 +363,7 @@ typedef struct TAB_tagTabuleiro
 	   pCasa->cor = COR_CASA_VAZIA;
 	   strcpy(pCasa->nome, PECA_CASA_VAZIA);
 	   
-	   for (i = 0; i < 8; i++)
-	   {
-		   for (j = 0; j < 8; j++)
-		   {
-			   alcance[0] = 'A' + i;
-			   alcance[1] = '1' + j;
-			   alcance[2] = '\0';
-			   AtualizaListas(pTabTemp, alcance);
-		   }
-	   }
+	   AtualizaListas( pTabTemp );
 
 	   return TAB_CondRetOK;
 
@@ -1017,12 +983,16 @@ typedef struct TAB_tagTabuleiro
 *
 ***********************************************************************/
 
-	static void AtualizaListas( TAB_tppTabuleiro pTabuleiro, char * coordenada)
+	static void AtualizaListas( TAB_tppTabuleiro pTabuleiro )
 	{
-		int i, j;
+		int i, j, k, l;
+
 		int ameaca, ameacado;
-		char alcance[3];
-		char * pValor;
+
+		char  coordenada[3];
+		char  alcance[3];
+		char* pValor;
+
 		LIS_tppLista pAmeacados, pAmeacantes;
 		tpCasa * pCasa;
 		tpCasa * pCasaTemp;
@@ -1030,42 +1000,75 @@ typedef struct TAB_tagTabuleiro
 		LIS_CriarLista( "amdo", DestruirValorGenerico, &pAmeacados  );
 		LIS_CriarLista( "amte", DestruirValorGenerico, &pAmeacantes );
 
-		pCasa = ObterCasa(pTabuleiro->pMatriz, coordenada);
-
 		for ( i = 0; i < 8; i++ )
 		{
 			for ( j = 0; j < 8; j++ )
 			{
-				alcance[0] = 'A' + i;
-				alcance[1] = '1' + j;
-				alcance[2] = '\0';
+				/*
+				 * Itera por todas as casas do tabuleiro
+				 */
+				coordenada[0] = 'A' + i;
+				coordenada[1] = '1' + j;
+				coordenada[2] = '\0';
 
-				ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance, TRUE );
-				ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada, TRUE );
+				pCasa = ObterCasa(pTabuleiro->pMatriz, coordenada);
 
-				pCasaTemp = ObterCasa(pTabuleiro->pMatriz, alcance);
-
-				if (ameaca && (pCasa->cor != pCasaTemp->cor) && (pCasa->cor != COR_CASA_VAZIA))
+				for ( k = 0; i < 8; i++ )
 				{
-					pValor = (char*)malloc(sizeof(alcance));
-					if (pValor == NULL)
+					for ( l = 0; j < 8; j++ )
 					{
-						exit(1);
+						/*
+						 * Testa em todas as casas do tabuleiro se as mesmas
+						 * possuem uma peça inimiga que ameaça ou é ameaçada
+						 * pela peça obtida anteriormente.
+						 */
+
+						alcance[0] = 'A' + k;
+						alcance[1] = '1' + l;
+						alcance[2] = '\0';
+
+						if( strcmp( coordenada, alcance ) == 0 )
+						{
+							/*
+							 * Coordenada e Alcance são a mesma casa.
+							 */
+							break;
+						}
+
+						ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance, FALSE );
+						ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada, FALSE );
+
+						pCasaTemp = ObterCasa( pTabuleiro->pMatriz, alcance );
+
+						if( ameaca && ( pCasaTemp->cor != COR_CASA_VAZIA ) && ( pCasa->cor != pCasaTemp->cor ) )
+						{
+							/*
+							 * Se ameaça uma casa contendo uma peça inimiga,
+							 * a casa inimiga é adicionada a lista de casas ameaçadas.
+							 */
+							pValor = ( char* ) malloc( sizeof( alcance ) );
+							if( pValor == NULL )
+							{
+								exit( 1 );
+							}
+							strcpy( pValor, alcance );
+							LIS_InserirElemento( pAmeacados, pValor );
+						}
+						if( ameacado && ( pCasaTemp->cor != COR_CASA_VAZIA ) && ( pCasa->cor != pCasaTemp->cor ) )
+						{
+							/*
+							 * Se é ameaçada po uma casa contendo uma peça inimiga,
+							 * a casa inimiga é adicionada a lista de casas ameaçantes.
+							 */
+							pValor = ( char* ) malloc( sizeof( alcance ) );
+							if( pValor == NULL )
+							{
+								exit(1);
+							}
+							strcpy( pValor, alcance );
+							LIS_InserirElemento( pAmeacantes, pValor );
+						}
 					}
-					strcpy(pValor, alcance);
-					//pValor[2] = '\0';
-					LIS_InserirElemento(pAmeacados, pValor);
-				}
-				if (ameacado && (pCasa->cor != pCasaTemp->cor) && (pCasaTemp->cor != COR_CASA_VAZIA))
-				{
-					pValor = (char*)malloc(sizeof(alcance));
-					if (pValor == NULL)
-					{
-						exit(1);
-					}
-					strcpy(pValor, alcance);
-					//pValor[2] = '\0';
-					LIS_InserirElemento(pAmeacantes, pValor);
 				}
 			}
 		}
