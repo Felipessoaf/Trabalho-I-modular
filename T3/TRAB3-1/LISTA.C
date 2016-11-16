@@ -314,7 +314,7 @@
 		#ifdef _DEBUG
 			assert( pLista != NULL ) ;
 		#endif
-
+		
 		pLista->pElemCorr = pLista->pOrigemLista;
 		return LIS_CondRetOK;
 

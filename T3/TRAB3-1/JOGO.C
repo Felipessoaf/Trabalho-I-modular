@@ -14,7 +14,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor     Data       Observações
-*     2       fpf     31/out/2016  Implementação da interface gráfica do jogo
+*     3       mmq     16/nov/2016  correção de bugs
+*     2       fpf     31/out/2016  implementação da interface gráfica do jogo
 *     1       fpf     21/out/2016  início da implementação
 *
 ***************************************************************************/
@@ -29,6 +30,10 @@
 #define JOGO_OWN
 #include "JOGO.h"
 #undef JOGO_OWN
+
+/***** Protótipos das funções encapsuladas no módulo *****/
+
+	static void FinalizaJogo( );
 
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -144,7 +149,7 @@
 
 		if( ! strcmp( origem, "FIM" ) )
 		{
-			jogoRodando = FALSE;
+			FinalizaJogo( );
 			return JOGO_CondRetOK;
 		}
 
@@ -403,7 +408,7 @@
 *  Função: JOGO  &Cheque mate
 *  ****/
 
-	JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro)
+	JOGO_tpCondRet JOGO_ChequeMate( TAB_tppTabuleiro pTabuleiro, char* jogador )
 	{
 		LIS_tpCondRet lisCondRet;
 		TAB_tpCondRet tabCondRet;
@@ -448,7 +453,18 @@
 
 				if( strncmp( pNome, "k", 1 ) == 0 )
 				{
-					if( pCor == jogCorr || pCor == jogCorr + ( 'a' - 'A' ) )
+					char cor;
+
+					if( strcmp( jogadorB, jogador ) == 0 )
+					{
+						cor = 'B';
+					}
+					else
+					{
+						cor = 'P';
+					}
+
+					if( pCor == cor || pCor == cor + ( 'a' - 'A' ) )
 					{
 						achouRei = TRUE;
 					}
@@ -508,7 +524,7 @@
 			/*
 			 * As peças que ameaçam o Rei podem ser comidas.
 			 */
-			printf( "\n\nCHEQUE\n\n" );
+			printf( "\n\nJOGADOR %s ESTA EM XEQUE!!\n\n", jogador );
 			return JOGO_CondRetCheque;
 		}
 
@@ -568,17 +584,31 @@
 					/*
 					* Possivel destino de movimento não possui ameacantes!
 					*/
-					printf("\n\nCHEQUE\n\n");
+					printf( "\n\nJOGADOR %s ESTA EM XEQUE!!\n\n", jogador );
 
 					return JOGO_CondRetCheque;
 				}
 			}
 		}
 
-		printf("\n\nCHEQUE MATE\n\n");
-		jogoRodando = FALSE;
+		printf( "\n\nJOGADOR %s ESTA EM XEQUE MATE!!\n\n", jogador );
+		FinalizaJogo( );
 
 		return JOGO_CondRetChequeMate;
 	}/* Fim função: JOGO  &Cheque mate */
+
+/***********************************************************************
+*
+*  $FC Função: TAB  -Finalizar Jogo
+*
+***********************************************************************/
+
+	void FinalizaJogo( )
+	{
+		jogoRodando = FALSE;
+		free( jogadorB );
+		free( jogadorP );
+		jogCorr = 'u';
+	}
 
 /********** Fim do módulo de implementação: JOGO  Jogo de xadrez **********/

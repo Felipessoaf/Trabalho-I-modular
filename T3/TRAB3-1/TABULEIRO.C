@@ -30,6 +30,8 @@
 #include   <malloc.h>
 #include   <assert.h>
 
+#include "TABULEIRO.H"
+
 #define TABULEIRO_OWN
 #include "TABULEIRO.h"
 #undef TABULEIRO_OWN
@@ -754,15 +756,18 @@ typedef struct TAB_tagTabuleiro
 	int ValidarTipoPeca( LIS_tppLista pLista, char * nome )
 	{
 		tpPeca * pPeca;
+		LIS_tpCondRet CondRet;
 
-		LIS_tpCondRet CondRet = LIS_CondRetOK;
-		for( LIS_AndarInicio( pLista ); CondRet != LIS_CondRetFimLista; CondRet = LIS_IrProxElemento( pLista ) )
+		CondRet = LIS_AndarInicio( pLista );
+		while( CondRet == LIS_CondRetOK  )
 		{
 			LIS_ObterElemento( pLista, ( void ** ) &pPeca );
 			if ( strcmp( nome, pPeca->nome ) == 0 )
 			{
 				return TRUE;
 			}
+
+			CondRet = LIS_IrProxElemento( pLista );
 		}
 
 		return FALSE;
@@ -793,7 +798,7 @@ typedef struct TAB_tagTabuleiro
 	int ValidarCoordenada( char * pCoordenada )
 	{
 		if ( ! ( pCoordenada[0] >= 'A' && pCoordenada[0] <= 'H' ) &&
-		     ! ( pCoordenada[0] <= 'a' && pCoordenada[0] >= 'h' ) )
+		     ! ( pCoordenada[0] >= 'a' && pCoordenada[0] <= 'h' ) )
 		{
 			return FALSE;
 		} /* if */
@@ -997,9 +1002,6 @@ typedef struct TAB_tagTabuleiro
 		tpCasa * pCasa;
 		tpCasa * pCasaTemp;
 
-		LIS_CriarLista( "amdo", DestruirValorGenerico, &pAmeacados  );
-		LIS_CriarLista( "amte", DestruirValorGenerico, &pAmeacantes );
-
 		for ( i = 0; i < 8; i++ )
 		{
 			for ( j = 0; j < 8; j++ )
@@ -1011,17 +1013,20 @@ typedef struct TAB_tagTabuleiro
 				coordenada[1] = '1' + j;
 				coordenada[2] = '\0';
 
-				pCasa = ObterCasa(pTabuleiro->pMatriz, coordenada);
+				LIS_CriarLista( "amdo", DestruirValorGenerico, &pAmeacados  );
+				LIS_CriarLista( "amte", DestruirValorGenerico, &pAmeacantes );
 
-				for ( k = 0; i < 8; i++ )
+				pCasa = ObterCasa( pTabuleiro->pMatriz, coordenada );
+
+				for ( k = 0; k < 8; k++ )
 				{
-					for ( l = 0; j < 8; j++ )
+					for ( l = 0; l < 8; l++ )
 					{
 						/*
-						 * Testa em todas as casas do tabuleiro se as mesmas
-						 * possuem uma peça inimiga que ameaça ou é ameaçada
-						 * pela peça obtida anteriormente.
-						 */
+						* Testa em todas as casas do tabuleiro se as mesmas
+						* possuem uma peça inimiga que ameaça ou é ameaçada
+						* pela peça obtida anteriormente.
+						*/
 
 						alcance[0] = 'A' + k;
 						alcance[1] = '1' + l;
@@ -1035,17 +1040,17 @@ typedef struct TAB_tagTabuleiro
 							break;
 						}
 
-						ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance, FALSE );
-						ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada, FALSE );
+						ameaca   = ValidarMovimento( pTabuleiro, coordenada, alcance, TRUE );
+						ameacado = ValidarMovimento( pTabuleiro, alcance, coordenada, TRUE );
 
 						pCasaTemp = ObterCasa( pTabuleiro->pMatriz, alcance );
 
-						if( ameaca && ( pCasaTemp->cor != COR_CASA_VAZIA ) && ( pCasa->cor != pCasaTemp->cor ) )
+						if( ameaca && ( pCasa->cor != COR_CASA_VAZIA ) && ( pCasa->cor != pCasaTemp->cor ) )
 						{
 							/*
-							 * Se ameaça uma casa contendo uma peça inimiga,
-							 * a casa inimiga é adicionada a lista de casas ameaçadas.
-							 */
+							* Se ameaça uma casa contendo uma peça inimiga,
+							* a casa inimiga é adicionada a lista de casas ameaçadas.
+							*/
 							pValor = ( char* ) malloc( sizeof( alcance ) );
 							if( pValor == NULL )
 							{
@@ -1057,9 +1062,9 @@ typedef struct TAB_tagTabuleiro
 						if( ameacado && ( pCasaTemp->cor != COR_CASA_VAZIA ) && ( pCasa->cor != pCasaTemp->cor ) )
 						{
 							/*
-							 * Se é ameaçada po uma casa contendo uma peça inimiga,
-							 * a casa inimiga é adicionada a lista de casas ameaçantes.
-							 */
+							* Se é ameaçada por uma casa contendo uma peça inimiga,
+							* a casa inimiga é adicionada a lista de casas ameaçantes.
+							*/
 							pValor = ( char* ) malloc( sizeof( alcance ) );
 							if( pValor == NULL )
 							{
@@ -1070,12 +1075,12 @@ typedef struct TAB_tagTabuleiro
 						}
 					}
 				}
+
+				LIS_DestruirLista( pCasa->pAmeacados  );
+				LIS_DestruirLista( pCasa->pAmeacantes );
+
+				pCasa->pAmeacados  = pAmeacados;
+				pCasa->pAmeacantes = pAmeacantes;
 			}
 		}
-		
-		LIS_DestruirLista( pCasa->pAmeacados  );
-		LIS_DestruirLista( pCasa->pAmeacantes );
-
-		pCasa->pAmeacados  = pAmeacados;
-		pCasa->pAmeacantes = pAmeacantes;
 	}

@@ -344,7 +344,8 @@ LIS_tpCondRet LIS_IrAntElemento( LIS_tppLista pLista ) ;
 *     pLista  - ponteiro para a lista a ser manipulada
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - se tiver andado para o início
+*     LIS_CondRetOK         - se tiver andado para o início
+*     LIS_CondRetListaVazia - se a lista está vazia
 *
 ***********************************************************************/
 

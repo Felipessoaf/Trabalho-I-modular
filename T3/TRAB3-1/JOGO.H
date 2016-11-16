@@ -18,6 +18,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     2       mmq   16/nov/2016 correção de bugs
 *     1       fpf   21/out/2016 início desenvolvimento
 *
 *  $ED Descrição do módulo
@@ -212,10 +213,11 @@ typedef enum {
 *  $FC Função: JOGO  &Cheque mate
 *
 *  $ED Descrição da função
-*     Confere se ocorreu cheque mate
+*     Confere o jogador está em cheque mate
 *
 *  $EP Parâmetros
 *	 pTabuleiro - referencia para o tabuleiro do jogo
+*    jogador    - nome do jogador que se deseja obter a informação
 *
 *  $FV Valor retornado
 *     JOGO_CondRetOK					 - Não ocorreu cheque nem cheque mate
@@ -227,7 +229,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-	JOGO_tpCondRet JOGO_ChequeMate(TAB_tppTabuleiro pTabuleiro);
+	JOGO_tpCondRet JOGO_ChequeMate( TAB_tppTabuleiro pTabuleiro, char* jogador );
 
 #undef TABULEIRO_EXT
 

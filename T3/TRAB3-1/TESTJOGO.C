@@ -27,7 +27,8 @@
 #include    "Generico.h"
 #include    "LerParm.h"
 
-#include    "JOGO.H"
+#include "TABULEIRO.H"
+#include "JOGO.H"
 
 static const char MOSTRA_TABULEIRO_CMD            [ ] = "=mostraTab"	;
 static const char RECEBE_JOGADA_CMD			      [ ] = "=recJogada" 	;
@@ -56,7 +57,7 @@ TAB_tppTabuleiro pTabuleiro = NULL;
 *     =recJogador	jog1	jog2	CondRetEsp
 *     =montaTab						CondRetEsp
 *     =iniciaJogo					CondRetEsp
-*     =chequeMate					CondRetEsp
+*     =chequeMate   jog				CondRetEsp
 *
 *
 ***********************************************************************/
@@ -68,6 +69,7 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 	char jog1[20];
 	char jog2[20];
+	char jog[20];
 
 	char pCoordOrigem[4];
 	char pCoordDestino[4];
@@ -175,14 +177,14 @@ TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 
 		if (strcmp(ComandoTeste, CHEQUE_MATE_CMD) == 0)
 		{
-			numLidos = LER_LerParametros("i", &CondRetEsp);
+			numLidos = LER_LerParametros("si", jog, &CondRetEsp);
 
-			if (numLidos != 1)
+			if (numLidos != 2)
 			{
 				return TST_CondRetParm;
 			} /* if */
 
-			CondRet = JOGO_ChequeMate(pTabuleiro);
+			CondRet = JOGO_ChequeMate( pTabuleiro, jog );
 
 			return TST_CompararInt(CondRetEsp, CondRet,
 				"Condicao de retorno errada ao testar cheque mate.");

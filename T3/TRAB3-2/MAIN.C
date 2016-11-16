@@ -12,12 +12,14 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor     Data       Observações
+*     2       mmq     16/nov/2016  correcao de bugs
 *     1       fpf     08/nov/2016  início da implementação
 *
 ***************************************************************************/
 
 #include <stdio.h>
 
+#include "TABULEIRO.H"
 #include "JOGO.H"
 
 int main(int argc, char *argv[])
@@ -43,15 +45,23 @@ int main(int argc, char *argv[])
 	JOGO_RecebeJogadores(jogBrancas, jogPretas);
 
 	JOGO_IniciaJogo();
-	
-	while (jogoRodando)
+
+	if( jogoRodando )
 	{
-		JOGO_MostraTabuleiro(pTabuleiro);
-		printf("Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM para terminar:\n", (jogCorr=='B')?jogadorB:jogadorP);
-		scanf("%s", coordOrigem);
-		scanf("%s", coordDestino);
-		JOGO_RecebeJogada(pTabuleiro, coordOrigem, coordDestino);
-		JOGO_ChequeMate(pTabuleiro);
+		JOGO_MostraTabuleiro( pTabuleiro );
+	}
+	
+	while( jogoRodando )
+	{
+		printf( "Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM FIM para terminar:\n", ( jogCorr=='B' ) ? jogadorB : jogadorP );
+		scanf( "%s", coordOrigem );
+		scanf( "%s", coordDestino );
+
+		JOGO_RecebeJogada( pTabuleiro, coordOrigem, coordDestino );
+		JOGO_MostraTabuleiro( pTabuleiro );
+
+		JOGO_ChequeMate( pTabuleiro, jogadorB );
+		JOGO_ChequeMate( pTabuleiro, jogadorP );
 	}
 
 	return 0;
