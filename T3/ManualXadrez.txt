@@ -110,9 +110,9 @@ Para inserir uma nova peça ao tabuleiro e necessário seguir os seguintes passo
 
 - No arquivo "PecasTabuleiro.txt"
 - Inicia um novo bloco para a peça com >>>>>>>>>>"(10 caracteres '>').
-- Na primeira linha após o inicio do bloco é colocado o nome da peça a ser inserida, sendo está existente no arquivo de peças.
+- Na primeira linha após o inicio do bloco é colocado o nome da peça a ser inserida, sendo esta existente no arquivo de peças.
 - Na segunda linha a cor da da peça podendo ser "b" ou "p".
-- Na terceira uma lentra entre "A" e "H" indicando a coluna onde ela se encontra.
+- Na terceira uma letra entre "A" e "H" indicando a coluna onde ela se encontra.
 - Na quarta um numero entre "1" e "8" indicando a linha onde ela se encontra.
 - Por fim se finaliza o bloco com "<<<<<<<<<<"(10 caracteres '<').
 

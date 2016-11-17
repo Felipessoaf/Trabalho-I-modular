@@ -18,6 +18,7 @@
 ***************************************************************************/
 
 #include <stdio.h>
+#include <string.h>
 
 #include "TABULEIRO.H"
 #include "JOGO.H"
@@ -53,15 +54,22 @@ int main(int argc, char *argv[])
 	
 	while( jogoRodando )
 	{
-		printf( "Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM FIM para terminar:\n", ( jogCorr=='B' ) ? jogadorB : jogadorP );
+		printf( "Jogador %s, realize sua jogada (coord origem, coord destino) ou FIM para terminar:\n", ( jogCorr=='B' ) ? jogadorB : jogadorP );
 		scanf( "%s", coordOrigem );
-		scanf( "%s", coordDestino );
+		if (strcmp(coordOrigem, "FIM") == 0)
+		{
+			strcpy(coordDestino, coordOrigem);
+		}
+		else
+		{
+			scanf("%s", coordDestino);
+		}		
 
 		JOGO_RecebeJogada( pTabuleiro, coordOrigem, coordDestino );
 		JOGO_MostraTabuleiro( pTabuleiro );
 
-		JOGO_ChequeMate( pTabuleiro, jogadorB );
-		JOGO_ChequeMate( pTabuleiro, jogadorP );
+		JOGO_ChequeMate(pTabuleiro, (jogCorr == 'B') ? jogadorP : jogadorB);
+		JOGO_ChequeMate(pTabuleiro, (jogCorr == 'B') ? jogadorB : jogadorP);
 	}
 
 	return 0;
