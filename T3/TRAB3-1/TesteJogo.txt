@@ -4,7 +4,7 @@ LES - Laboratório de Engenharia de Software DI/PUC-Rio
       Arcabouço de teste de módulos C  (c) 2006
 
 ---------------------------------------------
-      Construto sob teste: D:\Users\mdime\Documents\PUC\INF1301\T1\T3\TRAB3-1\TRAB3-1.exe
+      Construto sob teste: TRAB3-1.exe
 
       Arquivo de teste:    TesteJogo.script
 

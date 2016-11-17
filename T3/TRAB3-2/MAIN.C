@@ -72,6 +72,8 @@ int main(int argc, char *argv[])
 		JOGO_ChequeMate(pTabuleiro, (jogCorr == 'B') ? jogadorB : jogadorP);
 	}
 
+	system("PAUSE");
+
 	return 0;
 }
 
