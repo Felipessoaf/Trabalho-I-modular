@@ -133,6 +133,16 @@ typedef struct TAB_tagTabuleiro
 
 	} tpCasa;
 
+	
+#ifdef _DEBUG
+
+static char EspacoLixo[ 256 ] =
+	"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ;
+/* Espaço de dados lixo usado ao testar */
+
+#endif
+	
+
 /***** Protótipos das funções encapsuladas no módulo *****/
 
 	static void DestruirValorPeca(void * pValor);
